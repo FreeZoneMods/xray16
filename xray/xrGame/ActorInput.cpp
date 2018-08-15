@@ -78,13 +78,13 @@ void CActor::IR_OnKeyboardPress(int cmd)
 	}else
 		if(inventory().Action((u16)cmd, CMD_START))					return;
 
-#ifdef DEBUG
+
 	if(psActorFlags.test(AF_NO_CLIP))
 	{
 		NoClipFly(cmd);
 		return;
 	}
-#endif //DEBUG
+
 	switch(cmd)
 	{
 	case kJUMP:		
@@ -251,14 +251,14 @@ void CActor::IR_OnKeyboardHold(int cmd)
 		return;
 	}
 
-#ifdef DEBUG
+
 	if(psActorFlags.test(AF_NO_CLIP) && (cmd==kFWD || cmd==kBACK || cmd==kL_STRAFE || cmd==kR_STRAFE 
 		|| cmd==kJUMP || cmd==kCROUCH))
 	{
 		NoClipFly(cmd);
 		return;
 	}
-#endif //DEBUG
+
 	float LookFactor = GetLookFactor();
 	switch(cmd)
 	{
@@ -630,7 +630,7 @@ void CActor::SwitchTorch()
 	}
 }
 
-#ifdef DEBUG
+
 void CActor::NoClipFly(int cmd)
 {
 	Fvector cur_pos;// = Position();
@@ -698,4 +698,3 @@ void CActor::NoClipFly(int cmd)
 	Position().add(cur_pos);
 	character_physics_support()->movement()->SetPosition(Position());
 }
-#endif //DEBUG

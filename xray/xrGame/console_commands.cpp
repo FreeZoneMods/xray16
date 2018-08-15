@@ -413,6 +413,31 @@ public:
 	}
 };
 
+class CCC_Spawn : public IConsole_Command {
+public:
+	CCC_Spawn(LPCSTR N) : IConsole_Command(N) { };
+	virtual void Execute(LPCSTR args) {
+		if (!g_pGameLevel) return;
+
+
+		if (!pSettings->section_exist(args))
+		{
+			Msg("! Section [%s] isn`t exist...", args);
+			return;
+		}
+
+		char    Name[128];    Name[0] = 0;
+		sscanf(args, "%s", Name);
+		Fvector pos = Actor()->Position();
+		pos.y += 3.0f;
+		Level().g_cl_Spawn(Name, 0xff, M_SPAWN_OBJECT_LOCAL, pos);
+	}
+	virtual void    Info(TInfo& I)
+	{
+		strcpy(I, "name,team,squad,group");
+	}
+};
+
 class CCC_DemoRecordSetPos : public CCC_Vector3
 {
 	static Fvector p;
@@ -1085,7 +1110,7 @@ public:
 	  }
 };
 
-#ifdef DEBUG
+
 class CCC_PHGravity : public IConsole_Command {
 public:
 		CCC_PHGravity(LPCSTR N) :
@@ -1095,13 +1120,6 @@ public:
 	  {
 		  if( !physics_world() )	
 			  return;
-#ifndef DEBUG
-		  if (g_pGameLevel && Level().game && GameID() != eGameIDSingle)
-		  {
-			  Msg("Command is not available in Multiplayer");
-			  return;
-		  }
-#endif
 		  physics_world()->SetGravity(float(atof(args)));
 	  }
 	  virtual void	Status	(TStatus& S)
@@ -1114,7 +1132,7 @@ public:
 	}
 	
 };
-#endif // DEBUG
+
 
 class CCC_PHFps : public IConsole_Command {
 public:
@@ -1836,17 +1854,18 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_crosshair",		&psHUD_Flags,	HUD_CROSSHAIR);
 	CMD3(CCC_Mask,				"hud_crosshair_dist",	&psHUD_Flags,	HUD_CROSSHAIR_DIST);
 
-#ifdef DEBUG
+
 	CMD4(CCC_Float,				"hud_fov",				&psHUD_FOV,		0.1f,	1.0f);
 	CMD4(CCC_Float,				"fov",					&g_fov,			5.0f,	180.0f);
-#endif // DEBUG
+
+	CMD1(CCC_Spawn,				"g_spawn"			);
 
 	// Demo
-#if 1//ndef MASTER_GOLD
+
 	CMD1(CCC_DemoPlay,			"demo_play"				);
 	CMD1(CCC_DemoRecord,		"demo_record"			);
 	CMD1(CCC_DemoRecordSetPos,	"demo_set_cam_position"	);
-#endif // #ifndef MASTER_GOLD
+
 	
 #ifndef MASTER_GOLD
 	// ai
@@ -1966,7 +1985,7 @@ CMD4(CCC_Integer,			"hit_anims_tune",						&tune_hit_anims,		0, 1);
 	CMD1(CCC_PHFps,				"ph_frequency"																					);
 	CMD1(CCC_PHIterations,		"ph_iterations"																					);
 
-#ifdef DEBUG
+
 	CMD1(CCC_PHGravity,			"ph_gravity"																					);
 	CMD4(CCC_FloatBlock,		"ph_timefactor",				&phTimefactor				,			0.000001f	,1000.f			);
 	CMD4(CCC_FloatBlock,		"ph_break_common_factor",		&ph_console::phBreakCommonFactor		,			0.f		,1000000000.f	);
@@ -1974,16 +1993,16 @@ CMD4(CCC_Integer,			"hit_anims_tune",						&tune_hit_anims,		0, 1);
 	CMD4(CCC_Integer,			"ph_tri_clear_disable_count",	&ph_console::ph_tri_clear_disable_count	,			0,		255				);
 	CMD4(CCC_FloatBlock,		"ph_tri_query_ex_aabb_rate",	&ph_console::ph_tri_query_ex_aabb_rate	,			1.01f	,3.f			);
 	CMD3(CCC_Mask,				"g_no_clip",					&psActorFlags,	AF_NO_CLIP	);
-#endif // DEBUG
 
-#ifndef MASTER_GOLD
+
+
 	CMD1(CCC_JumpToLevel,	"jump_to_level"		);
 	CMD3(CCC_Mask,			"g_god",			&psActorFlags,	AF_GODMODE	);
 	CMD3(CCC_Mask,			"g_unlimitedammo",	&psActorFlags,	AF_UNLIMITEDAMMO);
 	CMD1(CCC_Script,		"run_script");
 	CMD1(CCC_ScriptCommand,	"run_string");
 	CMD1(CCC_TimeFactor,	"time_factor");		
-#endif // MASTER_GOLD
+
 
 	CMD3(CCC_Mask,		"g_autopickup",			&psActorFlags,	AF_AUTOPICKUP);
 	CMD3(CCC_Mask,		"g_dynamic_music",		&psActorFlags,	AF_DYNAMIC_MUSIC);
