@@ -610,8 +610,8 @@ void player_hud::update_additional	(Fmatrix& trans)
 }
 
 
-static const float PITCH_OFFSET_R	= 0.017f;
-static const float PITCH_OFFSET_N	= 0.012f;
+static const float PITCH_OFFSET_R	= 0.0f;
+static const float PITCH_OFFSET_N	= 0.0f;
 static const float PITCH_OFFSET_D	= 0.02f;
 static const float ORIGIN_OFFSET	= -0.05f;
 static const float TENDTO_SPEED		= 5.f;

@@ -41,7 +41,7 @@ CWeapon::CWeapon()
 
 	m_Offset.identity		();
 	m_StrapOffset.identity	();
-
+	EnableHudInertion		(TRUE);
 	m_iAmmoCurrentTotal		= 0;
 	m_BriefInfo_CalcFrame	= 0;
 
@@ -1372,7 +1372,7 @@ void CWeapon::OnZoomIn()
 	else
 		m_zoom_params.m_fCurrentZoomFactor	= CurrentZoomFactor();
 
-	EnableHudInertion					(FALSE);
+
 
 	
 	//if(m_zoom_params.m_bZoomDofEnabled && !IsScopeAttached())
@@ -1402,7 +1402,7 @@ void CWeapon::OnZoomOut()
 	m_zoom_params.m_bIsZoomModeNow		= false;
 	m_fRTZoomFactor = GetZoomFactor();//store current
 	m_zoom_params.m_fCurrentZoomFactor	= g_fov;
-	EnableHudInertion					(TRUE);
+
 
 // 	GamePersistent().RestoreEffectorDOF	();
 
