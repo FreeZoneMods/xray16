@@ -37,6 +37,7 @@ BOOL CLevel::Load_GameSpecific_Before()
 			chunk = spawn_file->open_chunk(4);
 			m_game_graph = new CGameGraph(*chunk);
 			ai().game_graph(m_game_graph);
+			FS.r_close(spawn_file);
 		}
 	}
 	

@@ -48,7 +48,13 @@ float   monster_aura::override_if_debug (pcstr var_name, float const value) cons
 
 float   monster_aura::calculate () const
 {
-	float const distance			=	m_object->Position().distance_to(Actor()->Position());
+	float distance;
+
+	//Check if actor is exist
+	if (check_work_condition())
+		distance = m_object->Position().distance_to(Actor()->Position());
+	else
+		return 0;
 
 	float const epsilon				=	0.0001f;
 
