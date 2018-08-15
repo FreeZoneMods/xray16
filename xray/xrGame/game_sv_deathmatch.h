@@ -7,6 +7,7 @@
 #include "../xrEngine/pure_relcase.h"
 
 class IClient;
+class CALifeSimulator;
 
 class	game_sv_Deathmatch			: public game_sv_mp,private pure_relcase
 {
@@ -208,4 +209,13 @@ protected:
 	virtual		void				WriteGameState			(CInifile& ini, LPCSTR sect, bool bRoundResult);
 	shared_str m_not_free_ammo_str;
 	virtual	bool CanChargeFreeAmmo(char const * ammo_section);
+
+protected:
+	CALifeSimulator * m_alife_simulator;
+
+	IC CALifeSimulator& alife() const
+	{
+		VERIFY(m_alife_simulator);
+		return (*m_alife_simulator);
+	}
 };

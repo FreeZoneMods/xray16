@@ -21,8 +21,26 @@ BOOL CLevel::Load_GameSpecific_Before()
 //	g_pGamePersistent->LoadTitle		("st_loading_ai_objects");
 	g_pGamePersistent->LoadTitle		();
 	string_path							fn_game;
+
+	//Loading Graph on Client
+	if (Level().IsClient()) {
+		CGameGraph* m_game_graph;
+		IReader* chunk;
+		if (FS.exist(fn_game, "$level$", "alife", ".spawn"))
+		{
+			IReader* spawn_file = FS.r_open(fn_game);
+			chunk = spawn_file->open_chunk(3);
+
+			ai().patrol_path_storage(*chunk);
+			chunk->close();
+
+			chunk = spawn_file->open_chunk(4);
+			m_game_graph = new CGameGraph(*chunk);
+			ai().game_graph(m_game_graph);
+		}
+	}
 	
-	if (GamePersistent().GameType() == eGameIDSingle && !ai().get_alife() && FS.exist(fn_game,"$level$","level.ai") && !net_Hosts.empty())
+	if (GamePersistent().GameType() != eGameIDSingle && !ai().get_alife() && FS.exist(fn_game,"$level$","level.ai") && !net_Hosts.empty())
 		ai().load						(net_SessionName());
 
 	if (!g_dedicated_server && !ai().get_alife() && ai().get_game_graph() && FS.exist(fn_game, "$level$", "level.game")) {

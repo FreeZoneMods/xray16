@@ -42,10 +42,11 @@ extern	int PASCAL IntroDSHOW_wnd	(HINSTANCE hInstC, HINSTANCE hInstP, LPSTR lpCm
 XRCORE_API	LPCSTR	build_date;
 XRCORE_API	u32		build_id;
 
+/*
 #ifdef MASTER_GOLD
 #	define NO_MULTI_INSTANCES
 #endif // #ifdef MASTER_GOLD
-
+*/
 
 static LPSTR month_id[12] = {
 	"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"

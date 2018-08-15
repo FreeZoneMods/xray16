@@ -983,7 +983,11 @@ u32	 CSE_ALifeCreatureAbstract::ef_detector_type() const
 void CSE_ALifeCreatureAbstract::on_death		(CSE_Abstract *killer)
 {
 	VERIFY						(!m_game_death_time);
-	m_game_death_time			= ai().get_alife() ? alife().time_manager().game_time() : Level().GetGameTime();
+
+	////Looks like it crashes when trying to invoke ai() method, so let's try this. dunno if this is ok.
+	//m_game_death_time			= ai().get_alife() ? alife().time_manager().game_time() : Level().GetGameTime();
+	m_game_death_time = Level().timeServer();
+
 	fHealth						= -1.f;
 }
 #endif // XRGAME_EXPORTS
