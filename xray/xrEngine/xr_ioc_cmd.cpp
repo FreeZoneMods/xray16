@@ -16,7 +16,7 @@
 #include "xr_object.h"
 
 xr_token*							vid_quality_token = NULL;
-
+float view_port_near_koef = 0.5f;
 xr_token							vid_bpp_token							[ ]={
 	{ "16",							16											},
 	{ "32",							32											},
@@ -726,7 +726,7 @@ void CCC_Register()
 	CMD3(CCC_Mask,		"rs_render_statics",	&psDeviceFlags,		rsDrawStatic			);
 	CMD3(CCC_Mask,		"rs_render_dynamics",	&psDeviceFlags,		rsDrawDynamic			);
 #endif
-
+	CMD4(CCC_Float, "rs_near_plane", &view_port_near_koef, 0.01, 5.0);
 	// Render device states
 	CMD4(CCC_Integer,	"r__supersample",		&ps_r__Supersample,			1,		4		);
 

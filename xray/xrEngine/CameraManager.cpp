@@ -16,8 +16,8 @@
 #include "gamefont.h"
 #include "render.h"
 
-float	psCamInert		= 0.f;
-float	psCamSlideInert	= 0.25f;
+float	psCamInert		= 0.3f;
+float	psCamSlideInert	= 0.0f;
 
 SPPInfo		pp_identity;
 SPPInfo		pp_zero;
@@ -403,7 +403,7 @@ void CCameraManager::UpdatePPEffectors()
 	pp_affected.validate			("after applying pp");
 }
 
-
+extern float view_port_near_koef;
 
 void CCameraManager::ApplyDevice (float _viewport_near)
 {
@@ -418,7 +418,7 @@ void CCameraManager::ApplyDevice (float _viewport_near)
 	// projection
 	Device.fFOV					= m_cam_info.fFov;
 	Device.fASPECT				= m_cam_info.fAspect;
-	Device.mProject.build_projection(deg2rad(m_cam_info.fFov), m_cam_info.fAspect, _viewport_near, m_cam_info.fFar);
+	Device.mProject.build_projection(deg2rad(m_cam_info.fFov), m_cam_info.fAspect, _viewport_near * view_port_near_koef, m_cam_info.fFar);
 
 	if( g_pGamePersistent && g_pGamePersistent->m_pMainMenu->IsActive() )
 		ResetPP					();

@@ -47,8 +47,6 @@ CSpectator::CSpectator() : CGameObject()
 	cameras[eacFreeFly]		= xr_new<CSpectrCameraFirstEye>	(m_fTimeDelta, this, 0);
 	cameras[eacFreeFly]->Load("actor_firsteye_cam");
 
-	cameras[eacFixedLookAt]	= xr_new<CCameraFixedLook>	(this);
-	cameras[eacFixedLookAt]->Load("actor_look_cam");
 
 //	cam_active				= eacFreeFly;
 	cam_active				= eacFreeLook;
@@ -435,9 +433,9 @@ void CSpectator::cam_Update	(CActor* A)
 	{
 
 		CCameraBase* cam			= cameras[eacFreeFly];
-		if (cam_active == eacFixedLookAt)
+		if (cam_active == eacLookAt)
 		{
-			cam	= cameras[eacFixedLookAt];
+			cam	= cameras[eacLookAt];
 		}
 
 		Fvector point, dangle;
@@ -484,7 +482,7 @@ BOOL			CSpectator::net_Spawn				( CSE_Abstract*	DC )
 			cam_active = eacFreeFly;
 		} else
 		{
-			cam_active = eacFixedLookAt;
+			cam_active = eacLookAt;
 			tmp_roll = -E->o_Angle.z;
 		}
 	}

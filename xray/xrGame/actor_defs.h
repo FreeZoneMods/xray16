@@ -19,7 +19,6 @@ enum EActorCameras {
 	eacFirstEye		= 0,
 	eacLookAt,
 	eacFreeLook,
-	eacFixedLookAt,
 	eacMaxCam
 };
 enum EDamages {DAMAGE_FX_COUNT = 12};

@@ -99,31 +99,18 @@ int				psActorSleepTime = 1;
 
 CActor::CActor() : CEntityAlive(),current_ik_cam_shift(0)
 {
-	game_news_registry		= xr_new<CGameNewsRegistryWrapper		>();
+	game_news_registry = xr_new< CGameNewsRegistryWrapper >();
 	// Cameras
-	cameras[eacFirstEye]	= xr_new<CCameraFirstEye>				(this);
+	cameras[eacFirstEye] = xr_new<CCameraFirstEye>(this, CCameraBase::flKeepPitch);
 	cameras[eacFirstEye]->Load("actor_firsteye_cam");
 
-	if(strstr(Core.Params,"-psp"))
-		psActorFlags.set(AF_PSP, TRUE);
-	else
-		psActorFlags.set(AF_PSP, FALSE);
+	cameras[eacLookAt] = xr_new<CCameraLook2>(this, CCameraBase::flKeepPitch);
+	cameras[eacLookAt]->Load("actor_look_cam_psp");
 
-	if( psActorFlags.test(AF_PSP) )
-	{
-		cameras[eacLookAt]		= xr_new<CCameraLook2>				(this);
-		cameras[eacLookAt]->Load("actor_look_cam_psp");
-	}else
-	{
-		cameras[eacLookAt]		= xr_new<CCameraLook>				(this);
-		cameras[eacLookAt]->Load("actor_look_cam");
-	}
-	cameras[eacFreeLook]	= xr_new<CCameraLook>					(this);
+	cameras[eacFreeLook] = xr_new<CCameraLook>(this, CCameraBase::flKeepPitch);
 	cameras[eacFreeLook]->Load("actor_free_cam");
-	cameras[eacFixedLookAt]	= xr_new<CCameraFixedLook>				(this);
-	cameras[eacFixedLookAt]->Load("actor_look_cam");
 
-	cam_active				= eacFirstEye;
+	cam_active = eacFirstEye;
 	fPrevCamPos				= 0.0f;
 	vPrevCamDir.set			(0.f,0.f,1.f);
 	fCurAVelocity			= 0.0f;
@@ -202,7 +189,7 @@ CActor::CActor() : CEntityAlive(),current_ik_cam_shift(0)
 
 	m_location_manager		= xr_new<CLocationManager>(this);
 	m_block_sprint_counter	= 0;
-
+	CurrentHeight			= 0.f;
 	m_disabled_hitmarks		= false;
 	m_inventory_disabled	= false;
 
@@ -439,6 +426,7 @@ if(!g_dedicated_server)
 	m_sInventoryBoxUseAction		= "inventory_box_use";
 	//---------------------------------------------------------------------
 	m_sHeadShotParticle	= READ_IF_EXISTS(pSettings,r_string,section,"HeadShotParticle",0);
+	CurrentHeight = CameraHeight();
 }
 
 void CActor::PHHit(SHit &H)
@@ -719,6 +707,7 @@ void CActor::HitSignal(float perc, Fvector& vLocalDir, CObject* who, s16 element
 		tpKinematics->PlayFX(motion_ID,power_factor);
 	}
 }
+static bool bLook_cam_fp_zoom = false;
 void start_tutorial(LPCSTR name);
 void CActor::Die	(CObject* who)
 {
@@ -726,7 +715,8 @@ void CActor::Die	(CObject* who)
 	Msg("--- Actor [%s] dies !", this->Name());
 #endif // #ifdef DEBUG
 	inherited::Die		(who);
-
+	if (Level().CurrentViewEntity() == this)
+		bLook_cam_fp_zoom = false;
 	if (OnServer())
 	{	
 		u16 I = inventory().FirstSlot();
@@ -814,7 +804,7 @@ void CActor::Die	(CObject* who)
 		start_tutorial		("game_over");
 	} else
 	{
-		cam_Set				(eacFixedLookAt);
+		cam_Set				(eacLookAt);
 	}
 	
 	mstate_wishful	&=		~mcAnyMove;
@@ -947,6 +937,16 @@ void CActor::UpdateCL	()
 		}
 	}
 
+	if (g_Alive() && Level().CurrentViewEntity() == this)
+	{
+
+		if (bLook_cam_fp_zoom && cam_active == eacFirstEye)
+		{
+			Actor()->IR_OnKeyboardPress(kCAM_2);
+			bLook_cam_fp_zoom = false;
+		}
+	}
+
 	UpdateInventoryOwner			(Device.dwTimeDelta);
 
 	if(m_feel_touch_characters>0)
@@ -996,7 +996,31 @@ void CActor::UpdateCL	()
 
 			SetZoomAimingMode		(true);
 		}
+		if (pWeapon->IsZoomed() && pWeapon->IsScopeAttached())
+		{
+			float full_fire_disp = pWeapon->GetFireDispersion(true);
 
+			CEffectorZoomInertion* S = smart_cast<CEffectorZoomInertion*>	(Cameras().GetCamEffector(eCEZoom));
+			if (S)
+				S->SetParams(full_fire_disp);
+
+			SetZoomAimingMode(true);
+
+			if (!bLook_cam_fp_zoom && g_Alive() && Level().CurrentViewEntity() == this && cam_active == eacLookAt && cam_Active()->m_look_cam_fp_zoom == true)
+			{
+				Actor()->IR_OnKeyboardPress(kCAM_1);
+				bLook_cam_fp_zoom = true;
+			}
+			else
+			{
+
+				if (bLook_cam_fp_zoom && cam_active == eacFirstEye && g_Alive() && Level().CurrentViewEntity() == this)
+				{
+					Actor()->IR_OnKeyboardPress(kCAM_2);
+					bLook_cam_fp_zoom = false;
+				}
+			}
+		}
 		if(Level().CurrentEntity() && this->ID()==Level().CurrentEntity()->ID() )
 		{
 			float fire_disp_full = pWeapon->GetFireDispersion(true, true);
@@ -1030,6 +1054,11 @@ void CActor::UpdateCL	()
 		{
 			HUD().SetCrosshairDisp(0.f);
 			HUD().ShowCrosshair(false);
+			if (bLook_cam_fp_zoom && cam_active == eacFirstEye && g_Alive() && Level().CurrentViewEntity() == this)
+			{
+				Actor()->IR_OnKeyboardPress(kCAM_2);
+				bLook_cam_fp_zoom = false;
+			}
 		}
 	}
 

@@ -390,6 +390,7 @@ public:
 	bool					CanJump					();
 	bool					CanMove					();
 	float					CameraHeight			();
+	float					CurrentHeight;
 	bool					CanSprint				();
 	bool					CanRun					();
 	void					StopAnyMove				();

@@ -24,6 +24,7 @@ public:
 		flRelativeLink		= (1<<0),
 		flPositionRigid		= (1<<1),
 		flDirectionRigid	= (1<<2),
+		flKeepPitch			= (1<<3),
 	};
 	Flags32			m_Flags;
 
@@ -64,6 +65,7 @@ public:
 	virtual float	CheckLimYaw		( );
 	virtual float	CheckLimPitch	( );
 	virtual float	CheckLimRoll	( );
+	bool m_look_cam_fp_zoom;
 };
 
 
