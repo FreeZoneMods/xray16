@@ -575,8 +575,8 @@ void CBaseMonster::set_state_sound(u32 type, bool once)
 			switch (type) {
 			case MonsterSound::eMonsterSoundIdle : 
 				// check distance to actor
-
-				if (Actor()->Position().distance_to(Position()) > db().m_fDistantIdleSndRange) {
+				// Check if actor is exist
+				if (g_actor && Actor()->g_Alive() && this->g_Alive() && Actor()->Position().distance_to(Position()) > db().m_fDistantIdleSndRange) {
 					delay = u32(float(db().m_dwDistantIdleSndDelay) * _sqrt(float(objects_count)));
 					type  = MonsterSound::eMonsterSoundIdleDistant;
 				} else {

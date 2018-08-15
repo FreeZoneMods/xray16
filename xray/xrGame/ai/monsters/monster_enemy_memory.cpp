@@ -66,7 +66,8 @@ void CMonsterEnemyMemory::update()
 		SoundElem sound;
 		bool dangerous;
 		monster->SoundMemory.GetSound(sound, dangerous);
-		if ( dangerous && Device.dwTimeGlobal < sound.time + 2000 )
+		//Check if actor exist
+		if (g_actor && Actor()->g_Alive() && monster->g_Alive() && dangerous && Device.dwTimeGlobal < sound.time + 2000 )
 		{
 			if ( CEntityAlive const* enemy = smart_cast<CEntityAlive const*>(sound.who) )
 			{

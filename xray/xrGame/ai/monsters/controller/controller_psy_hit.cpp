@@ -51,8 +51,9 @@ bool CControllerPsyHit::check_start_conditions()
 
 	if (m_man->is_captured_pure())	
 		return false;
-	
-	if (Actor()->Cameras().GetCamEffector(eCEControllerPsyHit))	
+
+	//Check if actor is exist
+	if (check_conditions_final() && Actor()->Cameras().GetCamEffector(eCEControllerPsyHit))
 		return						false;
 
 	if ( !see_enemy() )
@@ -61,7 +62,8 @@ bool CControllerPsyHit::check_start_conditions()
 	if ( !tube_ready() )
 		return						false;
 
- 	if (m_object->Position().distance_to(Actor()->Position()) < m_min_tube_dist) 
+	//Check if actor is exist
+ 	if (check_conditions_final() && m_object->Position().distance_to(Actor()->Position()) < m_min_tube_dist)
  		return						false;
 
 	return							true;
