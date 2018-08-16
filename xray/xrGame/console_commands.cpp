@@ -438,6 +438,33 @@ public:
 	}
 };
 
+class CCC_Spawn_to_inventory : public IConsole_Command {
+public:
+	CCC_Spawn_to_inventory(LPCSTR N) : IConsole_Command(N) { };
+	virtual void Execute(LPCSTR args) {
+		if (!g_pGameLevel)
+		{
+			Log("Error: No game level!");
+			return;
+		}
+
+		if (!pSettings->section_exist(args))
+		{
+			Msg("! Section [%s] isn`t exist...", args);
+			return;
+		}
+
+		char	Name[128];	Name[0] = 0;
+		sscanf(args, "%s", Name);
+
+		Level().spawn_item(Name, Actor()->Position(), false, Actor()->ID());
+	}
+	virtual void	Info(TInfo& I)
+	{
+		strcpy(I, "name,team,squad,group");
+	}
+};
+
 class CCC_DemoRecordSetPos : public CCC_Vector3
 {
 	static Fvector p;
@@ -1859,7 +1886,7 @@ void CCC_RegisterCommands()
 	CMD4(CCC_Float,				"fov",					&g_fov,			5.0f,	180.0f);
 
 	CMD1(CCC_Spawn,				"g_spawn"			);
-
+	CMD1(CCC_Spawn_to_inventory, "g_spawn_to_inventory");
 	// Demo
 
 	CMD1(CCC_DemoPlay,			"demo_play"				);

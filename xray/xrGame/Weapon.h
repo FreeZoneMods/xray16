@@ -29,7 +29,16 @@ class CWeapon : public CHudItemObject,
 {
 private:
 	typedef CHudItemObject inherited;
+public:
+	enum EActorCameras {
+		eacFreeFly = 0,
+		eacFirstEye,
+		eacLookAt
 
+	};
+private:
+	// Cameras
+	EActorCameras			cam_active;
 public:
 							CWeapon				();
 	virtual					~CWeapon			();
