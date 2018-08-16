@@ -243,7 +243,7 @@ void CUIActorMenu::Update()
 	m_hint_wnd->Update();
 }
 
-bool CUIActorMenu::StopAnyMove()  // true = ���� �� ��� ��� �������� ����
+bool CUIActorMenu::StopAnyMove()  // true = актёр не идёт при открытом меню
 {
 	switch ( m_currMenuMode )
 	{
@@ -850,7 +850,8 @@ void CUIActorMenu::UpdateActorMP()
 	xr_sprintf( buf, "%d RU", money );
 	m_ActorMoney->SetText( buf );
 
-	m_ActorCharacterInfo->InitCharacterMP( Game().local_player->getName(), "ui_npc_u_nebo_1" );
+	//m4d_icons (иконка игрока вместо дефолтной)
+	m_ActorCharacterInfo->InitCharacterMP(Game().local_player->getName(), Game().local_player->getIcon());
 
 }
 

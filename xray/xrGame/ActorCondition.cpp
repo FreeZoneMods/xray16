@@ -93,7 +93,7 @@ void CActorCondition::LoadCondition(LPCSTR entity_section)
 	m_fAccelK					= pSettings->r_float(section,"accel_k");
 	m_fSprintK					= pSettings->r_float(section,"sprint_k");
 
-	//порог силы и здоровья меньше которого актер начинает хромать
+	//РїРѕСЂРѕРі СЃРёР»С‹ Рё Р·РґРѕСЂРѕРІСЊСЏ РјРµРЅСЊС€Рµ РєРѕС‚РѕСЂРѕРіРѕ Р°РєС‚РµСЂ РЅР°С‡РёРЅР°РµС‚ С…СЂРѕРјР°С‚СЊ
 	m_fLimpingHealthBegin		= pSettings->r_float(section,	"limping_health_begin");
 	m_fLimpingHealthEnd			= pSettings->r_float(section,	"limping_health_end");
 	R_ASSERT					(m_fLimpingHealthBegin<=m_fLimpingHealthEnd);
@@ -230,8 +230,9 @@ void CActorCondition::UpdateCondition()
 	m_fAlcohol		+= m_fV_Alcohol*m_fDeltaTime;
 	clamp			(m_fAlcohol,			0.0f,		1.0f);
 
-	if ( IsGameTypeSingle() )
-	{	
+	//----m4d_СЌС„С„РµРєС‚ Р°Р»РєР°С€РєРё
+	//if ( IsGameTypeSingle() )
+	//{	
 		CEffectorCam* ce = Actor()->Cameras().GetCamEffector((ECamEffectorType)effAlcohol);
 		if	((m_fAlcohol>0.0001f) ){
 			if(!ce){
@@ -268,7 +269,7 @@ void CActorCondition::UpdateCondition()
 		}
 //-		if(fis_zero(GetPsyHealth()))
 //-			SetHealth( 0.0f );
-	};
+	//};
 
 	UpdateSatiety();
 	UpdateBoosters();
@@ -301,7 +302,7 @@ void CActorCondition::UpdateBoosters()
 		BOOSTER_MAP::iterator it = m_booster_influences.find((EBoostParams)i);
 		if(it!=m_booster_influences.end())
 		{
-			it->second.fBoostTime -= m_fDeltaTime/(IsGameTypeSingle()?Level().GetGameTimeFactor():1.0f);
+			it->second.fBoostTime -= m_fDeltaTime/(IsGameTypeSingle()?Level().GetGameTimeFactor():2.0f); //---m4d_fix РїСЂР°РІРєР° Р±СѓСЃС‚РѕРІ (old 1.0)
 			if(it->second.fBoostTime<=0.0f)
 			{
 				DisableBoostParameters(it->second);
@@ -431,11 +432,12 @@ void CActorCondition::UpdateRadiation()
 
 void CActorCondition::UpdateSatiety()
 {
- 	if (!IsGameTypeSingle()) 
-	{
-		m_fDeltaPower += m_fV_SatietyPower * m_fDeltaTime;
- 		return;
-	}
+	//---m4d СЃС‹С‚РѕСЃС‚СЊ РёР· СЃРёРЅРіР»Р°
+ //	if (!IsGameTypeSingle()) 
+	//{
+	//	m_fDeltaPower += m_fV_SatietyPower * m_fDeltaTime;
+ //		return;
+	//}
 
 	if(m_fSatiety>0)
 	{
@@ -462,7 +464,7 @@ void CActorCondition::PowerHit(float power, bool apply_outfit)
 	m_fPower			-=	apply_outfit ? HitPowerEffect(power) : power;
 	clamp					(m_fPower, 0.f, 1.f);
 }
-//weight - "удельный" вес от 0..1
+//weight - "СѓРґРµР»СЊРЅС‹Р№" РІРµСЃ РѕС‚ 0..1
 void CActorCondition::ConditionJump(float weight)
 {
 	float power			=	m_fJumpPower;

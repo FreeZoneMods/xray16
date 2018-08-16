@@ -8,6 +8,8 @@ class game_cl_TeamDeathmatch :public game_cl_Deathmatch
 {
 typedef game_cl_Deathmatch inherited;
 	CUIGameTDM*							m_game_ui;
+	//---m4d_pda
+	CUIPdaWnd*							pPdaMenu;
 protected:
 	bool								m_bFriendlyIndicators;
 	bool								m_bFriendlyNames;

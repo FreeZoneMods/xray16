@@ -56,12 +56,21 @@ game_cl_TeamDeathmatch::game_cl_TeamDeathmatch()
 	m_bFriendlyNames	= false;
 
 	LoadSndMessages();
+
+	//-------m4d_pda
+	pPdaMenu = nullptr;
 }
 void game_cl_TeamDeathmatch::Init ()
 {
 //	pInventoryMenu	= xr_new<CUIInventoryWnd>();
 //	pPdaMenu = xr_new<CUIPdaWnd>();
 //	pMapDesc = xr_new<CUIMapDesc>();
+
+//----m4d_pda
+	if (!g_dedicated_server)
+	{
+		pPdaMenu = new CUIPdaWnd();
+	}
 	//-----------------------------------------------------------
 	LoadTeamData(GetTeamMenu(1));
 	LoadTeamData(GetTeamMenu(2));
@@ -75,6 +84,9 @@ game_cl_TeamDeathmatch::~game_cl_TeamDeathmatch()
 
 	xr_delete(pCurBuyMenu);
 	xr_delete(pCurSkinMenu);
+
+	//------m4d_pda
+	xr_delete(pPdaMenu);
 
 //	xr_delete(pInventoryMenu);
 }
@@ -504,6 +516,24 @@ bool	game_cl_TeamDeathmatch::OnKeyboardPress(int key)
 
 		return true;
 	};
+	//----------------------------------------------------------------m4d_pda
+	if (kACTIVE_JOBS == key)
+	{
+		if (Level().CurrentControlEntity() && smart_cast<CActor*>(Level().CurrentControlEntity()))
+		{
+			if (m_game_ui)
+			{
+				if (pPdaMenu && pPdaMenu->IsShown())
+					pPdaMenu->HideDialog();
+				else
+				{
+					pPdaMenu->SetActiveSubdialog("eptTasks");
+					pPdaMenu->ShowDialog(true);
+				};
+				return true;
+			}
+		}
+	};
 	
 	return false;
 }
@@ -627,6 +657,12 @@ BOOL game_cl_TeamDeathmatch::CanCallTeamSelectMenu			()
 	{
 		return FALSE;
 	}
+	//------m4d_pda
+	if (pPdaMenu && pPdaMenu->IsShown())
+	{
+		return FALSE;
+	};
+	//-------
 	/*if (m_game_ui->m_pInventoryMenu && m_game_ui->m_pInventoryMenu->IsShown())
 	{
 		return FALSE;
@@ -650,7 +686,7 @@ BOOL game_cl_TeamDeathmatch::CanCallTeamSelectMenu			()
 void game_cl_TeamDeathmatch::UpdateMapLocations		()
 {
 	inherited::UpdateMapLocations();
-	if (local_player)
+	if (local_player && !Level().CurrentEntity()) //-----m4d_pda (fix: На карте self показывался как friend)
 	{
 		PLAYERS_MAP_IT it = players.begin();
 		for(;it!=players.end();++it)

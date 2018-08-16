@@ -36,6 +36,9 @@ struct game_PlayerState
 	//string64	name;
 	u8			team;
 	
+	//---m4d_icons (иконки для скинов)
+	string32	icon_name;
+
 	//for statistics
 	s16			m_iRivalKills;
 	s16			m_iSelfKills;
@@ -87,6 +90,8 @@ struct game_PlayerState
 			void	setFlag					(u16 f);
 			void	resetFlag				(u16 f);
 			LPCSTR	getName					() const {return m_account.name().c_str();}
+			//---m4d_icons
+			LPCSTR	getIcon();
 			//void	setName					(LPCSTR s){xr_strcpy(name,s);}
 			void	SetGameID				(u16 NewID);
 			bool	HasOldID				(u16 ID);

@@ -83,7 +83,7 @@ ICF static BOOL info_trace_callback(collide::rq_result& result, LPVOID params)
 		}
 	}else
 	{
-		//ÔÓÎÛ˜ËÚ¸ ÚÂÛ„ÓÎ¸ÌËÍ Ë ÛÁÌ‡Ú¸ Â„Ó Ï‡ÚÂË‡Î
+		//–ø–æ–ª—É—á–∏—Ç—å —Ç—Ä–µ—É–≥–æ–ª—å–Ω–∏–∫ –∏ —É–∑–Ω–∞—Ç—å –µ–≥–æ –º–∞—Ç–µ—Ä–∏–∞–ª
 		CDB::TRI* T		= Level().ObjectSpace.GetStaticTris()+result.element;
 		if (GMLib.GetMaterialByIdx(T->material)->Flags.is(SGameMtl::flPassable)) 
 			return TRUE;
@@ -119,7 +119,7 @@ void CActor::PickupModeUpdate()
 {
 	if(!m_bPickupMode)				return; // kUSE key pressed
 
-	//ÔÓ‰·Ë‡ÌËÂ Ó·˙ÂÍÚ‡
+	//–ø–æ–¥–±–∏—Ä–∞–Ω–∏–µ –æ–±—ä–µ–∫—Ç–∞
 	if(	m_pObjectWeLookingAt									&& 
 		m_pObjectWeLookingAt->cast_inventory_item()				&& 
 		m_pObjectWeLookingAt->cast_inventory_item()->Useful()	&&
@@ -222,13 +222,14 @@ void	CActor::PickupModeUpdate_COD	()
 		if(pUsableObject && (!m_pUsableObject))
 			pUsableObject->use(this);
 
-		//ÔÓ‰·Ë‡ÌËÂ Ó·˙ÂÍÚ‡
+		//–ø–æ–¥–±–∏—Ä–∞–Ω–∏–µ –æ–±—ä–µ–∫—Ç–∞
 		Game().SendPickUpEvent(ID(), pNearestItem->object().ID());
 	}
 };
 
 void	CActor::Check_for_AutoPickUp()
 {
+	//----m4d_–∞–≤—Ç–æ–ø–æ–¥–±–∏—Ä–∞–µ–Ω–∏–µ (—Ç—É—Ç –Ω–∞—Ö–æ–¥–∏—Ç—Å—è —Ä–µ–∞–ª–∏–∑–∞—Ü–∏—è, –Ω–∏—á–æ –Ω–µ –º–µ–Ω—è–ª)
 	// mp only
 	if (!psActorFlags.test(AF_AUTOPICKUP))		return;
 	if (Level().CurrentControlEntity() != this) return;

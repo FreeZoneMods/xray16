@@ -116,18 +116,20 @@ void CArtefact::OnH_A_Chield()
 	inherited::OnH_A_Chield		();
 
 	StopLights();
-	if (IsGameTypeSingle())
-	{
+
+	//----m4d_artefact (убираем партиклы от артефакта в инвентаре)
+	//if (IsGameTypeSingle())
+	//{
 		SwitchAfParticles(false);
-	}
-	else
-	{
-		IKinematics* K	= smart_cast<IKinematics*>(H_Parent()->Visual());
-		if (K)
-			m_CarringBoneID			= K->LL_BoneID("bip01_head");
-		else
-			m_CarringBoneID = u16(-1);
-	}
+	//}
+	//else
+	//{
+	//	IKinematics* K	= smart_cast<IKinematics*>(H_Parent()->Visual());
+	//	if (K)
+	//		m_CarringBoneID			= K->LL_BoneID("bip01_head");
+	//	else
+	//		m_CarringBoneID = u16(-1);
+	//}
 	if(m_detectorObj)
 	{
 		m_detectorObj->m_currPatrolPath = NULL;

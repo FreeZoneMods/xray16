@@ -28,6 +28,9 @@
 #include "UICharacterInfo.h"
 #include "ui_base.h"
 
+//---m4d (for Game() )
+#include "game_cl_base.h"
+
 #define  PDA_RANKING_XML		"pda_ranking.xml"
 
 CUIRankingWnd::CUIRankingWnd()
@@ -52,10 +55,12 @@ void CUIRankingWnd::Show( bool status )
 {
 	if ( status )
 	{
-		m_actor_ch_info->InitCharacter( Actor()->object_id() );
+		//----m4d_pda (инфа и деньги)
+		//m_actor_ch_info->InitCharacter( Actor()->object_id() );
+		m_actor_ch_info->InitCharacterMP(Game().local_player->getName(), Game().local_player->getIcon());
 		
 		string64 buf;
-		xr_sprintf( buf, sizeof(buf), "%d %s", Actor()->get_money(), "RU" );
+		xr_sprintf( buf, sizeof(buf), "%d %s", Game().local_player->money_for_round/*Actor()->get_money()*/, "RU" );
 		m_money_value->SetText( buf );
 		m_money_value->AdjustWidthToText();
 		update_info();
@@ -153,32 +158,34 @@ void CUIRankingWnd::Init()
 	AttachChild(m_achievements);
 	m_achievements->SetWindowName("achievements_list");
 
-	LPCSTR section = "achievements";
-	VERIFY2(pSettings->section_exist(section), make_string("Section [%s] does not exist!", section));
+	//---m4d_pda
+	//LPCSTR section = "achievements";
+	//VERIFY2(pSettings->section_exist(section), make_string("Section [%s] does not exist!", section));
 
-	CInifile::Sect&	achievs_section = pSettings->r_section(section);
-	CInifile::SectIt_ ib			= achievs_section.Data.begin();
-	CInifile::SectIt_ ie			= achievs_section.Data.end();
-	for(u8 i = 0; ib != ie ; ++ib, ++i)
-		add_achievement(xml, (*ib).first);
+	//CInifile::Sect&	achievs_section = pSettings->r_section(section);
+	//CInifile::SectIt_ ib			= achievs_section.Data.begin();
+	//CInifile::SectIt_ ie			= achievs_section.Data.end();
+	//for(u8 i = 0; ib != ie ; ++ib, ++i)
+	//	add_achievement(xml, (*ib).first);
 
-	xml.SetLocalRoot(stored_root);
+	//xml.SetLocalRoot(stored_root);
 }
 
 void CUIRankingWnd::add_achievement(CUIXml& xml, shared_str const& achiev_id)
 {
-	CUIAchievements* achievement = xr_new<CUIAchievements>(m_achievements);
-	VERIFY2(pSettings->section_exist(achiev_id), make_string("Section [%s] does not exist!", achiev_id));
-	achievement->init_from_xml(xml);
+	//---m4d_pda
+	//CUIAchievements* achievement = xr_new<CUIAchievements>(m_achievements);
+	//VERIFY2(pSettings->section_exist(achiev_id), make_string("Section [%s] does not exist!", achiev_id));
+	//achievement->init_from_xml(xml);
 
-	achievement->SetName(pSettings->r_string(achiev_id, "name"));
-	achievement->SetDescription(pSettings->r_string(achiev_id, "desc"));
-	achievement->SetHint(pSettings->r_string(achiev_id, "hint"));
-	achievement->SetIcon(pSettings->r_string(achiev_id, "icon"));
-	achievement->SetFunctor(pSettings->r_string(achiev_id, "functor"));
-	achievement->SetRepeatable(!!READ_IF_EXISTS(pSettings,r_bool,achiev_id,"repeatable",false));
+	//achievement->SetName(pSettings->r_string(achiev_id, "name"));
+	//achievement->SetDescription(pSettings->r_string(achiev_id, "desc"));
+	//achievement->SetHint(pSettings->r_string(achiev_id, "hint"));
+	//achievement->SetIcon(pSettings->r_string(achiev_id, "icon"));
+	//achievement->SetFunctor(pSettings->r_string(achiev_id, "functor"));
+	//achievement->SetRepeatable(!!READ_IF_EXISTS(pSettings,r_bool,achiev_id,"repeatable",false));
 
-	m_achieves_vec.push_back(achievement);
+	//m_achieves_vec.push_back(achievement);
 }
 
 void CUIRankingWnd::update_info()
@@ -204,7 +211,8 @@ void CUIRankingWnd::DrawHint()
 void CUIRankingWnd::get_statistic()
 {
 	string128 buf;
-	InventoryUtilities::GetTimePeriodAsString(buf, sizeof(buf), Level().GetStartGameTime(), Level().GetGameTime());
+	//-----m4d_time
+	InventoryUtilities::GetTimePeriodAsString(buf, sizeof(buf), Game().StartTime()/*Level().GetStartGameTime()*/, Level().timeServer()/*Level().GetGameTime()*/);
 	m_stat_info[0]->SetTextColor(color_rgba(170,170,170,255));
 	m_stat_info[0]->SetText(buf);
 

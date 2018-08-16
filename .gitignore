@@ -4,3 +4,13 @@
 /ipch
 *.VC.VC.opendb
 *.user
+3rd party/DxErr/DxErr.vcxproj
+3rd party/bugtrap/bugtrap/BugTrap.vcxproj
+xray/xrCore/xrCore.vcxproj
+3rd party/openal/OpenAL-Windows/Router/Router.vcxproj
+xray/xrCPU_Pipe/xrCPU_Pipe.vcxproj
+xray/xrEngine/xrEngine.vcxproj
+xray/Layers/xrRenderPC_R1/xrRender_R1.vcxproj
+xray/Layers/xrRenderPC_R2/xrRender_R2.vcxproj
+xray/Layers/xrRenderPC_R3/xrRender_R3.vcxproj
+xray/Layers/xrRenderPC_R4/xrRender_R4.vcxproj

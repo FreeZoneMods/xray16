@@ -77,8 +77,8 @@ void CUIPdaWnd::Init()
 	m_hint_wnd				= UIHelper::CreateHint( uiXml, "hint_wnd" );
 
 
-	if ( IsGameTypeSingle() )
-	{
+	//if ( IsGameTypeSingle() ) //---m4d_pda
+	//{
 		pUITaskWnd					= xr_new<CUITaskWnd>();
 		pUITaskWnd->hint_wnd		= m_hint_wnd;
 		pUITaskWnd->Init			();
@@ -93,7 +93,7 @@ void CUIPdaWnd::Init()
 		pUILogsWnd						= xr_new<CUILogsWnd>();
 		pUILogsWnd->Init				();
 
-	}
+	//}
 
 	UITabControl					= xr_new<CUITabControl>();
 	UITabControl->SetAutoDelete		(true);

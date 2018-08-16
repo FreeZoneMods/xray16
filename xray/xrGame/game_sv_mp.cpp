@@ -658,13 +658,13 @@ void	game_sv_mp::SetSkin					(CSE_Abstract* E, u16 Team, u16 ID)
 	//-------------------------------------------
 	string256 SkinName;
 	xr_strcpy(SkinName, pSettings->r_string("mp_skins_path", "skin_path"));
-	//Á‡„ÛÊÂÌ˚ ÎË ÒÍËÌ˚ ‰Îˇ ˝ÚÓÈ ÍÓÏÏ‡Ì‰˚
+	//–∑–∞–≥—Ä—É–∂–µ–Ω—ã –ª–∏ —Å–∫–∏–Ω—ã –¥–ª—è —ç—Ç–æ–π –∫–æ–º–º–∞–Ω–¥—ã
 
 	if (!TeamList.empty()	&&
 		TeamList.size() > Team	&&
 		!TeamList[Team].aSkins.empty())
 	{
-		//Á‡„ÛÊÂÌÓ ÎË ‰ÓÒÚ‡ÚÓ˜ÌÓ ÒÍËÌÓ‚ ‰Îˇ ˝ÚÓÈ ÍÓÏÏ‡Ì‰˚
+		//–∑–∞–≥—Ä—É–∂–µ–Ω–æ –ª–∏ –¥–æ—Å—Ç–∞—Ç–æ—á–Ω–æ —Å–∫–∏–Ω–æ–≤ –¥–ª—è —ç—Ç–æ–π –∫–æ–º–º–∞–Ω–¥—ã
 		if (TeamList[Team].aSkins.size() > ID)
 		{
 			xr_strcat(SkinName, TeamList[Team].aSkins[ID].c_str());
@@ -2171,8 +2171,9 @@ void game_sv_mp::DestroyAllPlayerItems(ClientID id_who)	//except rukzak
 		if (smart_cast<CWeaponKnife*>(*ii))
 			continue;
 		
-		if (smart_cast<CArtefact*>(*ii))
-			continue;
+		//--------m4d_artefact (—á—Ç–æ–±—ã –∞—Ä—Ç–µ—Ñ–∞–∫—Ç –ø—Ä–æ–¥–∞–≤–∞–ª—Å—è)
+		//if (smart_cast<CArtefact*>(*ii))
+		//    continue;
 		
 		DestroyGameItem(tempEntity);
 	}

@@ -136,11 +136,13 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 	init_xml_nav( uiXml );
 
 	// initialize local maps
+	//---m4d_pda (загрузка карт в ПДА, пока пусть будет так)
 	xr_string sect_name;
-	if( IsGameTypeSingle() )
-		sect_name = "level_maps_single";
-	else
-		sect_name = "level_maps_mp";
+	sect_name = "level_maps_single";
+	//if (IsGameTypeSingle())
+	//    sect_name = "level_maps_single";
+	//else
+	//    sect_name = "level_maps_mp";
 
 	if (pGameIni->section_exist(sect_name.c_str()))
 	{
@@ -545,7 +547,7 @@ void CUIMapWnd::Update()
 	if(m_GlobalMap)
 		m_GlobalMap->WorkingArea().set(ActiveMapRect());
 	inherited::Update			();
-	m_ActionPlanner->update		();
+	m_ActionPlanner->update		(); //---- Тут вылет в МП, если переконектиться m4d_pda (но мы тестили, не было пока)
 	UpdateNav					();
 }
 
