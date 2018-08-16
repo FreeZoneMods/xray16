@@ -98,7 +98,7 @@ void CControllerPsyHit::deactivate()
 	m_man->release_pure				(this);
 	m_man->unsubscribe				(this, ControlCom::eventAnimationEnd);
 
-	if (m_blocked) {
+	if (check_conditions_final() && m_blocked) {
 		NET_Packet			P;
 
 		Actor()->u_EventGen	(P, GEG_PLAYER_WEAPON_HIDE_STATE, Actor()->ID());
@@ -106,7 +106,8 @@ void CControllerPsyHit::deactivate()
 		P.w_u8				(u8(false));
 		Actor()->u_EventSend(P);
 	}
-
+	else return;
+	
 	set_sound_state(eNone);
 }
 
