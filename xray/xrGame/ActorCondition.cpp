@@ -313,7 +313,7 @@ void CActorCondition::UpdateBoosters()
 		}
 	}
 
-	if(m_object == Level().CurrentViewEntity())
+	if(m_object == Level().CurrentViewEntity() && !g_dedicated_server) //Added dedicated check (will be delete as soon as we delete actor from the spawn)
 		CurrentGameUI()->UIMainIngameWnd->UpdateBoosterIndicators(m_booster_influences);
 }
 

@@ -98,10 +98,8 @@ void CCameraLook2::OnActivate(CCameraBase* old_cam)
 
 void CCameraLook2::Update(Fvector& point, Fvector&)
 {
-
-
 	// autoaim
-	if (!m_locked_enemy)
+	if (!m_locked_enemy && !g_dedicated_server) //Added dedicated check (will be delete as soon as we delete actor from the spawn)
 	{
 		if (pInput->iGetAsyncKeyState(cam_dik))
 		{
@@ -139,6 +137,8 @@ void CCameraLook2::Update(Fvector& point, Fvector&)
 			m_locked_enemy = NULL;
 			//.			Msg("enemy is NILL");
 		}
+		else if (g_dedicated_server) //Added dedicated check (will be delete as soon as we delete actor from the spawn)
+			m_locked_enemy = NULL; 
 		else
 			UpdateAutoAim();
 	}

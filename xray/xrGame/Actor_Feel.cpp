@@ -149,7 +149,7 @@ void	CActor::PickupModeUpdate_COD	()
 {
 	if (Level().CurrentViewEntity() != this || !g_b_COD_PickUpMode) return;
 		
-	if (!g_Alive()) 
+	if (!g_Alive() && !g_dedicated_server) //Added dedicated check (will be delete as soon as we delete actor from the spawn)
 	{
 		CurrentGameUI()->UIMainIngameWnd->SetPickUpItem(NULL);
 		return;
@@ -214,6 +214,7 @@ void	CActor::PickupModeUpdate_COD	()
 				pNearestItem = NULL;
 	}
 
+	if (!g_dedicated_server) //Added dedicated check (will be delete as soon as we remove actor from the spawn)
 	CurrentGameUI()->UIMainIngameWnd->SetPickUpItem(pNearestItem);
 
 	if (pNearestItem && m_bPickupMode)

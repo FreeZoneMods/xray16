@@ -106,7 +106,7 @@ void CMonsterEnemyMemory::update()
 	}
 
 	float const feel_enemy_max_distance	=	monster->get_feel_enemy_max_distance();
-	if ( g_actor )
+	if ( g_actor && !g_dedicated_server) //Added dedicated check (will be delete as soon as we delete actor from the spawn)
 	{
 		float const xz_dist	=	monster->Position().distance_to_xz(g_actor->Position());
 		float const y_dist	=	_abs(monster->Position().y - g_actor->Position().y);

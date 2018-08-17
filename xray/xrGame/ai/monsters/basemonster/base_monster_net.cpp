@@ -53,7 +53,7 @@ void CBaseMonster::net_Export(NET_Packet& P)
 		P.w					(&f1,						sizeof(f1));
 		P.w					(&f1,						sizeof(f1));
 	}
-
+	Msg("We are in export");
 }
 
 void CBaseMonster::net_Import(NET_Packet& P)
@@ -101,7 +101,7 @@ void CBaseMonster::net_Import(NET_Packet& P)
 		P.r					(&f1,						sizeof(f1));
 	}
 
-
+	Msg("We are in import");
 	setVisible				(TRUE);
 	setEnabled				(TRUE);
 }
