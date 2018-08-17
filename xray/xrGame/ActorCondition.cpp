@@ -231,8 +231,10 @@ void CActorCondition::UpdateCondition()
 	clamp			(m_fAlcohol,			0.0f,		1.0f);
 
 	//----m4d_эффект алкашки
-	//if ( IsGameTypeSingle() )
-	//{	
+	//Check if actor exist
+	//Posteffects
+	if ( g_actor && Actor()->g_Alive() )
+	{	
 		CEffectorCam* ce = Actor()->Cameras().GetCamEffector((ECamEffectorType)effAlcohol);
 		if	((m_fAlcohol>0.0001f) ){
 			if(!ce){
@@ -269,7 +271,7 @@ void CActorCondition::UpdateCondition()
 		}
 //-		if(fis_zero(GetPsyHealth()))
 //-			SetHealth( 0.0f );
-	//};
+	};
 
 	UpdateSatiety();
 	UpdateBoosters();
