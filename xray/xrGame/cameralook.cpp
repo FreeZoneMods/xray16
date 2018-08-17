@@ -98,51 +98,6 @@ void CCameraLook2::OnActivate(CCameraBase* old_cam)
 
 void CCameraLook2::Update(Fvector& point, Fvector&)
 {
-	// autoaim
-	if (!m_locked_enemy && !g_dedicated_server) //Added dedicated check (will be delete as soon as we delete actor from the spawn)
-	{
-		if (pInput->iGetAsyncKeyState(cam_dik))
-		{
-			const CVisualMemoryManager::VISIBLES& vVisibles = Actor()->memory().visual().objects();
-			CVisualMemoryManager::VISIBLES::const_iterator v_it = vVisibles.begin();
-			float nearest_dst = flt_max;
-
-			for (; v_it != vVisibles.end(); ++v_it)
-			{
-				const CObject* _object_ = (*v_it).m_object;
-				if (!Actor()->memory().visual().visible_now(smart_cast<const CGameObject*>(_object_)))
-					continue;
-
-				CObject* object_ = const_cast<CObject*>(_object_);
-
-				CEntityAlive* EA = smart_cast<CEntityAlive*>(object_);
-				if (!EA || !EA->g_Alive())
-					continue;
-
-				float dst = object_->Position().distance_to_xz(Actor()->Position());
-				if (!m_locked_enemy || dst < nearest_dst)
-				{
-					m_locked_enemy = object_;
-					nearest_dst = dst;
-				}
-			}
-			//.			if (m_locked_enemy)
-			//.				Msg("enemy is %s", *m_locked_enemy->cNameSect());
-		}
-	}
-	else
-	{
-		if (!pInput->iGetAsyncKeyState(cam_dik))
-		{
-			m_locked_enemy = NULL;
-			//.			Msg("enemy is NILL");
-		}
-		else if (g_dedicated_server) //Added dedicated check (will be delete as soon as we delete actor from the spawn)
-			m_locked_enemy = NULL; 
-		else
-			UpdateAutoAim();
-	}
-
 	Fmatrix mR;
 	mR.setHPB(-yaw, -pitch, -roll);
 
@@ -161,32 +116,7 @@ void CCameraLook2::Update(Fvector& point, Fvector&)
 
 void CCameraLook2::UpdateAutoAim()
 {
-	Fvector _dest_point;
-	m_locked_enemy->Center(_dest_point);
-	_dest_point.y += 0.2f;
 
-	Fvector _dest_dir;
-	_dest_dir.sub(_dest_point, vPosition);
-
-	Fmatrix _m;
-	_m.identity();
-	_m.k.normalize_safe(_dest_dir);
-	Fvector::generate_orthonormal_basis(_m.k, _m.j, _m.i);
-
-	Fvector xyz;
-	_m.getXYZi(xyz);
-
-	yaw = angle_inertion_var(yaw, xyz.y,
-		m_autoaim_inertion_yaw.x,
-		m_autoaim_inertion_yaw.y,
-		PI,
-		Device.fTimeDelta);
-
-	pitch = angle_inertion_var(pitch, xyz.x,
-		m_autoaim_inertion_pitch.x,
-		m_autoaim_inertion_pitch.y,
-		PI,
-		Device.fTimeDelta);
 }
 
 void CCameraLook2::Load(LPCSTR section)

@@ -503,9 +503,15 @@ void CEntityAlive::UpdateFireParticles()
 	}
 }
 
+extern CActor* g_actor;
+
 ALife::ERelationType CEntityAlive::tfGetRelationType	(const CEntityAlive *tpEntityAlive) const
 {
-	int relation = MONSTER_COMMUNITY::relation(this->monster_community->index(), tpEntityAlive->monster_community->index());
+	int relation;
+
+	//Check if Actor exist
+	if (g_actor)
+	relation = MONSTER_COMMUNITY::relation(this->monster_community->index(), tpEntityAlive->monster_community->index());
 
 	switch(relation) {
 		case 1:		return(ALife::eRelationTypeFriend);		break;
