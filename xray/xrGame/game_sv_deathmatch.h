@@ -205,6 +205,7 @@ public:
 
 	// adtitional methods for predicates
 	void		__stdcall			RespawnPlayerAsSpectator(IClient* client);
+
 protected:
 	virtual		void				WriteGameState			(CInifile& ini, LPCSTR sect, bool bRoundResult);
 	shared_str m_not_free_ammo_str;
@@ -213,6 +214,7 @@ protected:
 protected:
 	CALifeSimulator * m_alife_simulator;
 
+public:
 	IC CALifeSimulator& alife() const
 	{
 		VERIFY(m_alife_simulator);

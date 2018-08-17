@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "xrServer.h"
 #include "game_sv_single.h"
+#include "game_sv_deathmatch.h"
 #include "alife_simulator.h"
 #include "xrserver_objects.h"
 #include "game_base.h"
@@ -94,8 +95,9 @@ void xrServer::Process_event_destroy	(NET_Packet& P, ClientID sender, u32 time, 
 	}
 
 	// Everything OK, so perform entity-destroy
+	// Change smart_cast to deathmatch class
 	if (e_dest->m_bALifeControl && ai().get_alife()) {
-		game_sv_Single				*_game = smart_cast<game_sv_Single*>(game);
+		game_sv_Deathmatch			*_game = smart_cast<game_sv_Deathmatch*>(game);
 		VERIFY						(_game);
 		if (ai().alife().objects().object(id_dest,true))
 			_game->alife().release	(e_dest,false);
