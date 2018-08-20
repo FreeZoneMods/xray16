@@ -88,6 +88,28 @@ void UITeamPanels::UpdatePanels()
 	shared_str green_team("greenteam");
 	shared_str blue_team("blueteam");
 
+	//----m4d_RP
+	shared_str yellow_team_pending("yellowteam_pending");
+	shared_str yellow_team("yellowteam");
+
+	shared_str black_team_pending("blackteam_pending");
+	shared_str black_team("blackteam");
+
+	shared_str lightblue_team_pending("lightblueteam_pending");
+	shared_str lightblue_team("lightblueteam");
+
+	shared_str red_team_pending("redteam_pending");
+	shared_str red_team("redteam");
+
+	shared_str brown_team_pending("brownteam_pending");
+	shared_str brown_team("brownteam");
+
+	shared_str lunar_team_pending("lunarteam_pending");
+	shared_str lunar_team("lunarteam");
+
+	shared_str darkgreen_team_pending("darkgreenteam_pending");
+	shared_str darkgreen_team("darkgreenteam");
+
 	for (TTeamsMap::iterator i = myPanels.begin(); i != ie; ++i)
 	{
 		bool need_show = false;
@@ -95,9 +117,16 @@ void UITeamPanels::UpdatePanels()
 		{
 			case GAME_PHASE_PENDING:
 				{
-					if (i->first.equal(green_team_pending) ||
-						i->first.equal(blue_team_pending) ||
-						i->first.equal(spectators_team))
+				if (i->first.equal(green_team_pending)
+					|| i->first.equal(blue_team_pending)
+					|| i->first.equal(yellow_team_pending)
+					|| i->first.equal(black_team_pending)
+					|| i->first.equal(lightblue_team_pending)
+					|| i->first.equal(red_team_pending)
+					|| i->first.equal(brown_team_pending)
+					|| i->first.equal(lunar_team_pending)
+					|| i->first.equal(darkgreen_team_pending)
+					|| i->first.equal(spectators_team))
 					{
 						need_show = true;
 					}
@@ -106,6 +135,13 @@ void UITeamPanels::UpdatePanels()
 			case GAME_PHASE_PLAYER_SCORES:
 			case GAME_PHASE_TEAM1_SCORES:
 			case GAME_PHASE_TEAM2_SCORES:
+			case GAME_PHASE_TEAM3_SCORES:
+			case GAME_PHASE_TEAM4_SCORES:
+			case GAME_PHASE_TEAM5_SCORES:
+			case GAME_PHASE_TEAM6_SCORES:
+			case GAME_PHASE_TEAM7_SCORES:
+			case GAME_PHASE_TEAM8_SCORES:
+			case GAME_PHASE_TEAM9_SCORES:
 			case GAME_PHASE_INPROGRESS:
 				{
 					if (i->first.equal(green_team) ||

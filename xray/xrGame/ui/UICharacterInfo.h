@@ -68,7 +68,7 @@ public:
 
 	void				InitCharacter			(u16 id);
 	void				ClearInfo				();
-	void				InitCharacterMP			(LPCSTR player_name, LPCSTR player_icon );
+	void				InitCharacterMP			(LPCSTR player_name, LPCSTR player_icon, u8 player_team_ID);
 
 	virtual void		Update					();
 

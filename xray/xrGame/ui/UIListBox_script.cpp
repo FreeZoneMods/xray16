@@ -108,6 +108,8 @@ void CUIListBox::script_register(lua_State *L)
 			value("GAME_UNKNOWN",			int(-1)),
 			value("eGameIDDeathmatch",		int(eGameIDDeathmatch)),
 			value("eGameIDTeamDeathmatch",	int(eGameIDTeamDeathmatch)),
+			//---m4d_RP
+			value("eGameIDRolePlay",		int(eGameIDRolePlay)),
 			value("eGameIDArtefactHunt",	int(eGameIDArtefactHunt)),
 			value("eGameIDCaptureTheArtefact",int(eGameIDCaptureTheArtefact))
 		]

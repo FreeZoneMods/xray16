@@ -248,29 +248,34 @@ CLASS_ID game_GameState::getCLASS_ID(LPCSTR game_type_name, bool isServer)
 	EGameIDs gameID = ParseStringToGameType(game_type_name);
 	switch(gameID)
 	{
-	case eGameIDSingle:
-		return			(isServer)?TEXT2CLSID("SV_SINGL"):TEXT2CLSID("CL_SINGL");
-		break;
+		case eGameIDSingle:
+			return			(isServer)?TEXT2CLSID("SV_SINGL"):TEXT2CLSID("CL_SINGL");
+			break;
 
-	case eGameIDDeathmatch:
-		return			(isServer)?TEXT2CLSID("SV_DM"):TEXT2CLSID("CL_DM");
-		break;
+		case eGameIDDeathmatch:
+			return			(isServer)?TEXT2CLSID("SV_DM"):TEXT2CLSID("CL_DM");
+			break;
 
-	case eGameIDTeamDeathmatch:
-		return			(isServer)?TEXT2CLSID("SV_TDM"):TEXT2CLSID("CL_TDM");
-		break;
+		case eGameIDTeamDeathmatch:
+			return			(isServer)?TEXT2CLSID("SV_TDM"):TEXT2CLSID("CL_TDM");
+			break;
 
-	case eGameIDArtefactHunt:
-		return			(isServer)?TEXT2CLSID("SV_AHUNT"):TEXT2CLSID("CL_AHUNT");
-		break;
+			//----m4d_RP
+		case eGameIDRolePlay:
+			return			(isServer) ? TEXT2CLSID("SV_RP") : TEXT2CLSID("CL_RP");
+			break;
 
-	case eGameIDCaptureTheArtefact:
-		return			(isServer)?TEXT2CLSID("SV_CTA"):TEXT2CLSID("CL_CTA");
-		break;
+		case eGameIDArtefactHunt:
+			return			(isServer)?TEXT2CLSID("SV_AHUNT"):TEXT2CLSID("CL_AHUNT");
+			break;
 
-	default:
-		return			(TEXT2CLSID(""));
-		break;
+		case eGameIDCaptureTheArtefact:
+			return			(isServer)?TEXT2CLSID("SV_CTA"):TEXT2CLSID("CL_CTA");
+			break;
+
+		default:
+			return			(TEXT2CLSID(""));
+			break;
 	}
 }
 

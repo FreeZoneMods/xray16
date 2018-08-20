@@ -211,6 +211,10 @@ LPCSTR GameTypeToString(EGameIDs gt, bool bShort)
 	case eGameIDTeamDominationZone:
 		return (bShort)?"tdz":"teamdominationzone";
 		break;
+		//----m4d_RP
+	case eGameIDRolePlay:
+		return (bShort) ? "rp" : "roleplay";
+		break;
 	default :
 		return		"---";
 	}
@@ -218,28 +222,32 @@ LPCSTR GameTypeToString(EGameIDs gt, bool bShort)
 
 EGameIDs ParseStringToGameType(LPCSTR str)
 {
-	if (!xr_strcmp(str, "single")) 
+	if (!xr_strcmp(str, "single"))
 		return eGameIDSingle;
 	else
-		if (!xr_strcmp(str, "deathmatch") || !xr_strcmp(str, "dm")) 
+		if (!xr_strcmp(str, "deathmatch") || !xr_strcmp(str, "dm"))
 			return eGameIDDeathmatch;
 		else
-			if (!xr_strcmp(str, "teamdeathmatch") || !xr_strcmp(str, "tdm")) 
+			if (!xr_strcmp(str, "teamdeathmatch") || !xr_strcmp(str, "tdm"))
 				return eGameIDTeamDeathmatch;
 			else
-				if (!xr_strcmp(str, "artefacthunt") || !xr_strcmp(str, "ah")) 
+				if (!xr_strcmp(str, "artefacthunt") || !xr_strcmp(str, "ah"))
 					return eGameIDArtefactHunt;
 				else
-					if (!xr_strcmp(str, "capturetheartefact") || !xr_strcmp(str, "cta")) 
+					if (!xr_strcmp(str, "capturetheartefact") || !xr_strcmp(str, "cta"))
 						return eGameIDCaptureTheArtefact;
 					else
-						if (!xr_strcmp(str, "dominationzone")) 
+						if (!xr_strcmp(str, "dominationzone"))
 							return eGameIDDominationZone;
 						else
-							if (!xr_strcmp(str, "teamdominationzone")) 
+							if (!xr_strcmp(str, "teamdominationzone"))
 								return eGameIDTeamDominationZone;
-							else 
-								return eGameIDNoGame; //EGameIDs
+							else
+								//----m4d_RP
+								if (!xr_strcmp(str, "roleplay") || !xr_strcmp(str, "rp"))
+									return eGameIDRolePlay;
+								else
+									return eGameIDNoGame; //EGameIDs
 }
 
 void CGamePersistent::UpdateGameType			()

@@ -31,7 +31,8 @@ void CUIRankIndicator::InitFromXml(CUIXml& xml_doc)
 
 void CUIRankIndicator::SetRank(u8 team, u8 rank)
 {
-	rank					+=team*(max_rank/2);
+	// арифметика простая max_rank - количество званий * команды. 2 - кол-во команд
+	rank += 0;// team*(max_rank / 2); m4d_RP
 	if(m_current==rank)		return;
 
 	if(m_current!=u8(-1))

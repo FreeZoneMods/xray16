@@ -2419,9 +2419,6 @@
     <Filter Include="UI\Multiplayer\team_skin_info\Spawn">
       <UniqueIdentifier>{ac7e80e3-12c4-49f1-8069-66cb7cfebf22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\Multiplayer\team_skin_info\SkinSelector">
-      <UniqueIdentifier>{9d84d07f-83fc-4ede-ae0c-e12348ab7d78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\Multiplayer\team_skin_info\ServerInfo">
       <UniqueIdentifier>{ebeddcfd-4b43-415c-ab9f-0b58bc8e6932}</UniqueIdentifier>
     </Filter>
@@ -2487,6 +2484,24 @@
     </Filter>
     <Filter Include="Physics\scripts">
       <UniqueIdentifier>{16b9df67-87a0-43f9-8d0e-304216b3b2bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\client\roleplay">
+      <UniqueIdentifier>{0798f467-53fe-4cd0-82f7-10eef7c6ebc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\server\roleplay">
+      <UniqueIdentifier>{0511ab23-f247-4c62-9280-bb0b77400ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\GameTypes\RolePlay">
+      <UniqueIdentifier>{fd9de9c2-421b-4969-bc82-72b97cd770dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\team_skin_info\SpawnRP">
+      <UniqueIdentifier>{19c8498d-d049-4d3d-b79b-74b99cfaf4ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\team_skin_info\SkinSelectorRP">
+      <UniqueIdentifier>{9d84d07f-83fc-4ede-ae0c-e12348ab7d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Multiplayer\team_skin_info\SkinSelector">
+      <UniqueIdentifier>{aaae86a6-6c05-41e9-b8a2-69efb78bf4e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -7155,12 +7170,6 @@
     <ClInclude Include="ui\UISpawnWnd.h">
       <Filter>UI\Multiplayer\team_skin_info\Spawn</Filter>
     </ClInclude>
-    <ClInclude Include="ui\UISkinSelector.h">
-      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
-    </ClInclude>
-    <ClInclude Include="ui\UIStatix.h">
-      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
-    </ClInclude>
     <ClInclude Include="ui\UIServerInfo.h">
       <Filter>UI\Multiplayer\team_skin_info\ServerInfo</Filter>
     </ClInclude>
@@ -7376,6 +7385,27 @@
     </ClInclude>
     <ClInclude Include="physics_world_scripted.h">
       <Filter>Physics\scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="game_cl_roleplay.h">
+      <Filter>Core\Server\Games\client\roleplay</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_roleplay.h">
+      <Filter>Core\Server\Games\server\roleplay</Filter>
+    </ClInclude>
+    <ClInclude Include="UIGameRP.h">
+      <Filter>UI\GameTypes\RolePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UISpawnWndRP.h">
+      <Filter>UI\Multiplayer\team_skin_info\SpawnRP</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UISkinSelectorRP.h">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelectorRP</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UIStatix.h">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UISkinSelector.h">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -10808,12 +10838,6 @@
     <ClCompile Include="ui\UISpawnWnd.cpp">
       <Filter>UI\Multiplayer\team_skin_info\Spawn</Filter>
     </ClCompile>
-    <ClCompile Include="ui\UISkinSelector.cpp">
-      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
-    </ClCompile>
-    <ClCompile Include="ui\UIStatix.cpp">
-      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
-    </ClCompile>
     <ClCompile Include="ui\UIServerInfo.cpp">
       <Filter>UI\Multiplayer\team_skin_info\ServerInfo</Filter>
     </ClCompile>
@@ -11023,6 +11047,30 @@
     </ClCompile>
     <ClCompile Include="physics_world_scripted.cpp">
       <Filter>Physics\scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_roleplay.cpp">
+      <Filter>Core\Server\Games\client\roleplay</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_roleplay.cpp">
+      <Filter>Core\Server\Games\server\roleplay</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGameRP.cpp">
+      <Filter>UI\GameTypes\RolePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UISpawnWndRP.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\SpawnRP</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_roleplay_process_event.cpp">
+      <Filter>Core\Server\Games\server\roleplay</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UISkinSelectorRP.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelectorRP</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UIStatix.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UISkinSelector.cpp">
+      <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

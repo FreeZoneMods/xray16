@@ -6,7 +6,8 @@ class CUIXml;
 class CUIStatic;
 class CUIRankIndicator :public CUIWindow
 {
-	enum{max_rank=10,};
+	//---m4d_RP (old 10)
+	enum{max_rank=5,};
 	CUIStatic*		m_ranks[max_rank];
 	u8				m_current;
 public:

@@ -132,7 +132,15 @@ enum ETeam
 {
 	etGreenTeam			=	0x00,
 	etBlueTeam			=	0X01,
-	etSpectatorsTeam	=	0x02
+	etSpectatorsTeam	=	0x02,
+	//--------m4d_RP
+	etYellowTeam		=	0X03,
+	etBlackTeam			=	0X04,
+	etLightBlueTeam		=	0X05,
+	etRedTeam			=	0X06,
+	etBrownTeam			=	0X07,
+	etLunarTeam			=	0X08,
+	etDarkGreenTeam		=	0X09
 };
 //--------------
 

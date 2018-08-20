@@ -3,6 +3,8 @@
 #include "game_base.h"
 #include "game_cl_capture_the_artefact.h"
 #include "game_cl_artefacthunt.h"
+//---m4d_RP
+#include "game_cl_roleplay.h"
 #include "game_state_accumulator.h"
 
 namespace award_system
@@ -61,6 +63,52 @@ u32 const player_spots_with_top_enemy_divider::get_top_enemy_player_score()
 			{
 				enemy_team = etGreenTeam + 1;
 			} else
+			{
+				return 0;
+			}
+		}break;
+		//-----m4d_RP
+	case eGameIDRolePlay:
+		{
+			game_cl_RolePlay* tmp_game = smart_cast<game_cl_RolePlay*>(Level().game);
+			s16 player_team = tmp_game->ModifyTeam(tmp_local_player->team);
+			if (player_team == etGreenTeam)
+			{
+				enemy_team = etBlueTeam + 1;
+			}
+			else if (player_team == etBlueTeam)
+			{
+				enemy_team = etGreenTeam + 1;
+			}
+			else if (player_team == etYellowTeam)
+			{
+				enemy_team = etBlackTeam + 1;
+			}
+			else if (player_team == etBlackTeam)
+			{
+				enemy_team = etYellowTeam + 1;
+			}
+			else if (player_team == etLightBlueTeam)
+			{
+				enemy_team = etBlackTeam + 1;
+			}
+			else if (player_team == etRedTeam)
+			{
+				enemy_team = etDarkGreenTeam + 1;
+			}
+			else if (player_team == etBrownTeam)
+			{
+				enemy_team = etDarkGreenTeam + 1;
+			}
+			else if (player_team == etLunarTeam)
+			{
+				enemy_team = etBlackTeam + 1;
+			}
+			else if (player_team == etDarkGreenTeam)
+			{
+				enemy_team = etYellowTeam + 1;
+			}
+			else
 			{
 				return 0;
 			}

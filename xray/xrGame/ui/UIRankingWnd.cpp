@@ -57,7 +57,7 @@ void CUIRankingWnd::Show( bool status )
 	{
 		//----m4d_pda (инфа и деньги)
 		//m_actor_ch_info->InitCharacter( Actor()->object_id() );
-		m_actor_ch_info->InitCharacterMP(Game().local_player->getName(), Game().local_player->getIcon());
+		m_actor_ch_info->InitCharacterMP(Game().local_player->getName(), Game().local_player->getIcon(), Game().local_player->team);
 		
 		string64 buf;
 		xr_sprintf( buf, sizeof(buf), "%d %s", Game().local_player->money_for_round/*Actor()->get_money()*/, "RU" );
@@ -70,6 +70,7 @@ void CUIRankingWnd::Show( bool status )
 
 void CUIRankingWnd::Update()
 {
+	//----m4d_pda (шото тут не чисто)
 	if ( Device.dwTimeGlobal - m_previous_time > m_delay )
 	{
 		m_previous_time = Device.dwTimeGlobal;
@@ -212,7 +213,7 @@ void CUIRankingWnd::get_statistic()
 {
 	string128 buf;
 	//-----m4d_time
-	InventoryUtilities::GetTimePeriodAsString(buf, sizeof(buf), Game().StartTime()/*Level().GetStartGameTime()*/, Level().timeServer()/*Level().GetGameTime()*/);
+	InventoryUtilities::GetTimePeriodAsString(buf, sizeof(buf), /*TimeGlobal(0)*/Game().StartTime()/*Level().GetStartGameTime()*/, Game().local_player->m_online_time/*Level().timeServer()*//*Level().GetGameTime()*/);
 	m_stat_info[0]->SetTextColor(color_rgba(170,170,170,255));
 	m_stat_info[0]->SetText(buf);
 

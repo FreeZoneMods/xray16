@@ -68,13 +68,15 @@ void WeaponUsageStatistic::SaveData()
 	SYSTEMTIME		Time;	
 	switch ( GameID() )
 	{
-	case eGameIDDeathmatch:				xr_sprintf(GameType, "dm"); break;
-	case eGameIDTeamDeathmatch:			xr_sprintf(GameType, "tdm"); break;
-	case eGameIDArtefactHunt:			xr_sprintf(GameType, "ah"); break;
-	case eGameIDCaptureTheArtefact:		xr_sprintf(GameType, "cta"); break;
-	default:
-		return;
-		break;
+		case eGameIDDeathmatch:				xr_sprintf(GameType, "dm"); break;
+		case eGameIDTeamDeathmatch:			xr_sprintf(GameType, "tdm"); break;
+		case eGameIDArtefactHunt:			xr_sprintf(GameType, "ah"); break;
+		case eGameIDCaptureTheArtefact:		xr_sprintf(GameType, "cta"); break;
+			//---m4d_RP
+		case eGameIDRolePlay:				xr_sprintf(GameType, "rp"); break;
+		default:
+			return;
+			break;
 	};
 	GetLocalTime(&Time);	
 	xr_sprintf(mFileName, "(%s)_(%s)_%02d.%02d.%02d_%02d.%02d.%02d.wus", *(Level().name()), GameType, Time.wMonth, Time.wDay, Time.wYear, Time.wHour, Time.wMinute, Time.wSecond);

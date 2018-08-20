@@ -395,7 +395,8 @@ void	CGameSpy_Browser::ReadServerInfo	(ServerInfo* pServerInfo, void* pServer)
 		pServerInfo->m_aInfos.push_back(GameInfo(*st.translate("mp_si_team_only"), ((SpectrModes & (1<<CSpectator::eacMaxCam	)) != 0) ? *st.translate("mp_si_yes") : *st.translate("mp_si_no")));
 	//-----------------------------------------------------------------------
 	
-	if (pServerInfo->m_GameType == eGameIDDeathmatch || pServerInfo->m_GameType == eGameIDTeamDeathmatch) 
+	//---m4d_RP
+	if (pServerInfo->m_GameType == eGameIDDeathmatch || pServerInfo->m_GameType == eGameIDTeamDeathmatch || pServerInfo->m_GameType == eGameIDRolePlay)
 	{
 		ADD_INT_INFO_N (pServerInfo, pServer, 1, *st.translate("mp_si_fraglimit"), "", G_FRAG_LIMIT_KEY);	
 	}
@@ -423,7 +424,9 @@ void	CGameSpy_Browser::ReadServerInfo	(ServerInfo* pServerInfo, void* pServer)
 	ADD_TIME_INFO(pServerInfo, pServer, 1.0f, *st.translate("mp_si_forcerespawn"), "%.f %s",*st.translate("mp_si_sec"), G_FORCE_RESPAWN_KEY);
 	ADD_TIME_INFO(pServerInfo, pServer, 1.0f, *st.translate("mp_si_warmuptime"), "%.0f %s",*st.translate("mp_si_sec"), G_WARM_UP_TIME_KEY);
 
+	//----m4d_RP
 	if (   pServerInfo->m_GameType == eGameIDTeamDeathmatch
+		|| pServerInfo->m_GameType == eGameIDRolePlay
 		|| pServerInfo->m_GameType == eGameIDArtefactHunt
 		|| pServerInfo->m_GameType == eGameIDCaptureTheArtefact)
 	{
@@ -480,7 +483,9 @@ void	CGameSpy_Browser::ReadServerInfo	(ServerInfo* pServerInfo, void* pServer)
 		pServerInfo->m_aPlayers.push_back(PInfo);
 	};
 	//----------- Read Team Info ---------------------------//
+	//---m4d_RP
 	if (   pServerInfo->m_GameType == eGameIDTeamDeathmatch
+		|| pServerInfo->m_GameType == eGameIDRolePlay
 		|| pServerInfo->m_GameType == eGameIDArtefactHunt
 		|| pServerInfo->m_GameType == eGameIDCaptureTheArtefact
 		)

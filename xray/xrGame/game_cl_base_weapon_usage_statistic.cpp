@@ -892,7 +892,8 @@ u8 WeaponUsageStatistic::ConvertToTeamIndex(s16 team)
 {
 	game_cl_mp* cl_game = static_cast<game_cl_mp*>(&Game());
 	s16 team_index = cl_game->ModifyTeam(team);
-	if (Game().Type() == eGameIDTeamDeathmatch)
+	//----m4d_RP
+	if (Game().Type() == eGameIDTeamDeathmatch || Game().Type() == eGameIDRolePlay)
 	{
 		if (team_index == -1)
 		{

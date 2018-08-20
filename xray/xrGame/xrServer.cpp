@@ -1052,7 +1052,8 @@ void xrServer::GetServerInfo( CServerInfo* si )
 
 //	xr_strcpy( tmp256, get_token_name(game_types, game->Type() ) );
 	xr_strcpy( tmp256, GameTypeToString( game->Type(), true ) );
-	if ( game->Type() == eGameIDDeathmatch || game->Type() == eGameIDTeamDeathmatch )
+	//----m4d_RP
+	if ( game->Type() == eGameIDDeathmatch || game->Type() == eGameIDTeamDeathmatch || game->Type() == eGameIDRolePlay)
 	{
 		xr_strcat( tmp256, " [" );
 		xr_strcat( tmp256, itoa( g_sv_dm_dwFragLimit, tmp, 10 ) );

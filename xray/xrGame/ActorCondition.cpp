@@ -435,10 +435,10 @@ void CActorCondition::UpdateRadiation()
 void CActorCondition::UpdateSatiety()
 {
 	//---m4d сытость из сингла
- //	if (!IsGameTypeSingle()) 
+	//if (!IsGameTypeSingle()) 
 	//{
 	//	m_fDeltaPower += m_fV_SatietyPower * m_fDeltaTime;
- //		return;
+	//	return;
 	//}
 
 	if(m_fSatiety>0)

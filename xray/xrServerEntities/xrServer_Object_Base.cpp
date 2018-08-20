@@ -252,7 +252,8 @@ void CSE_Abstract::Spawn_Write				(NET_Packet	&tNetPacket, BOOL bLocal)
 	tNetPacket.w_seek			(position,&size,sizeof(u16));
 }
 
-enum EGameTypes {
+enum EGameTypes 
+{
 	GAME_ANY							= 0,
 	GAME_SINGLE							= 1,
 	GAME_DEATHMATCH						= 2,
@@ -262,6 +263,8 @@ enum EGameTypes {
 	GAME_TEAMDEATHMATCH					= 6,
 	GAME_ARTEFACTHUNT					= 7,
 	GAME_CAPTURETHEARTEFACT				= 8,
+	//-----m4d_RP
+	GAME_ROLEPLAY						= 9,
 
 	//identifiers in range [100...254] are registered for script game type
 	GAME_DUMMY							= 255	// temporary game type
@@ -419,13 +422,16 @@ Flags16&	CSE_Abstract::flags			()
 	return	(s_flags);
 }
 
-xr_token game_types[]={
+//----m4d_RP
+xr_token game_types[]=
+{
 	{ "any_game",				eGameIDNoGame				},
 	{ "single",					eGameIDSingle				},
 	{ "deathmatch",				eGameIDDeathmatch			},
 	{ "team_deathmatch",		eGameIDTeamDeathmatch		},
 	{ "artefacthunt",			eGameIDArtefactHunt			},
 	{ "capture_the_artefact",	eGameIDCaptureTheArtefact	},
+	{ "roleplay",				eGameIDRolePlay				},
 	//eGameIDDominationZone
 	//eGameIDTeamDominationZone
 	{ 0,				0				}

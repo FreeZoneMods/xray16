@@ -13,6 +13,8 @@
 #include "UIGameCustom.h"
 #include "game_sv_deathmatch.h"
 #include "game_sv_artefacthunt.h"
+//---m4d_RP
+#include "game_sv_roleplay.h"
 #include "game_sv_capture_the_artefact.h"
 #include "date_time.h"
 #include "game_cl_base_weapon_usage_statistic.h"
@@ -1874,16 +1876,27 @@ public:
 		{
 			game_sv_TeamDeathmatch* tdmGame = smart_cast<game_sv_TeamDeathmatch*>(Level().Server->game);
 			game_sv_CaptureTheArtefact* ctaGame = smart_cast<game_sv_CaptureTheArtefact*>(Level().Server->game);
+			//----m4d_RP
+			game_sv_RolePlay* rpGame = smart_cast<game_sv_RolePlay*>(Level().Server->game);
 			if (tdmGame)
 			{
 				BOOL old_team_swap = g_sv_tdm_bAutoTeamSwap;
 				g_sv_tdm_bAutoTeamSwap = TRUE;
 				tdmGame->AutoSwapTeams();
 				g_sv_tdm_bAutoTeamSwap = old_team_swap;
-			} else if (ctaGame)
+			}
+			else if (ctaGame)
 			{
 				ctaGame->SwapTeams();
-			} else
+			} 
+			else if (rpGame)
+			{
+				BOOL old_team_swap = g_sv_tdm_bAutoTeamSwap;
+				g_sv_tdm_bAutoTeamSwap = TRUE;
+				rpGame->AutoSwapTeams();
+				g_sv_tdm_bAutoTeamSwap = old_team_swap;
+			}
+			else
 			{
 				Msg("! Current game type not support team swapping");
 				return;

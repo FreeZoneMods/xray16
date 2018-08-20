@@ -9,6 +9,9 @@
 #include "UIStatic.h"
 #include "UIXmlInit.h"
 
+//---m4d_RP
+#include "../game_cl_roleplay.h"
+
 IC bool	DM_Compare_Players		(game_PlayerState* p1, game_PlayerState* p2);
 
 CUIStatsPlayerList::CUIStatsPlayerList()
@@ -79,6 +82,8 @@ void CUIStatsPlayerList::Init(CUIXml& xml_doc, LPCSTR path)
 	{
 	case eGameIDCaptureTheArtefact:
 	case eGameIDArtefactHunt:
+		//----m4d_RP
+	case eGameIDRolePlay:
 	case eGameIDTeamDeathmatch:
 		if (!m_bSpectator || m_bStatus_mode)
             InitTeamHeader(xml_doc, path);
@@ -256,6 +261,14 @@ void CUIStatsPlayerList::Update()
 		xr_sprintf(teaminfo, "%s: %d, %s: %u", *st.translate("mp_frags_upcase"), pl_frags, *st.translate("mp_players"), pl_count);
 		m_header_text->SetText(teaminfo);
 	}	
+	//----m4d_RP
+	else if (GameID() == eGameIDRolePlay && !m_bSpectator)
+	{
+		game_cl_RolePlay* game = static_cast<game_cl_RolePlay*>(&Game());
+		pl_frags = game->teams[m_CurTeam - 1].score;
+		xr_sprintf(teaminfo, "%s: %d, %s: %u", *st.translate("mp_frags_upcase"), pl_frags, *st.translate("mp_players"), pl_count);
+		m_header_text->SetText(teaminfo);
+	}
 
 	if (m_bSpectator)
 	{

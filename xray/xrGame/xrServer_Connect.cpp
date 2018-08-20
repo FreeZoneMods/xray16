@@ -17,6 +17,8 @@
 #include <malloc.h>
 #pragma warning(pop)
 
+//----m4d_RP ???
+
 LPCSTR xrServer::get_map_download_url(LPCSTR level_name, LPCSTR level_version)
 {
 	R_ASSERT(level_name && level_version);

@@ -158,18 +158,24 @@
 #	include "game_sv_single.h"
 #	include "game_sv_deathmatch.h"
 #	include "game_sv_teamdeathmatch.h"
+//---m4d_RP
+#	include "game_sv_roleplay.h"
 #	include "game_sv_ArtefactHunt.h"
 #	include "game_sv_capture_the_artefact.h"
 
 #	include "game_cl_single.h"
 #	include "game_cl_deathmatch.h"
 #	include "game_cl_teamdeathmatch.h"
+//---m4d_RP
+#	include "game_cl_roleplay.h"
 #	include "game_cl_ArtefactHunt.h"
 #	include	"game_cl_capture_the_artefact.h"
 
 #	include "UIGameSP.h"
 #	include "UIGameAHunt.h"
 #	include "UIGameCTA.h"
+//---m4d_RP
+#	include "UIGameRP.h"
 #	include	"climableobject.h"
 #	include "space_restrictor.h"
 #	include "smart_zone.h"
@@ -203,8 +209,10 @@ void CObjectFactory::register_classes	()
 #ifndef	BENCHMARK_BUILD
 	add<game_sv_Deathmatch>										(CLSID_SV_GAME_DEATHMATCH		,"game_sv_deathmatch");
 	add<game_sv_TeamDeathmatch>									(CLSID_SV_GAME_TEAMDEATHMATCH	,"game_sv_team_deathmatch");
+	//---m4d_RP
+	add<game_sv_RolePlay>										(CLSID_SV_GAME_ROLEPLAY			, "game_sv_roleplay");
 	add<game_sv_ArtefactHunt>									(CLSID_SV_GAME_ARTEFACTHUNT		,"game_sv_artefact_hunt");
-	add<game_sv_CaptureTheArtefact>									(CLSID_SV_GAME_CAPTURETHEARTEFACT	,"game_sv_capture_the_artefact");
+	add<game_sv_CaptureTheArtefact>								(CLSID_SV_GAME_CAPTURETHEARTEFACT	,"game_sv_capture_the_artefact");
 #endif	//	BENCHMARK_BUILD
 	//Client Game type
 #ifndef NO_SINGLE
@@ -213,14 +221,18 @@ void CObjectFactory::register_classes	()
 #ifndef	BENCHMARK_BUILD
 	add<game_cl_Deathmatch>										(CLSID_CL_GAME_DEATHMATCH		,"game_cl_deathmatch");
 	add<game_cl_TeamDeathmatch>									(CLSID_CL_GAME_TEAMDEATHMATCH	,"game_cl_team_deathmatch");
+	//---m4d_RP
+	add<game_cl_RolePlay>										(CLSID_CL_GAME_ROLEPLAY			, "game_cl_roleplay");
 	add<game_cl_ArtefactHunt>									(CLSID_CL_GAME_ARTEFACTHUNT		,"game_cl_artefact_hunt");
-	add<game_cl_CaptureTheArtefact>									(CLSID_CL_GAME_CAPTURETHEARTEFACT	,"game_cl_capture_the_artefact");
+	add<game_cl_CaptureTheArtefact>								(CLSID_CL_GAME_CAPTURETHEARTEFACT	,"game_cl_capture_the_artefact");
 #endif	//	BENCHMARK_BUILD
 
 
 	add<CUIGameSP>												(CLSID_GAME_UI_SINGLE			,"game_ui_single");
 	add<CUIGameDM>												(CLSID_GAME_UI_DEATHMATCH		,"game_ui_deathmatch");
 	add<CUIGameTDM>												(CLSID_GAME_UI_TEAMDEATHMATCH	,"game_ui_team_deathmatch");
+	//---m4d_RP
+	add<CUIGameRP>												(CLSID_GAME_UI_ROLEPLAY			, "game_ui_roleplay");
 	add<CUIGameAHunt>											(CLSID_GAME_UI_ARTEFACTHUNT		,"game_ui_artefact_hunt");
 	add<CUIGameCTA>												(CLSID_GAME_UI_CAPTURETHEARTEFACT	,"game_ui_capture_the_artefact");
 

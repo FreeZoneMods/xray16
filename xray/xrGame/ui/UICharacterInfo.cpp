@@ -225,7 +225,7 @@ void CUICharacterInfo::InitCharacter(u16 id)
 */
 }
 
-void CUICharacterInfo::InitCharacterMP( LPCSTR player_name, LPCSTR player_icon )
+void CUICharacterInfo::InitCharacterMP( LPCSTR player_name, LPCSTR player_icon, u8 player_team_ID)
 {
 	ClearInfo();
 	
@@ -234,7 +234,15 @@ void CUICharacterInfo::InitCharacterMP( LPCSTR player_name, LPCSTR player_icon )
 		m_icons[eName]->TextItemControl()->SetTextST( player_name );
 		m_icons[eName]->Show( true );
 	}
-
+	if (m_icons[eCommunity])
+	{
+		//----------------m4d_interface
+		string32 community;
+		CStringTable st;
+		xr_sprintf(community, "ui_st_team%d_name", player_team_ID);
+		m_icons[eCommunity]->TextItemControl()->SetText(*st.translate(community));
+		m_icons[eCommunity]->Show(true);
+	}
 	if ( m_icons[eIcon] )
 	{
 		m_icons[eIcon]->InitTexture( player_icon );

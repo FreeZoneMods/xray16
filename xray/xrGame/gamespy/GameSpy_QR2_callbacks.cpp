@@ -20,8 +20,6 @@ void __cdecl callback_serverkey(int keyid, qr2_buffer_t outbuf, void *userdata)
 	CGameSpy_QR2* pQR2 = pServer->QR2();
 	if (!pQR2) return;
 
-	
-
 	game_sv_mp* gmMP = smart_cast<game_sv_mp*>(pServer->game);
 	game_sv_Deathmatch* gmDM = smart_cast<game_sv_Deathmatch*>(pServer->game);
 	game_sv_TeamDeathmatch* gmTDM = smart_cast<game_sv_TeamDeathmatch*>(pServer->game);
@@ -88,6 +86,7 @@ void __cdecl callback_serverkey(int keyid, qr2_buffer_t outbuf, void *userdata)
 	case G_FRIENDLY_INDICATORS_KEY:		ADD_KEY_VAL(gmTDM, pQR2, BufferAdd_Int, outbuf, Get_FriendlyIndicators()); break; //if (gmTDM)pQR2->BufferAdd_Int(outbuf, gmTDM->Get_FriendlyIndicators	());			break;
 	case G_FRIENDLY_NAMES_KEY:			ADD_KEY_VAL(gmTDM, pQR2, BufferAdd_Int, outbuf, Get_FriendlyNames()); break; //if (gmTDM)pQR2->BufferAdd_Int(outbuf, gmTDM->Get_FriendlyNames		());			break;
 	case G_FRIENDLY_FIRE_KEY:			ADD_KEY_VAL_INT(gmTDM, pQR2, BufferAdd_Int, outbuf, GetFriendlyFire()*100.0f); break; //if (gmTDM)pQR2->BufferAdd_Int(outbuf, int(gmTDM->GetFriendlyFire()*100.0f));		break;
+
 		//---- game_sv_artefacthunt ----	
 	case G_ARTEFACTS_COUNT_KEY:			ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_ArtefactsCount()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_ArtefactsCount		());			break;
 	case G_ARTEFACT_STAY_TIME_KEY:		ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_ArtefactsStayTime()); break; //if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_ArtefactsStayTime		());			break;
@@ -292,6 +291,8 @@ int __cdecl callback_count(qr2_key_type keytype, void *userdata)
 				case eGameIDDeathmatch:
 					return 1;
 				case eGameIDTeamDeathmatch:
+					//---m4d_RP (тут возможно надо 9)
+				case eGameIDRolePlay:
 				case eGameIDArtefactHunt:
 				case eGameIDCaptureTheArtefact:
 				case eGameIDTeamDominationZone:

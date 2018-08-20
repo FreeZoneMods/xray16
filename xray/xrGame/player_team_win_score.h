@@ -27,6 +27,15 @@ protected:
 	
 	s32					m_green_team_score;
 	s32					m_blue_team_score;
+	//---m4d_RP
+	s32					m_yellow_team_score;
+	s32					m_black_team_score;
+	s32					m_lightblue_team_score;
+	s32					m_red_team_score;
+	s32					m_brown_team_score;
+	s32					m_lunar_team_score;
+	s32					m_darkgreen_team_score;
+
 	u8					m_player_team;
 }; //class player_team_win_score
 

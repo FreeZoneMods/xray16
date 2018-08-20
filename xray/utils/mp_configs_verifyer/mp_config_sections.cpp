@@ -29,7 +29,17 @@ static char* important_sections[] =
 	"capturetheartefact_team2",
 	"deathmatch_base_cost",
 	"mp_bonus_money",
-	"mp_bonus_exp"
+	"mp_bonus_exp",
+	//----m4d_RP
+	"roleplay_team1",
+	"roleplay_team2",
+	"roleplay_team3",
+	"roleplay_team4",
+	"roleplay_team5",
+	"roleplay_team6",
+	"roleplay_team7",
+	"roleplay_team8",
+	"roleplay_team9"
 };
 
 mp_config_sections::mp_config_sections() :

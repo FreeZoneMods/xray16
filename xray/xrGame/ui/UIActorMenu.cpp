@@ -851,7 +851,7 @@ void CUIActorMenu::UpdateActorMP()
 	m_ActorMoney->SetText( buf );
 
 	//m4d_icons (иконка игрока вместо дефолтной)
-	m_ActorCharacterInfo->InitCharacterMP(Game().local_player->getName(), Game().local_player->getIcon());
+	m_ActorCharacterInfo->InitCharacterMP(Game().local_player->getName(), Game().local_player->getIcon(), Game().local_player->team);
 
 }
 

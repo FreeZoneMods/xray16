@@ -2,7 +2,8 @@
 #include "level_bullet_manager.h"
 #include "game_base_kill_type.h"
 
-#define STAT_TEAM_COUNT 3
+//----m4d_RP
+#define STAT_TEAM_COUNT 10  //old 3
 
 struct game_PlayerState;
 

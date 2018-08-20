@@ -4,6 +4,9 @@
 #include "game_cl_artefacthunt.h"
 #include "game_state_accumulator.h"
 
+//---m4d_RP
+#include "game_cl_roleplay.h"
+
 namespace award_system
 {
 
@@ -32,6 +35,15 @@ void player_team_win_score::save_round_scores()
 {
 	m_green_team_score	= 0;
 	m_blue_team_score	= 0;
+	//----------------m4d_RP
+	m_yellow_team_score = 0;
+	m_black_team_score = 0;
+	m_lightblue_team_score = 0;
+	m_red_team_score = 0;
+	m_brown_team_score = 0;
+	m_lunar_team_score = 0;
+	m_darkgreen_team_score = 0;
+
 	m_player_team		= etSpectatorsTeam;
 
 	game_PlayerState* tmp_local_player = m_owner->get_local_player();
@@ -53,6 +65,26 @@ void player_team_win_score::save_round_scores()
 			game_cl_TeamDeathmatch* tmp_game	= smart_cast<game_cl_TeamDeathmatch*>(Level().game);
 			m_green_team_score					= tmp_game->GetGreenTeamScore();
 			m_blue_team_score					= tmp_game->GetBlueTeamScore();
+			if (tmp_local_player->team > 0)
+			{
+				m_player_team = static_cast<u8>(tmp_game->ModifyTeam(tmp_local_player->team));
+			}
+		}break;
+		//----m4d_RP
+	case eGameIDRolePlay:
+		{
+			game_cl_RolePlay* tmp_game = smart_cast<game_cl_RolePlay*>(Level().game);
+
+			m_green_team_score = tmp_game->GetGreenTeamScore();
+			m_blue_team_score = tmp_game->GetBlueTeamScore();
+			m_yellow_team_score = tmp_game->GetYellowTeamScore();
+			m_black_team_score = tmp_game->GetBlackTeamScore();
+			m_lightblue_team_score = tmp_game->GetLightBlueTeamScore();
+			m_red_team_score = tmp_game->GetRedTeamScore();
+			m_brown_team_score = tmp_game->GetBrownTeamScore();
+			m_lunar_team_score = tmp_game->GetLunarTeamScore();
+			m_darkgreen_team_score = tmp_game->GetDarkGreenTeamScore();
+
 			if (tmp_local_player->team > 0)
 			{
 				m_player_team = static_cast<u8>(tmp_game->ModifyTeam(tmp_local_player->team));
@@ -97,12 +129,55 @@ void player_enemy_team_score::OnRoundEnd()
 void player_enemy_team_score::save_round_scores()
 {
 	inherited::save_round_scores();
-	if (static_cast<ETeam>(m_player_team) == etGreenTeam)
+
+	//---m4d_RP
+	switch (static_cast<ETeam>(m_player_team))
 	{
-		m_enemy_team_score = m_blue_team_score;
-	} else if (static_cast<ETeam>(m_player_team) == etBlueTeam)
-	{
-		m_enemy_team_score = m_green_team_score;
+		case etGreenTeam:
+		{
+			m_enemy_team_score = m_blue_team_score;
+		}
+		break;
+		case etBlueTeam:
+		{
+			m_enemy_team_score = m_green_team_score;
+		}
+		break;
+		case etYellowTeam:
+		{
+			m_enemy_team_score = m_black_team_score;
+		}
+		break;
+		case etBlackTeam:
+		{
+			m_enemy_team_score = m_yellow_team_score;
+		}
+		break;
+		case etLightBlueTeam:
+		{
+			m_enemy_team_score = m_blue_team_score;
+		}
+		break;
+		case etRedTeam:
+		{
+			m_enemy_team_score = m_green_team_score;
+		}
+		break;
+		case etBrownTeam:
+		{
+			m_enemy_team_score = m_red_team_score;
+		}
+		break;
+		case etLunarTeam:
+		{
+			m_enemy_team_score = m_black_team_score;
+		}
+		break;
+		case etDarkGreenTeam:
+		{
+			m_enemy_team_score = m_yellow_team_score;
+		}
+		break;
 	}
 }
 
@@ -114,13 +189,64 @@ player_runtime_win_score::player_runtime_win_score(game_state_accumulator* owner
 u32 const player_runtime_win_score::get_u32_param()
 {
 	u32 ret_score = 0;
-	if (static_cast<ETeam>(m_player_team) == etGreenTeam)
+
+	switch (static_cast<ETeam>(m_player_team))
 	{
-		ret_score = m_green_team_score;
-	} else if (static_cast<ETeam>(m_player_team) == etBlueTeam)
-	{
-		ret_score = m_blue_team_score;
+		case etGreenTeam:
+		{
+			ret_score = m_green_team_score;
+		}
+		break;
+
+		case etBlueTeam:
+		{
+			ret_score = m_blue_team_score;
+		}
+		break;
+
+		case etYellowTeam:
+		{
+			ret_score = m_yellow_team_score;
+		}
+		break;
+
+		case etBlackTeam:
+		{
+			ret_score = m_black_team_score;
+		}
+		break;
+
+		case etLightBlueTeam:
+		{
+			ret_score = m_lightblue_team_score;
+		}
+		break;
+
+		case etRedTeam:
+		{
+			ret_score = m_red_team_score;
+		}
+		break;
+
+		case etBrownTeam:
+		{
+			ret_score = m_brown_team_score;
+		}
+		break;
+
+		case etLunarTeam:
+		{
+			ret_score = m_lunar_team_score;
+		}
+		break;
+
+		case etDarkGreenTeam:
+		{
+			ret_score = m_darkgreen_team_score;
+		}
+		break;
 	}
+
 	return ret_score;
 }
 

@@ -5,19 +5,25 @@
 #include "gametype_chooser.h"
 #include "xrServer_Objects_Abstract.h"
 //old
-enum ERPGameType{		// [0..255]
+enum ERPGameType
+{		// [0..255]
 	rpgtGameAny							= u8(0),
 	rpgtGameDeathmatch,
 	rpgtGameTeamDeathmatch,
+	//----m4d_RP
+	rpgtGameRolePlay,
 	rpgtGameArtefactHunt,
 	rpgtGameCaptureTheArtefact,
 	rpgtGameCount,
 };
 
-xr_token rpoint_game_type[]={
+xr_token rpoint_game_type[]=
+{
 	{ "Any game",			rpgtGameAny					},
 	{ "Deathmatch",			rpgtGameDeathmatch			},
 	{ "TeamDeathmatch",		rpgtGameTeamDeathmatch		},
+	//----m4d_RP
+	{ "RolePlay",			rpgtGameRolePlay			},
 	{ "ArtefactHunt",		rpgtGameArtefactHunt		},
 	{ "CaptureTheArtefact",	rpgtGameCaptureTheArtefact	},
 	{ 0,					0	}

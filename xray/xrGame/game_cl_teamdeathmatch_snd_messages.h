@@ -18,5 +18,11 @@ enum {
 	ID_TEAM2_RANK_3,
 	ID_TEAM2_RANK_4,
 
+	ID_RP_RANK_0,
+	ID_RP_RANK_1,
+	ID_RP_RANK_2,
+	ID_RP_RANK_3,
+	ID_RP_RANK_4,
+
 	ID_TDM_forcedword		= u32(-1)
 };

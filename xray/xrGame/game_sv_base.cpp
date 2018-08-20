@@ -401,8 +401,10 @@ void game_sv_GameState::Create					(shared_str &options)
 							(type != rptActorSpawn), 
 							"Problem with CTA Team indexes. Propably you have added rpoint of team 0 for cta game type.");
 					}
+					//----m4d_RP
 					if ((!(GameType & eGameIDDeathmatch) && (Type() == eGameIDDeathmatch)) ||
-						(!(GameType & eGameIDTeamDeathmatch) && (Type() == eGameIDTeamDeathmatch))	||
+						(!(GameType & eGameIDTeamDeathmatch) && (Type() == eGameIDTeamDeathmatch)) ||
+						(!(GameType & eGameIDRolePlay) && (Type() == eGameIDRolePlay)) ||
 						(!(GameType & eGameIDArtefactHunt) && (Type() == eGameIDArtefactHunt)) ||
 						(!(GameType & eGameIDCaptureTheArtefact) && (Type() == eGameIDCaptureTheArtefact))
 						)

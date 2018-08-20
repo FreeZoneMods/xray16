@@ -4,7 +4,8 @@
 #pragma once
 
 //new
-enum EGameIDs {
+enum EGameIDs 
+{
         eGameIDNoGame                                   = u32(0),
         eGameIDSingle                                   = u32(1) << 0,
         eGameIDDeathmatch                               = u32(1) << 1,
@@ -13,6 +14,8 @@ enum EGameIDs {
         eGameIDCaptureTheArtefact                       = u32(1) << 4,
         eGameIDDominationZone                           = u32(1) << 5,
         eGameIDTeamDominationZone                       = u32(1) << 6,
+		//----m4d_RP
+		eGameIDRolePlay									= u32(1) << 7,
 };
 
 class PropValue;

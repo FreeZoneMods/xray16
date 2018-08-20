@@ -1026,6 +1026,7 @@
     <ClInclude Include="game_cl_mp.h" />
     <ClInclude Include="game_cl_mp_messages_menu.h" />
     <ClInclude Include="game_cl_mp_snd_messages.h" />
+    <ClInclude Include="game_cl_roleplay.h" />
     <ClInclude Include="game_cl_single.h" />
     <ClInclude Include="game_cl_teamdeathmatch.h" />
     <ClInclude Include="game_cl_teamdeathmatch_snd_messages.h" />
@@ -1052,6 +1053,7 @@
     <ClInclude Include="game_sv_mp.h" />
     <ClInclude Include="game_sv_mp_team.h" />
     <ClInclude Include="game_sv_mp_vote_flags.h" />
+    <ClInclude Include="game_sv_roleplay.h" />
     <ClInclude Include="game_sv_single.h" />
     <ClInclude Include="game_sv_teamdeathmatch.h" />
     <ClInclude Include="GlobalFeelTouch.hpp" />
@@ -1650,6 +1652,7 @@
     <ClInclude Include="UIGameCustom.h" />
     <ClInclude Include="UIGameDM.h" />
     <ClInclude Include="UIGameMP.h" />
+    <ClInclude Include="UIGameRP.h" />
     <ClInclude Include="UIGameSP.h" />
     <ClInclude Include="UIGameTDM.h" />
     <ClInclude Include="UIPanelsClassFactory.h" />
@@ -1779,7 +1782,9 @@
     <ClInclude Include="ui\UISecondTaskWnd.h" />
     <ClInclude Include="ui\UIServerInfo.h" />
     <ClInclude Include="ui\UISkinSelector.h" />
+    <ClInclude Include="ui\UISkinSelectorRP.h" />
     <ClInclude Include="ui\UISpawnWnd.h" />
+    <ClInclude Include="ui\UISpawnWndRP.h" />
     <ClInclude Include="ui\UISpeechMenu.h" />
     <ClInclude Include="ui\UISpinNum.h" />
     <ClInclude Include="ui\UISpinText.h" />
@@ -3273,6 +3278,7 @@
     <ClCompile Include="game_cl_mp.cpp" />
     <ClCompile Include="game_cl_mp_messages_menu.cpp" />
     <ClCompile Include="game_cl_mp_snd_messages.cpp" />
+    <ClCompile Include="game_cl_roleplay.cpp" />
     <ClCompile Include="game_cl_single.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
@@ -3306,6 +3312,8 @@
     <ClCompile Include="game_sv_event_queue.cpp" />
     <ClCompile Include="game_sv_item_respawner.cpp" />
     <ClCompile Include="game_sv_mp.cpp" />
+    <ClCompile Include="game_sv_roleplay.cpp" />
+    <ClCompile Include="game_sv_roleplay_process_event.cpp" />
     <ClCompile Include="game_sv_single.cpp" />
     <ClCompile Include="game_sv_teamdeathmatch.cpp" />
     <ClCompile Include="game_sv_teamdeathmatch_process_event.cpp" />
@@ -4847,6 +4855,7 @@
     </ClCompile>
     <ClCompile Include="UIGameDM.cpp" />
     <ClCompile Include="UIGameMP.cpp" />
+    <ClCompile Include="UIGameRP.cpp" />
     <ClCompile Include="UIGameSP.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
@@ -5212,7 +5221,9 @@
     <ClCompile Include="ui\UISecondTaskWnd.cpp" />
     <ClCompile Include="ui\UIServerInfo.cpp" />
     <ClCompile Include="ui\UISkinSelector.cpp" />
+    <ClCompile Include="ui\UISkinSelectorRP.cpp" />
     <ClCompile Include="ui\UISpawnWnd.cpp" />
+    <ClCompile Include="ui\UISpawnWndRP.cpp" />
     <ClCompile Include="ui\UISpeechMenu.cpp" />
     <ClCompile Include="ui\UISpinNum.cpp" />
     <ClCompile Include="ui\UISpinText.cpp" />

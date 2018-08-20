@@ -344,8 +344,9 @@ void game_cl_mp::GetActiveVoting()
 	u_EventSend		(P);
 }
 
-u32		Color_Teams_u32[3]	= {color_rgba(255,240,190,255), color_rgba(64,255,64,255), color_rgba(64,64,255,255)};
-LPSTR	Color_Teams[3]	= {"%c[255,255,240,190]", "%c[255,64,255,64]", "%c[255,64,64,255]"};
+//---m4d_RP
+u32		Color_Teams_u32[10] = { color_rgba(255, 240, 190, 255), color_rgba(64, 255, 64, 255), color_rgba(64, 64, 255, 255),  color_rgba(255, 180, 0, 255), color_rgba(0, 0, 0, 255), color_rgba(0, 195, 240, 255), color_rgba(195, 0, 0, 255), color_rgba(98, 78, 24, 255), color_rgba(120, 155, 255, 255), color_rgba(0, 95, 0, 255) };
+LPSTR	Color_Teams[10] = { "%c[255,255,240,190]", "%c[255,64,255,64]", "%c[255,64,64,255]", "%c[255,255,180,0]" , "%c[255,0,0,0]", "%c[255,0,195,240]", "%c[255,195,0,0]", "%c[255,98,78,24]", "%c[255,120,155,255]", "%c[255,0,95,0]" };
 char	Color_Main[]	= "%c[255,192,192,192]";
 u32		Color_Neutral_u32	= color_rgba(255,0,255,255);
 char	Color_Red[]	= "%c[255,255,1,1]";
@@ -539,17 +540,26 @@ void game_cl_mp::OnChatMessage(NET_Packet* P)
 
 ///#ifdef DEBUG
 	CStringTable st;
+	//----m4d_RP
 	switch (team)
 	{
-	case 0: Msg("%s: %s : %s",		*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
-	case 1: Msg("- %s: %s : %s",	*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
-	case 2: Msg("@ %s: %s : %s",	*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 0: Msg("%s: %s : %s",		*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 1: Msg("- %s: %s : %s",	*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 2: Msg("@ %s: %s : %s",	*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		default:
+		{
+			if (team > 2)
+			{
+				Msg("@ %s: %s : %s", *st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str());
+			}
+		}
+		break;
 	}
 	
 //#endif
 	if(g_dedicated_server)	return;
 
-	if ( team < 0 || 2 < team )	{ team = 0; }
+	if ( team < 0 || 9 < team )	{ team = 0; } // m4d_RP
 	
 	LPSTR colPlayerName;
 	STRCONCAT(colPlayerName, Color_Teams[team], PlayerName, ":%c[default]");
@@ -743,10 +753,27 @@ void game_cl_mp::OnSwitchPhase			(u32 old_phase, u32 new_phase)
 			}
 		};
 
+		//------------------m4d_RP
 	case GAME_PHASE_TEAM1_SCORES:
 	case GAME_PHASE_TEAM2_SCORES:
+	case GAME_PHASE_TEAM3_SCORES:
+	case GAME_PHASE_TEAM4_SCORES:
+	case GAME_PHASE_TEAM5_SCORES:
+	case GAME_PHASE_TEAM6_SCORES:
+	case GAME_PHASE_TEAM7_SCORES:
+	case GAME_PHASE_TEAM8_SCORES:
+	case GAME_PHASE_TEAM9_SCORES:
+
 	case GAME_PHASE_TEAM1_ELIMINATED:
 	case GAME_PHASE_TEAM2_ELIMINATED:
+	case GAME_PHASE_TEAM3_ELIMINATED:
+	case GAME_PHASE_TEAM4_ELIMINATED:
+	case GAME_PHASE_TEAM5_ELIMINATED:
+	case GAME_PHASE_TEAM6_ELIMINATED:
+	case GAME_PHASE_TEAM7_ELIMINATED:
+	case GAME_PHASE_TEAM8_ELIMINATED:
+	case GAME_PHASE_TEAM9_ELIMINATED:
+
 	case GAME_PHASE_TEAMS_IN_A_DRAW:
 	case GAME_PHASE_PLAYER_SCORES:
 		{
@@ -1242,7 +1269,8 @@ void	game_cl_mp::OnEventMoneyChanged			(NET_Packet& P)
 			{
 				BName			= "new_rank";
 				s16 player_team = ModifyTeam(local_player->team);
-				R_ASSERT((player_team == 0) || (player_team == 1));
+				//---------m4d_RP
+				R_ASSERT((player_team == 0) || (player_team == 1) || (player_team == 2) || (player_team == 3) || (player_team == 4) || (player_team == 5) || (player_team == 6) || (player_team == 7) || (player_team == 8)); 
 				RectID = ((local_player->rank) * 2) + player_team;
 			}break;
 		};
@@ -1388,7 +1416,7 @@ void game_cl_mp::LoadBonuses				()
 			CUITextureMaster::GetTextureShader("ui_hud_status_blue_01", NewBonus.IconShader);
 
 			Frect IconRect;
-			for (u32 r=1; r<=5; r++)
+			for (u32 r = 1; r <= 5; r++)
 			{
 				string256 rankstr;				
 
