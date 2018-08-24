@@ -101,6 +101,7 @@ public:
 	virtual void			net_Export						(NET_Packet& P);
 	virtual void			net_Import						(NET_Packet& P);
 	virtual void			net_Relcase						(CObject *O);
+	virtual BOOL			net_Relevant					();
 
 	//save/load server serialization
 	virtual void			save							(NET_Packet &output_packet) {inherited::save(output_packet);}
@@ -391,6 +392,9 @@ public:
 
 	void					set_action			(EAction action);
 	void					set_state_sound		(u32 type, bool once = false);
+
+	EMotionAnim				Choose_Animation(u32);
+
 IC	void					fall_asleep			(){m_bSleep = true;}
 IC	void					wake_up				(){m_bSleep = false;}
 

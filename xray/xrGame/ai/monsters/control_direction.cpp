@@ -31,6 +31,9 @@ void CControlDirection::reinit()
 
 void CControlDirection::update_frame()
 {
+	//We don't need this magic on client side
+	if (Level().IsClient()) return; 
+
 	pitch_correction			();	
 
 	SRotationEventData			event_data;
@@ -91,6 +94,7 @@ void CControlDirection::update_frame()
 	
 	// if there is an event
 	if (event_data.angle)		m_man->notify(ControlCom::eventRotationEnd, &event_data);
+
 }
 
 void CControlDirection::pitch_correction()
