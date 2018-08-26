@@ -178,9 +178,11 @@ void CHUDTarget::Render()
 
 			//---m4d (когда наводим прицел на что угодно)
 			CInventoryOwner* our_inv_owner = smart_cast<CInventoryOwner*>(pCurEnt);
+			CInventoryOwner* others_inv_owner = smart_cast<CInventoryOwner*>(E);
+			CStringTable	strtbl;
 			if (E && E->g_Alive() && !E->cast_base_monster())
 			{
-				CInventoryOwner* others_inv_owner = smart_cast<CInventoryOwner*>(E);
+
 
 				if (our_inv_owner && others_inv_owner) {
 
@@ -196,7 +198,7 @@ void CHUDTarget::Render()
 
 					if (fuzzyShowInfo>0.5f)
 					{
-						CStringTable	strtbl;
+
 						//F->SetColor	(subst_alpha(C,u8(iFloor(255.f*(fuzzyShowInfo-0.5f)*2.f))));
 						//F->OutNext	("%s", *strtbl.translate(others_inv_owner->Name()) );
 						//F->OutNext	("%s", *strtbl.translate(others_inv_owner->CharacterInfo().Community().id()) );
@@ -246,7 +248,8 @@ void CHUDTarget::Render()
 						int alpha_C = iFloor(255.f*(fuzzyShowInfo - 0.5f)*2.f);
 						u8 alpha_b = u8(alpha_C & 0x00ff);
 						F->SetColor(subst_alpha(C, alpha_b));
-						F->OutNext("%s", *PP.RQ.O->cName());
+						if(!E->cast_base_monster())
+						F->OutNext("%s", *strtbl.translate(others_inv_owner->Name()));
 					}
 				}
 			};
