@@ -81,7 +81,7 @@ void CEntity::Die(CObject* who)
 		VERIFY				(m_registered_member);
 	}
 	m_registered_member	= false;
-	if (!IsGameTypeSingle()) //Disable SinglePlayer Check
+	if (Level().IsServer()) //Disable SinglePlayer Check
 		Level().seniority_holder().team(g_Team()).squad(g_Squad()).group(g_Group()).unregister_member(this);
 }
 
@@ -235,7 +235,7 @@ void CEntity::net_Destroy	()
 {
 	if (m_registered_member) {
 		m_registered_member	= false;
-		if (IsGameTypeSingle())
+		if (Level().IsServer()) //Disable SinglePlayer Check
 			Level().seniority_holder().team(g_Team()).squad(g_Squad()).group(g_Group()).unregister_member(this);
 	}
 
@@ -325,6 +325,7 @@ const u32 FORGET_KILLER_TIME = 180000;
 void CEntity::shedule_Update	(u32 dt)
 {
 	inherited::shedule_Update	(dt);
+	if (!IsGameTypeSingle()) return;
 	if (!getDestroy() && !g_Alive() && (m_killer_id != u16(-1))) {
 		if (Device.dwTimeGlobal > m_level_death_time + FORGET_KILLER_TIME) {
 			m_killer_id			= u16(-1);
