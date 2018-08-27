@@ -186,8 +186,9 @@ CUISkinSelectorWnd* game_cl_Deathmatch::InitSkinMenu			(s16 Team)
 
 	cl_TeamStruct *pTeamSect		= &TeamList[ModifyTeam(Team)];	
 
-	CUISkinSelectorWnd* pMenu		= xr_new<CUISkinSelectorWnd>	((char*)pTeamSect->caSection.c_str(), Team);
-	return							pMenu;
+	CUISkinSelectorWnd* pMenu = xr_new<CUISkinSelectorWnd>((char*)pTeamSect->caSection.c_str(), Team);
+
+	return	pMenu;
 };
 
 void game_cl_Deathmatch::OnMapInfoAccept			()
@@ -336,13 +337,13 @@ bool game_cl_Deathmatch::CanBeReady				()
 	SetCurrentSkinMenu();
 
 	SetCurrentBuyMenu();
-	
+
 	if (pCurBuyMenu && !pCurBuyMenu->IsShown())
 	{
 		pCurBuyMenu->ResetItems();
-		SetBuyMenuItems		(&PlayerDefItems);
+		SetBuyMenuItems(&PlayerDefItems);
 	}
-	
+
 	if (!m_bSkinSelected)
 	{
 		m_bMenuCalledFromReady = FALSE;
@@ -350,7 +351,7 @@ bool game_cl_Deathmatch::CanBeReady				()
 			pCurSkinMenu->ShowDialog(true);
 
 		return false;
-	};
+	}
 
 	if (pCurBuyMenu)
 	{		
@@ -753,7 +754,8 @@ bool	game_cl_Deathmatch::OnKeyboardPress			(int key)
 		return true;
 	};
 	
-	if (kSKIN == key )
+	//---m4d_SkinSelector
+	if (kSKIN == key && GameID() != eGameIDRolePlay)
 	{
 		if (pCurSkinMenu && pCurSkinMenu->IsShown())
 			pCurSkinMenu->HideDialog();

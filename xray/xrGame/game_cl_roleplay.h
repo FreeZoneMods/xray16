@@ -25,9 +25,12 @@ protected:
 	//---m4d_RP
 	CUISkinSelectorWndRP*				pCurSkinMenu;
 
-	CUISkinSelectorWndRP*		InitSkinMenu(s16 Team = -1);
+	CUISkinSelectorWndRP*				InitSkinMenu(s16 Team = -1);
 public:
 	game_cl_RolePlay();
+
+	virtual			void				OnGameMenuRespond_ChangeSkin(NET_Packet& P);
+
 	virtual								~game_cl_RolePlay();
 	virtual			void				Init();
 	virtual			void				net_import_state(NET_Packet& P);
@@ -44,10 +47,11 @@ public:
 	virtual	BOOL					CanCallTeamSelectMenu();
 
 
-	virtual	void					OnSpectatorSelect();
+	virtual		void				OnSpectatorSelect();
 	virtual		void				OnSkinMenuBack();
 	virtual		void				OnTeamMenuBack();
 	virtual		void				OnMapInfoAccept();
+	virtual		void				OnSkinMenu_Ok();
 
 	virtual		void				OnGameMenuRespond_ChangeTeam(NET_Packet& P);
 

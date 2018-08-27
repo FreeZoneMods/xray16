@@ -21,10 +21,10 @@
 		<texture id="logos_big_empty" x="1023" y="1023" width="1" height="1" />
 
     </file>
-	<file name="ui\tsm\ui_tsm_logos">
-		<texture id="dolg_big"       x="0"     y="0"   width="251" height="195" />
-		<texture id="monolith_big"   x="255"   y="0"   width="251" height="195" />
-		<texture id="ecolog_big"   	 x="510"   y="0"   width="251" height="195" />
-		<texture id="army_big"   	 x="768"   y="0"   width="251" height="195" />
+	<file name="ui\rp\ui_rp_logos">
+		<texture id="dolg_big"       x="0"     y="0"   width="251" height="196" />
+		<texture id="monolith_big"   x="255"   y="0"   width="251" height="196" />
+		<texture id="ecolog_big"   	 x="510"   y="0"   width="251" height="196" />
+		<texture id="army_big"   	 x="768"   y="0"   width="251" height="196" />
     </file>
 </w>

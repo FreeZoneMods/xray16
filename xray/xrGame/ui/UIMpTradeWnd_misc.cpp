@@ -162,15 +162,17 @@ void CUIMpTradeWnd::SetCurrentItem(CUICellItem* itm)
 		m_item_info->UIName->SetText	(CurrentIItem()->NameShort());
 
 		string64						tex_name;
-		string64						team;
+		//----m4d_RP_fix
+		//string64						team;
 
-		if (m_store_hierarchy->FindItem(current_sect_name) )
-		{// our team
-			xr_strcpy						(team, _team_names[m_store_hierarchy->TeamIdx()]);
-		}else 
-		{
-			xr_strcpy						(team, _team_names[m_store_hierarchy->TeamIdx()%1]);
-		}
+		//if (m_store_hierarchy->FindItem(current_sect_name) )
+		//{// our team
+		//	xr_strcpy						(team, _team_names[m_store_hierarchy->TeamIdx()]);
+		//}
+		//else 
+		//{
+		//	xr_strcpy						(team, _team_names[m_store_hierarchy->TeamIdx()%1]);
+		//}
 		xr_sprintf							(tex_name, "ui_hud_status_%s_0%d", "green"/*team*/, 1+get_rank(current_sect_name.c_str()) ); //-----m4d_RP
 				
 		m_static_item_rank->InitTexture		(tex_name);
@@ -480,9 +482,10 @@ void CUIMpTradeWnd::SetRank(u32 rank)
 	g_mp_restrictions.SetRank(rank);
 
 	string64			tex_name;
-	string64			team;
+	//--m4d_RP_fix
+	//string64			team;
 
-	xr_strcpy				(team, _team_names[m_store_hierarchy->TeamIdx()]);
+	//xr_strcpy				(team, _team_names[m_store_hierarchy->TeamIdx()]);
 	xr_sprintf				(tex_name, "ui_hud_status_%s_0%d", "green"/*team*/, 1+rank ); //---m4d_RP
 			
 	m_static_player_rank->InitTexture(tex_name);

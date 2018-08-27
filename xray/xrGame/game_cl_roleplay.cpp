@@ -58,6 +58,9 @@ game_cl_RolePlay::game_cl_RolePlay()
 	PresetItemsTeam8.clear();
 	PresetItemsTeam9.clear();
 
+	//---m4d_SkinSelector
+	pCurSkinMenu = NULL;
+
 	m_bTeamSelected = FALSE;
 	m_game_ui = NULL;
 
@@ -106,6 +109,9 @@ game_cl_RolePlay::~game_cl_RolePlay()
 	PresetItemsTeam7.clear();
 	PresetItemsTeam8.clear();
 	PresetItemsTeam9.clear();
+
+	//---m4d_SkinSelector
+	xr_delete(pCurSkinMenu);
 
 	xr_delete(pCurBuyMenu);
 	xr_delete(pCurSkinMenu);
@@ -440,7 +446,7 @@ void game_cl_RolePlay::SetCurrentBuyMenu()
 	//-----------------------------------
 };
 
-//---m4d_RP
+//---m4d_SkinSelector
 CUISkinSelectorWndRP* game_cl_RolePlay::InitSkinMenu(s16 Team)
 {
 	if (Team == -1)
@@ -460,7 +466,60 @@ void game_cl_RolePlay::SetCurrentSkinMenu()
 	if (!local_player) return;
 
 	//----m4d_RP
-	new_team = local_player->team;
+	//new_team = local_player->team;
+	switch (local_player->team)
+	{
+	    case 1:
+	    {
+	        new_team = 1;
+	    }
+	    break;
+	    case 2:
+	    {
+	        new_team = 2;
+	    }
+	    break;
+	    case 3:
+	    {
+	        new_team = 3;
+	    }
+	    break;
+	    case 4:
+	    {
+	        new_team = 4;
+	    }
+	    break;
+	    case 5:
+	    {
+	        new_team = 5;
+	    }
+	    break;
+	    case 6:
+	    {
+	        new_team = 6;
+	    }
+	    break;
+	    case 7:
+	    {
+	        new_team = 7;
+	    }
+	    break;
+	    case 8:
+	    {
+	        new_team = 8;
+	    }
+	    break;
+	    case 9:
+	    {
+	        new_team = 9;
+	    }
+	    break;
+	    default:
+	    {
+	        new_team = 2;
+	    }
+	    break;
+	}
 
 	if (pCurSkinMenu && pCurSkinMenu->GetTeam() == new_team)
 		return;
@@ -490,7 +549,48 @@ bool game_cl_RolePlay::CanBeReady()
 		return false;
 	}
 
-	return inherited::CanBeReady();
+	//---m4d_SkinSelector
+	SetCurrentSkinMenu();
+
+	SetCurrentBuyMenu();
+
+	if (pCurBuyMenu && !pCurBuyMenu->IsShown())
+	{
+		pCurBuyMenu->ResetItems();
+		SetBuyMenuItems(&PlayerDefItems);
+	}
+
+	if (!m_bSkinSelected)
+	{
+		m_bMenuCalledFromReady = FALSE;
+		if (CanCallSkinMenu())
+			pCurSkinMenu->ShowDialog(true);
+
+		return false;
+	}
+
+	if (pCurBuyMenu)
+	{
+		const preset_items& _p = pCurBuyMenu->GetPreset(_preset_idx_last);
+		bool Passed = false;
+		Passed = (_p.size() == 0) ? 1 : (s32(pCurBuyMenu->GetPresetCost(_preset_idx_last)) <= local_player->money_for_round);
+		Passed |= pCurBuyMenu->IsIgnoreMoneyAndRank();
+		if (!Passed)
+		{
+			if (CanCallBuyMenu())
+			{
+				ShowBuyMenu();
+			}
+			return false;
+		}
+		m_bMenuCalledFromReady = FALSE;
+		OnBuyMenu_Ok();
+		return true;
+	};
+	//m_bMenuCalledFromReady = FALSE;
+	return true;
+
+	//return inherited::CanBeReady();
 };
 
 char* game_cl_RolePlay::getTeamSection(int Team)
@@ -514,12 +614,245 @@ char* game_cl_RolePlay::getTeamSection(int Team)
 #include "string_table.h"
 #include "ui/teaminfo.h"
 
+#include "game_cl_deathmatch_snd_messages.h" //---m4d_SkinSelector
+
 void game_cl_RolePlay::shedule_Update(u32 dt)
 {
 	CStringTable st;
 	string512	msg;
 
-	inherited::shedule_Update(dt);
+	//---m4d_SkinSelector~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	//inherited::shedule_Update(dt);
+	game_cl_mp::shedule_Update(dt);
+
+	if (g_dedicated_server)	return;
+
+	//fake	
+	if (m_game_ui)
+	{
+		m_game_ui->SetTimeMsgCaption(NULL);
+		m_game_ui->SetRoundResultCaption(NULL);
+		m_game_ui->SetSpectatorMsgCaption(NULL);
+		m_game_ui->SetPressJumpMsgCaption(NULL);
+		m_game_ui->SetPressBuyMsgCaption(NULL);
+		m_game_ui->SetForceRespawnTimeCaption(NULL);
+		m_game_ui->SetWarmUpCaption(NULL);
+	};
+	//	if (CurrentGameUI() && CurrentGameUI()->UIMainIngameWnd)
+	//		CurrentGameUI()->UIMainIngameWnd->ZoneCounter().SetText("");
+
+	switch (Phase())
+	{
+	case GAME_PHASE_INPROGRESS:
+	{
+		//m_game_ui->ShowPlayersList(false);
+
+		Check_Invincible_Players();
+
+		if (!m_game_ui)
+			break;
+
+		if (m_s32TimeLimit && m_cl_dwWarmUp_Time == 0)
+		{
+			if (Level().timeServer()<(m_start_time + m_s32TimeLimit))
+			{
+				u32 lts = Level().timeServer();
+				u32 Rest = (m_start_time + m_s32TimeLimit) - lts;
+				string64 S;
+				ConvertTime2String(&S, Rest);
+				m_game_ui->SetTimeMsgCaption(S);
+			}
+			else
+			{
+				m_game_ui->SetTimeMsgCaption("00:00:00");
+			}
+		};
+		game_PlayerState* lookat_player = Game().lookat_player();
+		if (local_player && !local_player->IsSkip())
+		{
+			if (m_bFirstRun)
+			{
+				m_bFirstRun = FALSE;
+				if (!Level().IsDemoPlayStarted() && Level().CurrentEntity())
+				{
+					VERIFY(m_game_ui);
+					m_bFirstRun = m_game_ui->ShowServerInfo() ? FALSE : TRUE;
+				}
+
+				GetActiveVoting();
+			};
+
+			if (lookat_player)
+			{
+				string256 MoneyStr;
+				xr_sprintf(MoneyStr, "%d", lookat_player->money_for_round);
+				m_game_ui->ChangeTotalMoneyIndicator(MoneyStr);
+			}
+
+			m_game_ui->SetPressJumpMsgCaption(NULL);
+			m_game_ui->SetPressBuyMsgCaption(NULL);
+
+			if (m_cl_dwWarmUp_Time > Level().timeServer())
+			{
+				u32 TimeRemains = m_cl_dwWarmUp_Time - Level().timeServer();
+				string64 S;
+				ConvertTime2String(&S, TimeRemains);
+				string1024 tmpStr = "";
+				if (TimeRemains > 10000)
+					strconcat(sizeof(tmpStr), tmpStr, *st.translate("mp_time2start"), " ", S);
+				else
+				{
+					if (TimeRemains < 1000)
+						strconcat(sizeof(tmpStr), tmpStr, *st.translate("mp_go"), "");
+					else
+					{
+						static u32 dwLastTimeRemains = 10;
+						u32 dwCurTimeRemains = TimeRemains / 1000;
+						if (dwLastTimeRemains != dwCurTimeRemains)
+						{
+							if (dwCurTimeRemains > 0 && dwCurTimeRemains <= 5)
+								PlaySndMessage(ID_COUNTDOWN_1 + dwCurTimeRemains - 1);
+						}
+						dwLastTimeRemains = dwCurTimeRemains;
+						_itoa(dwCurTimeRemains, S, 10);
+						strconcat(sizeof(tmpStr), tmpStr, *st.translate("mp_ready"), "...", S);
+					}
+				};
+
+				m_game_ui->SetWarmUpCaption(tmpStr);
+			}
+
+			if (Level().CurrentEntity() && smart_cast<CSpectator*>(Level().CurrentEntity()))
+			{
+				if (!(pCurBuyMenu && pCurBuyMenu->IsShown()) &&
+					!(pCurSkinMenu && pCurSkinMenu->IsShown()) &&
+					!m_game_ui->IsServerInfoShown() &&
+					(CurrentGameUI() && CurrentGameUI()->GameIndicatorsShown())
+					)
+				{
+					if (!m_bSkinSelected)
+						m_game_ui->SetPressJumpMsgCaption("mp_press_jump2select_skin");
+					else
+						m_game_ui->SetPressJumpMsgCaption("mp_press_jump2start");
+
+					if (CanCallBuyMenu())
+						m_game_ui->SetPressBuyMsgCaption("mp_press_to_buy");
+				};
+			};
+
+			if (Level().CurrentControlEntity() &&
+				smart_cast<CSpectator*>(Level().CurrentControlEntity()) &&
+				(CurrentGameUI()->GameIndicatorsShown())
+				)
+			{
+
+				CSpectator* pSpectator = smart_cast<CSpectator*>(Level().CurrentControlEntity());
+				if (pSpectator)
+				{
+					string1024 SpectatorStr = "";
+					pSpectator->GetSpectatorString(SpectatorStr);
+					m_game_ui->SetSpectatorMsgCaption(SpectatorStr);
+				}
+			}
+
+			u32 CurTime = Level().timeServer();
+			if (IsVotingEnabled() && IsVotingActive() && m_dwVoteEndTime >= CurTime)
+			{
+				u32 TimeLeft = m_dwVoteEndTime - Level().timeServer();
+				string1024 VoteTimeResStr;
+				u32 SecsLeft = (TimeLeft % 60000) / 1000;
+				u32 MinitsLeft = (TimeLeft - SecsLeft) / 60000;
+
+				u32 NumAgreed = 0;
+				PLAYERS_MAP_IT I;
+				I = players.begin();
+				for (; I != players.end(); ++I)
+				{
+					game_PlayerState* ps = I->second;
+					if (ps->m_bCurrentVoteAgreed == 1) NumAgreed++;
+				}
+
+				xr_sprintf(VoteTimeResStr, st.translate("mp_timeleft").c_str(), MinitsLeft, SecsLeft, float(NumAgreed) / players.size());
+				m_game_ui->SetVoteTimeResultMsg(VoteTimeResStr);
+			};
+
+			if (local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) &&
+				m_u32ForceRespawn &&
+				!local_player->testFlag(GAME_PLAYER_FLAG_SPECTATOR))
+			{
+				u32 Rest = m_u32ForceRespawn - local_player->DeathTime;
+				string64			S;
+				ConvertTime2String(&S, Rest);
+				string128			FullS;
+				xr_sprintf(FullS, "%s : %s", *st.translate("mp_time2respawn"), S);
+
+				m_game_ui->SetForceRespawnTimeCaption(FullS);
+			};
+
+
+			if (Level().CurrentViewEntity())
+			{
+				game_PlayerState* ps = GetPlayerByGameID(Level().CurrentViewEntity()->ID());
+
+				if (ps && m_game_ui)
+					m_game_ui->SetRank(ps->team, ps->rank);
+
+				if (ps && m_game_ui)
+					m_game_ui->SetFraglimit(ps->frags(), m_s32FragLimit);
+			}
+		};
+	}break;
+	case GAME_PHASE_PENDING:
+	{
+		if (!m_game_ui)
+			break;
+
+		m_game_ui->UpdateTeamPanels();
+		m_game_ui->ShowPlayersList(true);
+	}break;
+	case GAME_PHASE_PLAYER_SCORES:
+	{
+		if (!m_game_ui)
+			break;
+
+		string128 resstring;
+		xr_sprintf(resstring, st.translate("mp_player_wins").c_str(), WinnerName);
+		m_game_ui->SetRoundResultCaption(resstring);
+
+		SetScore();
+		m_game_ui->UpdateTeamPanels();
+		m_game_ui->ShowPlayersList(true);
+	}break;
+	};
+
+	//-----------------------------------------
+	if (!CanCallBuyMenu()) HideBuyMenu();
+
+	if (pCurSkinMenu && pCurSkinMenu->IsShown() && !CanCallSkinMenu())
+		pCurSkinMenu->HideDialog();
+	//-----------------------------------------------
+
+	//-----------------------------------------------
+	//if (m_game_ui->m_pInventoryMenu && m_game_ui->m_pInventoryMenu->IsShown() && !CanCallInventoryMenu())
+	//	StartStopMenu(m_game_ui->m_pInventoryMenu,true);
+	if (m_game_ui && m_game_ui->ActorMenu().IsShown() && !CanCallInventoryMenu())
+	{
+		m_game_ui->HideActorMenu();
+	}
+
+	//-----------------------------------------
+
+	u32 cur_game_state = Phase();
+	//if(m_game_ui->m_pMapDesc && m_game_ui->m_pMapDesc->IsShown() && cur_game_state!=GAME_PHASE_INPROGRESS)
+	//{
+	//	m_game_ui->m_pMapDesc->HideDialog();
+	//}
+
+	if (pCurSkinMenu && pCurSkinMenu->IsShown() && cur_game_state != GAME_PHASE_INPROGRESS)
+	{
+		pCurSkinMenu->HideDialog();
+	}
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	if (!m_game_ui) return;
 	//---------------------------------------------------------
@@ -704,6 +1037,22 @@ bool game_cl_RolePlay::OnKeyboardPress(int key)
 
 		return true;
 	};
+
+	//---m4d_SkinSelector
+	if (kSKIN == key)
+	{
+		if (pCurSkinMenu && pCurSkinMenu->IsShown())
+			pCurSkinMenu->HideDialog();
+		else
+		{
+			if (CanCallSkinMenu())
+			{
+				SetCurrentSkinMenu();
+				pCurSkinMenu->ShowDialog(true);
+			}
+		}
+		return true;
+	};
 	//----------------------------------------------------------------m4d_pda
 	if (kACTIVE_JOBS == key)
 	{
@@ -825,7 +1174,22 @@ BOOL game_cl_RolePlay::CanCallSkinMenu()
 		return FALSE;
 	if (!m_bTeamSelected) return FALSE;
 
-	return inherited::CanCallSkinMenu();
+	//---m4d_SkinSelector
+	//return inherited::CanCallSkinMenu();
+	if (Phase() != GAME_PHASE_INPROGRESS) return false;
+	if (m_game_ui && m_game_ui->ActorMenu().IsShown())
+	{
+		return FALSE;
+	}
+	if (pCurBuyMenu && pCurBuyMenu->IsShown())
+	{
+		return FALSE;
+	};
+	SetCurrentSkinMenu();
+	if (!pCurSkinMenu)	return FALSE;
+	if (!pCurSkinMenu->IsShown())
+		pCurSkinMenu->SetCurSkin(local_player->skin);
+	return TRUE;
 };
 
 BOOL game_cl_RolePlay::CanCallInventoryMenu()
@@ -834,7 +1198,22 @@ BOOL game_cl_RolePlay::CanCallInventoryMenu()
 	if (m_game_ui->m_pUITeamSelectWnd && m_game_ui->m_pUITeamSelectWnd->IsShown())
 		return FALSE;
 	
-	return inherited::CanCallInventoryMenu();
+	//---m4d_SkinSelector
+	//return inherited::CanCallInventoryMenu();
+	if (Phase() != GAME_PHASE_INPROGRESS) return false;
+	if (Level().CurrentEntity() && !smart_cast<CActor*>(Level().CurrentEntity()))
+	{
+		return FALSE;
+	}
+	if (pCurSkinMenu && pCurSkinMenu->IsShown())
+	{
+		return FALSE;
+	};
+	if (local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
+	{
+		return FALSE;
+	}
+	return TRUE;
 };
 
 BOOL game_cl_RolePlay::CanCallTeamSelectMenu()
@@ -850,11 +1229,6 @@ BOOL game_cl_RolePlay::CanCallTeamSelectMenu()
 	{
 		return FALSE;
 	};
-	//-------
-	/*if (m_game_ui->m_pInventoryMenu && m_game_ui->m_pInventoryMenu->IsShown())
-	{
-	return FALSE;
-	};*/
 	if (pCurBuyMenu && pCurBuyMenu->IsShown())
 	{
 		return FALSE;
@@ -1023,3 +1397,49 @@ void game_cl_RolePlay::OnConnected()
 	inherited::OnConnected();
 	m_game_ui = smart_cast<CUIGameRP*>(CurrentGameUI());
 }
+
+//---m4d_SkinSelector
+void game_cl_RolePlay::OnSkinMenu_Ok()
+{
+	CObject *l_pObj = Level().CurrentEntity();
+
+	CGameObject *l_pPlayer = smart_cast<CGameObject*>(l_pObj);
+	if (!l_pPlayer) return;
+
+	NET_Packet		P;
+	l_pPlayer->u_EventGen(P, GE_GAME_EVENT, l_pPlayer->ID());
+	P.w_u16(GAME_EVENT_PLAYER_GAME_MENU);
+	P.w_u8(PLAYER_CHANGE_SKIN);
+
+
+
+	P.w_s8((u8)pCurSkinMenu->GetActiveIndex());
+	l_pPlayer->u_EventSend(P);
+	//-----------------------------------------------------------------
+	m_bSkinSelected = TRUE;
+
+};
+
+void game_cl_RolePlay::OnGameMenuRespond_ChangeSkin(NET_Packet& P)
+{
+	s8 NewSkin = P.r_s8();
+	local_player->skin = NewSkin;
+
+	if (pCurSkinMenu && pCurSkinMenu->IsShown())
+		pCurSkinMenu->HideDialog();
+
+	//if (m_game_ui->m_pMapDesc && m_game_ui->m_pMapDesc->IsShown())
+	//	m_game_ui->m_pMapDesc->HideDialog();
+
+
+	SetCurrentSkinMenu();
+	if (pCurSkinMenu)				pCurSkinMenu->SetCurSkin(local_player->skin);
+	SetCurrentBuyMenu();
+	ReInitRewardGenerator(local_player);
+	m_bSpectatorSelected = FALSE;
+
+	if (m_bMenuCalledFromReady)
+	{
+		OnKeyboardPress(kJUMP);
+	}
+};

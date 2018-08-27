@@ -54,10 +54,10 @@
 		<texture id="ui_listline_e" 	x="939" y="380" width="4" height="18" />
    </file>
    
-   <!-- ~~~~~~~~~~~~~~~~~~~~~ TSM -->
-	<file name="ui\tsm\ui_tsm_mp">
-		<texture id="ui_tsm_main_window" x="0" y="0" width="1313" height="969" />
-		<texture id="ui_tsm_skin_selection_window" x="0" y="930" width="1313" height="969" />
+   <!-- ~~~~~~~~~~~~~~~~~~~~~ ROLE_PLAY -->
+	<file name="ui\rp\ui_rp">
+		<texture id="ui_rp_main_window" x="57" y="68" width="1229" height="845" />
+		<texture id="ui_rp_skin_selection_window" x="57" y="996" width="1229" height="845" />
 	</file>
 </w>
 

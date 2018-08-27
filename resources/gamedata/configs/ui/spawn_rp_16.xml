@@ -1,67 +1,65 @@
 <window>
 	<team_selector x="300" y="85" width="700" height="636">
-<!--	<team_selector x="144" y="115" width="749" height="543"> -->
-		<background x="0" y="0" width="700" height="636" stretch="1">
-			<texture>ui_tsm_main_window</texture>
-			<!--131(20+20) 75(20)<texture>ui_inGame2_Mp_screen_main_window</texture>-->
+		<background x="48" y="39" width="620" height="563" stretch="1">
+			<texture>ui_rp_main_window</texture>	
 		</background>
 		<caption x="227" y="55" width="270" height="32">
 			<text font="graffiti32" r="200" g="200" b="200" align="c" vert_align="c">mp_team_selection</text>
 		</caption>
 		
-		<image_frames_freedom x="131" y="105" width="150" height="117" stretch="1">
+		<image_frames_freedom x="131" y="110" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_freedom>
-		<image_frames_merc x="287" y="105" width="150" height="117" stretch="1">
+		<image_frames_merc x="287" y="110" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_merc>
-		<image_frames_stalker x="443" y="105" width="150" height="117" stretch="1">
+		<image_frames_stalker x="443" y="110" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_stalker>
-		<image_frames_bandit x="131" y="231" width="150" height="117" stretch="1">
+		<image_frames_bandit x="131" y="236" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_bandit>
-		<image_frames_clear_sky x="287" y="231" width="150" height="117" stretch="1">
+		<image_frames_clear_sky x="287" y="236" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_clear_sky>
-		<image_frames_dolg x="443" y="231" width="150" height="117" stretch="1">
+		<image_frames_dolg x="443" y="236" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_dolg>	
-		<image_frames_monolith x="131" y="360" width="150" height="117" stretch="1">
+		<image_frames_monolith x="131" y="365" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_monolith>		
-		<image_frames_ecolog x="287" y="360" width="150" height="117" stretch="1">
+		<image_frames_ecolog x="287" y="365" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_ecolog>		
-		<image_frames_army x="443" y="360" width="150" height="117" stretch="1">
+		<image_frames_army x="443" y="365" width="150" height="117" stretch="1">
 			<!--<texture>ui_inGame2_Mp_screen_map_window</texture>-->
 		</image_frames_army>		
 		
-		<image_0 x="131" y="105" width="150" height="117" stretch="1">
+		<image_0 x="131" y="110" width="150" height="117" stretch="1">
 			<texture>freedom_big</texture>
 		</image_0>
-		<image_1 x="287" y="105" width="150" height="117" stretch="1">
+		<image_1 x="287" y="110" width="150" height="117" stretch="1">
 			<texture>merc_big</texture>
 		</image_1>
-		<image_2 x="443" y="105" width="150" height="117" stretch="1">
+		<image_2 x="443" y="110" width="150" height="117" stretch="1">
 			<texture>stalker_big</texture>
 		</image_2>
-		<image_3 x="131" y="231" width="150" height="117" stretch="1">
+		<image_3 x="131" y="236" width="150" height="117" stretch="1">
 			<texture>bandit_big</texture>
 		</image_3>
-		<image_4 x="287" y="231" width="150" height="117" stretch="1">
+		<image_4 x="287" y="236" width="150" height="117" stretch="1">
 			<texture>csky_big</texture>
 		</image_4>	
-		<image_5 x="443" y="231" width="150" height="117" stretch="1">
+		<image_5 x="443" y="236" width="150" height="117" stretch="1">
 			<texture>dolg_big</texture>
 		</image_5>	
-		<image_6 x="131" y="360" width="150" height="117" stretch="1">
+		<image_6 x="131" y="365" width="150" height="117" stretch="1">
 			<texture>monolith_big</texture>
 		</image_6>	
-		<image_7 x="287" y="360" width="150" height="117" stretch="1">
+		<image_7 x="287" y="365" width="150" height="117" stretch="1">
 			<texture>ecolog_big</texture>
 		</image_7>		
-		<image_8 x="443" y="360" width="150" height="117" stretch="1">
+		<image_8 x="443" y="365" width="150" height="117" stretch="1">
 			<texture>army_big</texture>
 		</image_8>			
 
@@ -72,8 +70,7 @@
 			<text font="letterica18" r="192" g="168" b="144">team_2_name</text>
 			<text font="letterica18" r="106" g="95" b="91">team_2_desc</text>-->
 		</text_desc>
-		<!--x="235" y="502"-->
-		<btn_back x="196" y="506" width="110" height="28" stretch="1">
+		<btn_back x="202" y="507" width="110" height="28" stretch="1">
 			<texture>ui_inGame2_Mp_bigbuttone</texture>
 			<text font="graffiti19" align="c" a="170">mp_back</text>
 			<text_color>
@@ -82,18 +79,8 @@
 				<d r="106" g="95" b="91"/>
 				<h r="0" g="0" b="0"/>
 			</text_color>
-		</btn_back><!--
-		<btn_autoselect x="235" y="482" width="110" height="28" stretch="1">
-			<texture>ui_inGame2_Mp_bigbuttone</texture>
-			<text font="graffiti19" align="c" a="170">mp_auto_select</text>
-			<text_color>
-				<e r="227" g="199" b="178"/>
-				<t r="180" g="153" b="155"/>
-				<d r="106" g="95" b="91"/>
-				<h r="0" g="0" b="0"/>
-			</text_color>
-		</btn_autoselect>x="381" y="502"-->
-		<btn_spectator x="420" y="506" width="110" height="28" stretch="1">
+		</btn_back>
+		<btn_spectator x="412" y="507" width="110" height="28" stretch="1">
 			<texture>ui_inGame2_Mp_bigbuttone</texture>
 			<text font="graffiti19" align="c" a="170">mp_spectator</text>
 			<text_color>
@@ -105,69 +92,3 @@
 		</btn_spectator>
 	</team_selector>
 </window>
-<!--
-<window>
-	<team_selector x="205" y="115" width="624" height="543">
-		<background x="0" y="0" width="624" height="543" stretch="1">
-			<texture>ui_frame_mainDes</texture>
-		</background>
-		<caption x="42" y="4" width="220" height="32">
-			<text font="graffiti22" r="192" g="168" b="144" vert_align="c">mp_team_selection</text>
-		</caption>
-		<image_frames_tl x="44" y="56" width="277" height="57" stretch="1">
-			<texture>ui_TV_team_tl</texture>
-		</image_frames_tl>
-		<image_frames_tr x="321" y="56" width="277" height="57" stretch="1">
-			<texture>ui_TV_team_tr</texture>
-		</image_frames_tr>
-		<image_frames_bottom x="44" y="113" width="553" height="208" stretch="1">
-			<texture>ui_TV_team_bottom</texture>
-		</image_frames_bottom>
-		<image_0 x="67" y="69" width="244" height="219" stretch="1">
-			<texture>freedom_big</texture>
-		</image_0>
-		<image_1 x="326" y="69" width="244" height="219" stretch="1">
-			<texture>merc_big</texture>
-		</image_1>
-		<text_desc x="60" y="331" width="517" height="160" complex_mode="1">
-			<text font="graffiti22" r="192" g="168" b="144">team_1_name</text>
-			<text font="graffiti22">\n </text>
-			<text font="graffiti22" r="106" g="95" b="91">team_1_desc</text>
-			<text font="graffiti22">\n </text>
-			<text font="graffiti22" r="192" g="168" b="144">team_2_name</text>
-			<text font="graffiti22" r="106" g="95" b="91">team_2_desc</text>
-		</text_desc>
-
-		<btn_back x="43" y="504" width="131" height="48">
-			<texture>ui_button_main01</texture>
-			<text font="graffiti19" align="c">mp_back</text>
-			<text_color>
-				<e r="227" g="199" b="178"/>
-				<t r="180" g="153" b="155"/>
-				<d r="106" g="95" b="91"/>
-				<h r="0" g="0" b="0"/>
-			</text_color>
-		</btn_back>
-		<btn_autoselect x="328" y="504" width="131" height="48">
-			<texture>ui_button_main02</texture>
-			<text font="graffiti19" align="c">mp_auto_select</text>
-			<text_color>
-				<e r="227" g="199" b="178"/>
-				<t r="180" g="153" b="155"/>
-				<d r="106" g="95" b="91"/>
-				<h r="0" g="0" b="0"/>
-			</text_color>
-		</btn_autoselect>
-		<btn_spectator x="459" y="504" width="131" height="48">
-			<texture>ui_button_main03</texture>
-			<text font="graffiti19" align="c">mp_spectator</text>
-			<text_color>
-				<e r="227" g="199" b="178"/>
-				<t r="180" g="153" b="155"/>
-				<d r="106" g="95" b="91"/>
-				<h r="0" g="0" b="0"/>
-			</text_color>
-		</btn_spectator>
-	</team_selector>
-</window>
--->

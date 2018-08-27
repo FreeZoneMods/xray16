@@ -29,13 +29,13 @@
 		<texture id="mp_team_green_addon_uk" x="385" y="55" width="125" height="319" />
 	</file>
    
-	<file name="ui\tsm\ui_models_stalkers">
+	<file name="ui\rp\ui_models_stalkers">
 		<texture id="mp_stalker_neutral_1" x="0" y="0" width="256" height="512" />
 		<texture id="mp_stalker_neutral_2" x="240" y="0" width="256" height="512" />
 		<texture id="mp_stalker_neutral_3" x="478" y="0" width="256" height="512" />
 		<texture id="mp_stalker_neutral_4" x="742" y="0" width="256" height="512" />
     </file>
-	<file name="ui\tsm\ui_models_freedom">
+	<file name="ui\rp\ui_models_freedom">
 		<texture id="stalker_freedom_1" x="0" y="0" width="256" height="512" />
 		<texture id="stalker_freedom_2" x="240" y="0" width="256" height="512" />
 		<texture id="stalker_freedom_3" x="490" y="0" width="256" height="512" />

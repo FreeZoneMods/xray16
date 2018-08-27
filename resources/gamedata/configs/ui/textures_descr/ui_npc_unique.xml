@@ -127,7 +127,7 @@
     <texture id="ui_npc_small_dolg_2_face_2" x="670" y="868" width="145" height="82" />
 
    </file>
-    <file name="ui\tsm\ui_skin_icons"> 
+    <file name="ui\rp\ui_skin_icons"> 
 		<texture id="icon_t1_s0" x="0" y="0" width="165" height="108" /> 
 		<texture id="icon_t1_s1" x="165" y="0" width="165" height="108" /> 
 	</file>   

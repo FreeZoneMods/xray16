@@ -1,7 +1,7 @@
 <!--<window>
 	<skin_selector x="300" y="85" width="700" height="636">
 		<background x="0" y="0" width="700" height="636" stretch="1">
-			<texture>ui_tsm_skin_selection_window</texture>
+			<texture>ui_rp_skin_selection_window</texture>
 		</background>
 		<caption x="227" y="55" width="270" height="32">
 			<text font="graffiti32" r="200" g="200" b="200" align="c" vert_align="c">mp_skin_selection</text>
@@ -127,10 +127,10 @@
 
 <window>
 	<skin_selector x="300" y="85" width="700" height="636">
-		<background x="0" y="0" width="700" height="636" stretch="1">
-			<texture>ui_tsm_skin_selection_window</texture>
+		<background x="48" y="39" width="620" height="563" stretch="1">
+			<texture>ui_rp_skin_selection_window</texture>
 		</background>
-		<caption x="227" y="55" width="270" height="32">
+		<caption x="231" y="55" width="270" height="32">
 			<text font="graffiti32" r="200" g="200" b="200" align="c" vert_align="c">mp_skin_selection</text>
 		</caption>
 		<image_frames x="44" y="145" width="656" height="273" stretch="1">
@@ -203,7 +203,7 @@
 			</auto_static>
 		</image_3>-->
 
-		<btn_back x="148" y="506" width="110" height="28" stretch="1">
+		<btn_back x="155" y="507" width="110" height="28" stretch="1">
 			<texture>ui_inGame2_Mp_bigbuttone</texture>
 			<text font="graffiti19" align="c" a="170">mp_back</text>
 			<text_color>
@@ -213,7 +213,7 @@
 				<h r="0" g="0" b="0"/>
 			</text_color>
 		</btn_back>
-		<btn_autoselect x="312" y="506" width="110" height="28" stretch="1">
+		<btn_autoselect x="313" y="507" width="110" height="28" stretch="1">
 			<texture>ui_inGame2_Mp_bigbuttone</texture>
 			<text font="graffiti19" align="c" a="170">mp_auto_select</text>
 			<text_color>
@@ -223,7 +223,7 @@
 				<h r="0" g="0" b="0"/>
 			</text_color>
 		</btn_autoselect>
-		<btn_spectator x="472" y="506" width="110" height="28" stretch="1">
+		<btn_spectator x="469" y="507" width="110" height="28" stretch="1">
 			<texture>ui_inGame2_Mp_bigbuttone</texture>
 			<text font="graffiti19" align="c" a="170">mp_spectator</text>
 			<text_color>
