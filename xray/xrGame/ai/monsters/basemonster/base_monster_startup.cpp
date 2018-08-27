@@ -384,6 +384,7 @@ void CBaseMonster::net_Destroy()
 	
 	m_pPhysics_support->in_NetDestroy	();
 
+	if(Level().IsServer())
 	monster_squad().remove_member		((u8)g_Team(),(u8)g_Squad(),(u8)g_Group(),this);
 
 #ifdef DEBUG

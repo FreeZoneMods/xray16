@@ -818,6 +818,7 @@ void CLevel::script_register(lua_State *L)
 	[
 		def("command_line",						&command_line),
 		def("IsGameTypeSingle",					&IsGameTypeSingle),
+		def("OnClient",							&OnClient),
 		def("IsDynamicMusic",					&IsDynamicMusic),
 		def("render_get_dx_level",				&render_get_dx_level),
 		def("IsImportantSave",					&IsImportantSave)
