@@ -54,6 +54,7 @@
 #include "../../profiler.h"
 #include "../../BoneProtections.h"
 #include "../../stalker_animation_names.h"
+#include "../../animation_movement_controller.h"
 #include "../../stalker_decision_space.h"
 #include "../../agent_member_manager.h"
 #include "../../location_manager.h"
@@ -85,6 +86,7 @@ CAI_Stalker::CAI_Stalker			() :
 	m_boneHitProtection				= NULL;
 	m_power_fx_factor				= flt_max;
 	m_wounded						= false;
+
 #ifdef DEBUG
 	m_debug_planner					= 0;
 	m_dbg_hud_draw					= false;
@@ -111,7 +113,8 @@ void CAI_Stalker::reinit			()
 //	movement().reinit				();
 
 	//загрузка спецевической звуковой схемы для сталкера согласно m_SpecificCharacter
-	sound().sound_prefix			(SpecificCharacter().sound_voice_prefix());
+	LPCSTR                            sound_pack = pSettings->r_string(cNameSect(), "sound_pack");
+	sound().sound_prefix(sound_pack);
 
 #ifdef DEBUG_MEMORY_MANAGER
 	u32								start = 0;
@@ -472,7 +475,7 @@ void CAI_Stalker::Die				(CObject* who)
 
 	if(m_death_sound_enabled)
 	{
-		sound().set_sound_mask		((u32)eStalkerSoundMaskDie);
+		//sound().set_sound_mask		((u32)eStalkerSoundMaskDie);
 		if (is_special_killer(who))
 			sound().play			(eStalkerSoundDieInAnomaly);
 		else
@@ -495,9 +498,9 @@ void CAI_Stalker::Die				(CObject* who)
 
 	CWeapon							*weapon = smart_cast<CWeapon*>(active_item);
 	if (!weapon)
-		return;
+		return;   
 
-	{
+	if (IsGameTypeSingle()){
 		TIItemContainer::iterator	I = inventory().m_all.begin();
 		TIItemContainer::iterator	E = inventory().m_all.end();
 		for ( ; I != E; ++I) {
@@ -706,14 +709,12 @@ void CAI_Stalker::net_Export		(NET_Packet& P)
 	// export last known packet
 	R_ASSERT						(!NET.empty());
 	net_update& N					= NET.back();
-//	P.w_float						(inventory().TotalWeight());
-//	P.w_u32							(m_dwMoney);
 
 	P.w_float						(GetfHealth());
 
-	P.w_u32							(N.dwTimeStamp);
-	P.w_u8							(0);
-	P.w_vec3						(N.p_pos);
+	P.w_u32							(Level().timeServer());
+	P.w_u8							(inventory().GetActiveSlot());
+	P.w_vec3						(Position());
 	P.w_float /*w_angle8*/						(N.o_model);
 	P.w_float /*w_angle8*/						(N.o_torso.yaw);
 	P.w_float /*w_angle8*/						(N.o_torso.pitch);
@@ -721,25 +722,16 @@ void CAI_Stalker::net_Export		(NET_Packet& P)
 	P.w_u8							(u8(g_Team()));
 	P.w_u8							(u8(g_Squad()));
 	P.w_u8							(u8(g_Group()));
-	
 
+	inventory().GetActiveSlot();
 	float					f1 = 0;
 	GameGraph::_GRAPH_ID		l_game_vertex_id = ai_location().game_vertex_id();
 	P.w						(&l_game_vertex_id,			sizeof(l_game_vertex_id));
 	P.w						(&l_game_vertex_id,			sizeof(l_game_vertex_id));
-//	P.w						(&f1,						sizeof(f1));
-//	P.w						(&f1,						sizeof(f1));
-	if (ai().game_graph().valid_vertex_id(l_game_vertex_id)) {
-		f1					= Position().distance_to	(ai().game_graph().vertex(l_game_vertex_id)->level_point());
-		P.w					(&f1,						sizeof(f1));
-		f1					= Position().distance_to	(ai().game_graph().vertex(l_game_vertex_id)->level_point());
-		P.w					(&f1,						sizeof(f1));
-	}
-	else {
-		P.w					(&f1,						sizeof(f1));
-		P.w					(&f1,						sizeof(f1));
-	}
 
+	P.w_float					(movement().m_head.current.yaw);
+	P.w_float					(movement().m_head.current.pitch);
+	
 	P.w_stringZ						(m_sStartDialog);
 }
 
@@ -749,17 +741,16 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	net_update						N;
 
 	u8 flags;
-
-	P.r_float						();
-	set_money						( P.r_u32(), false );
+	u8 wpn;
 
 	float health;
 	P.r_float			(health);
 	SetfHealth			(health);
 //	fEntityHealth = health;
+	flags = 0;
 
 	P.r_u32							(N.dwTimeStamp);
-	P.r_u8							(flags);
+	P.r_u8							(wpn);
 	P.r_vec3						(N.p_pos);
 	P.r_float /*r_angle8*/						(N.o_model);
 	P.r_float /*r_angle8*/						(N.o_torso.yaw);
@@ -768,7 +759,6 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	id_Team							= P.r_u8();
 	id_Squad						= P.r_u8();
 	id_Group						= P.r_u8();
-
 
 	GameGraph::_GRAPH_ID				graph_vertex_id = movement().game_dest_vertex_id();
 	P.r								(&graph_vertex_id,		sizeof(GameGraph::_GRAPH_ID));
@@ -779,11 +769,28 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 		NET.push_back				(N);
 		NET_WasInterpolating		= TRUE;
 	}
+	float rotation_yaw;
+	float rotation_pitch;
+	P.r_float						(rotation_yaw);
+	P.r_float						(rotation_pitch);
 
-	P.r_float						();
-	P.r_float						();
+	movement().m_head.current.yaw = rotation_yaw;
+	movement().m_head.current.pitch = rotation_pitch;
 
 	P.r_stringZ						(m_sStartDialog);
+
+	inventory().SetActiveSlot(wpn);
+
+//	movement().m_head.current.yaw = N.o_torso.yaw;
+//	movement().m_head.current.pitch = N.o_torso.pitch;
+//	movement().m_head.target.yaw = N.o_torso.yaw;
+//	movement().m_head.target.pitch = N.o_torso.pitch;
+
+	SPHNetState state;
+	state.position = N.p_pos;
+	PHGetSyncItem(0)->set_State(state);
+
+	make_Interpolation();
 
 	setVisible						(TRUE);
 	setEnabled						(TRUE);
@@ -831,6 +838,9 @@ void CAI_Stalker::destroy_anim_mov_ctrl	()
 		return;
 	
 	if (getDestroy())
+		return;
+
+	if (Level().IsClient())
 		return;
 	
 	movement().m_head.current.yaw	= movement().m_body.current.yaw;
@@ -918,6 +928,7 @@ void CAI_Stalker::UpdateCL()
 #ifdef DEBUG
 	debug_text	();
 #endif
+
 	STOP_PROFILE
 	STOP_PROFILE
 }
@@ -995,57 +1006,60 @@ void CAI_Stalker::shedule_Update		( u32 DT )
 	STOP_PROFILE
 	
 	if (Remote())		{
-	} else {
+	}
+	else {
 		// here is monster AI call
-		VERIFY							(_valid(Position()));
-		m_fTimeUpdateDelta				= dt;
-		Device.Statistic->AI_Think.Begin	();
+		VERIFY(_valid(Position()));
+		m_fTimeUpdateDelta = dt;
+		Device.Statistic->AI_Think.Begin();
 		if (GetScriptControl())
-			ProcessScripts				();
+			ProcessScripts();
 		else
 #ifdef DEBUG
 			if (Device.dwFrame > (spawn_time() + g_AI_inactive_time))
 #endif
-				Think					();
-		m_dwLastUpdateTime				= Device.dwTimeGlobal;
-		Device.Statistic->AI_Think.End	();
-		VERIFY							(_valid(Position()));
+				Think();
+		m_dwLastUpdateTime = Device.dwTimeGlobal;
+		Device.Statistic->AI_Think.End();
+		VERIFY(_valid(Position()));
 
 		// Look and action streams
 		float							temp = conditions().health();
-		if (temp > 0) {
-			START_PROFILE("stalker/schedule_update/feel_touch")
-			Fvector C; float R;
-			Center(C);
-			R = Radius();
-			feel_touch_update		(C,R);
-			STOP_PROFILE
+		if (Level().IsServer()) {
+			if (temp > 0) {
+				START_PROFILE("stalker/schedule_update/feel_touch")
+					Fvector C; float R;
+				Center(C);
+				R = Radius();
+				feel_touch_update(C, R);
+				STOP_PROFILE
 
-			START_PROFILE("stalker/schedule_update/net_update")
-			net_update				uNext;
-			uNext.dwTimeStamp		= Level().timeServer();
-			uNext.o_model			= movement().m_body.current.yaw;
-			uNext.o_torso			= movement().m_head.current;
-			uNext.p_pos				= vNewPosition;
-			uNext.fHealth			= GetfHealth();
-			NET.push_back			(uNext);
-			STOP_PROFILE
-		}
-		else 
-		{
-			START_PROFILE("stalker/schedule_update/net_update")
-			net_update			uNext;
-			uNext.dwTimeStamp	= Level().timeServer();
-			uNext.o_model		= movement().m_body.current.yaw;
-			uNext.o_torso		= movement().m_head.current;
-			uNext.p_pos			= vNewPosition;
-			uNext.fHealth		= GetfHealth();
-			NET.push_back		(uNext);
-			STOP_PROFILE
+					START_PROFILE("stalker/schedule_update/net_update")
+					net_update				uNext;
+				uNext.dwTimeStamp = Level().timeServer();
+				uNext.o_model = movement().m_body.current.yaw;
+				uNext.o_torso = movement().m_head.current;
+				uNext.p_pos = vNewPosition;
+				uNext.fHealth = GetfHealth();
+				NET.push_back(uNext);
+				STOP_PROFILE
+			}
+			else
+			{
+				START_PROFILE("stalker/schedule_update/net_update")
+					net_update			uNext;
+				uNext.dwTimeStamp = Level().timeServer();
+				uNext.o_model = movement().m_body.current.yaw;
+				uNext.o_torso = movement().m_head.current;
+				uNext.p_pos = vNewPosition;
+				uNext.fHealth = GetfHealth();
+				NET.push_back(uNext);
+				STOP_PROFILE
+			}
 		}
 	}
-	VERIFY				(_valid(Position()));
-
+		VERIFY(_valid(Position()));
+	
 	START_PROFILE("stalker/schedule_update/inventory_owner")
 	UpdateInventoryOwner(DT);
 	STOP_PROFILE
@@ -1147,7 +1161,7 @@ void CAI_Stalker::Think			()
 
 void CAI_Stalker::SelectAnimation(const Fvector &view, const Fvector &move, float speed)
 {
-	if (!Device.Paused())
+	if (!Device.Paused() && Level().IsServer())
 		animation().update();
 }
 
@@ -1383,4 +1397,29 @@ bool CAI_Stalker::can_fire_right_now							( )
 bool CAI_Stalker::unlimited_ammo()
 {
 	return infinite_ammo() && CObjectHandler::planner().object().g_Alive();
+}
+
+BOOL CAI_Stalker::net_Relevant()
+{
+	return TRUE;
+}
+
+void CAI_Stalker::OnAnimationChange() {
+	if (Level().IsServer()) {
+		NET_Packet MovePacket;
+		MotionID mid = animation().torso().animation();
+		MotionID mid1 = animation().head().animation();
+		MotionID mid2 = animation().legs().animation();
+		
+		if (mid.valid() && mid1.valid() && mid2.valid()) {
+			MovePacket.w_begin(M_STALKER_ANM);
+			MovePacket.w_u16(ID());
+			MovePacket.w(&mid, sizeof(&mid));
+			MovePacket.w(&mid1, sizeof(&mid1));
+			MovePacket.w(&mid2, sizeof(&mid2));
+			Msg("Sending anim");
+
+			Level().Server->SendBroadcast(BroadcastCID, MovePacket);
+		}
+	}
 }

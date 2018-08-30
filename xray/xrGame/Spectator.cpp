@@ -140,6 +140,7 @@ void CSpectator::UpdateCL()
 					for (u32 j=0; j<S.groups().size(); ++j){
 						const CGroupHierarchyHolder& G = S.group(j);
 						for (u32 k=0; k<G.members().size(); ++k){
+							Msg("Member: %s", G.members()[k]->Name());
 							CActor* A = smart_cast<CActor*>(G.members()[k]);
 							if (A/*&&A->g_Alive()*/){
 								if(idx==look_idx){

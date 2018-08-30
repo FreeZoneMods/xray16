@@ -350,7 +350,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp )
 		}
 		*/
 
-		if ( IsGameTypeSingle() )
+		if ( !IsGameTypeSingle() )
 		{
 			CGameTask* ml_task = Level().GameTaskManager().HasGameTask( this, true );
 			if ( ml_task )
@@ -394,7 +394,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp )
 			map->AttachChild	(sp);
 		}
 
-		if ( IsGameTypeSingle() )
+		if ( !IsGameTypeSingle() )
 		{
 			CMapSpot* s = GetSpotBorder( sp );
 			if ( s )
@@ -526,7 +526,7 @@ void CMapLocation::UpdateSpotPointer(CUICustomMap* map, CMapSpotPointer* sp )
 		Fvector ttt;
 		ttt.set		(tt.x, 0.0f, tt.y);
 
-		if (IsGameTypeSingle())
+		if (!IsGameTypeSingle())
 		{
 			float dist_to_target = Level().CurrentEntity()->Position().distance_to(ttt);
 			CGameTask*	task = Level().GameTaskManager().HasGameTask(this, true);

@@ -179,7 +179,7 @@ public:
 	virtual	void						reinit								();
 	virtual void						reload								(LPCSTR	section );				
 	virtual void						LoadSounds							(LPCSTR section );
-	
+	virtual	void						OnAnimationChange					();
 	virtual BOOL						net_Spawn							(CSE_Abstract* DC);
 	virtual void						net_Export							(NET_Packet& P);
 	virtual void						net_Import							(NET_Packet& P);
@@ -187,6 +187,7 @@ public:
 	virtual void						net_Save							(NET_Packet& P);
 	virtual	BOOL						net_SaveRelevant					();
 	virtual void						net_Relcase							(CObject*	 O);
+	virtual BOOL						net_Relevant						();
 
 	//save/load server serialization
 	virtual void						save								(NET_Packet &output_packet);

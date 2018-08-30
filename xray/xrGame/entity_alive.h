@@ -96,6 +96,7 @@ protected:
 	DEFINE_VECTOR				(CWound*, WOUND_VECTOR, WOUND_VECTOR_IT);
 	WOUND_VECTOR				m_ParticleWounds;
 
+	virtual void            OnEvent(NET_Packet& P, u16 type);
 
 	virtual void				StartFireParticles(CWound* pWound);
 	virtual void				UpdateFireParticles();

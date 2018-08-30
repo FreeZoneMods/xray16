@@ -46,16 +46,10 @@ void CBaseMonster::net_Export(NET_Packet& P)
 	//	P.w						(&m_fGoingSpeed,			sizeof(m_fGoingSpeed));
 	//	P.w						(&m_fGoingSpeed,			sizeof(m_fGoingSpeed));
 	float					f1 = 0;
-	if (ai().game_graph().valid_vertex_id(l_game_vertex_id)) {
-		f1 = Position().distance_to(ai().game_graph().vertex(l_game_vertex_id)->level_point());
-		P.w(&f1, sizeof(f1));
-		f1 = Position().distance_to(ai().game_graph().vertex(l_game_vertex_id)->level_point());
-		P.w(&f1, sizeof(f1));
-	}
-	else {
-		P.w(&f1, sizeof(f1));
-		P.w(&f1, sizeof(f1));
-	};
+
+	P.w_float(movement().m_body.current.yaw);
+	P.w_float(movement().m_body.current.pitch);
+
 
 	//Take current anm on server
 	u32 anm_ = (u32)anim().GetCurAnim();
@@ -91,11 +85,9 @@ void CBaseMonster::net_Import(NET_Packet& P)
 		NET_WasInterpolating = TRUE;
 	}
 
-	//	P.r						(&m_fGoingSpeed,			sizeof(m_fGoingSpeed));
-	//	P.r						(&m_fGoingSpeed,			sizeof(m_fGoingSpeed));
 	float					f1 = 0;
-		P.r(&f1, sizeof(f1));
-		P.r(&f1, sizeof(f1));
+	P.r_float(movement().m_body.current.yaw);
+	P.r_float(movement().m_body.current.pitch);
 
 	EMotionAnim anm;
 	u32 anm_id;
@@ -109,6 +101,7 @@ void CBaseMonster::net_Import(NET_Packet& P)
 	SPHNetState state;
 	state.position = N.p_pos;
 	PHGetSyncItem(0)->set_State(state);
+	make_Interpolation();
 
 	setVisible				(TRUE);
 	setEnabled				(TRUE);

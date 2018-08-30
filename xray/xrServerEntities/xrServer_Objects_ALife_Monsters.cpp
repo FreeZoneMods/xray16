@@ -2101,15 +2101,15 @@ void CSE_ALifeHumanStalker::STATE_Read		(NET_Packet &tNetPacket, u16 size)
 
 void CSE_ALifeHumanStalker::UPDATE_Write	(NET_Packet &tNetPacket)
 {
-	inherited1::UPDATE_Write	(tNetPacket);
-	inherited2::UPDATE_Write	(tNetPacket);
+	inherited1::UPDATE_Write(tNetPacket);
+	inherited2::UPDATE_Write(tNetPacket);
 	tNetPacket.w_stringZ		(m_start_dialog);
 }
 
 void CSE_ALifeHumanStalker::UPDATE_Read		(NET_Packet &tNetPacket)
 {
-	inherited1::UPDATE_Read		(tNetPacket);
-	inherited2::UPDATE_Read		(tNetPacket);
+	inherited1::UPDATE_Read(tNetPacket);
+	inherited2::UPDATE_Read(tNetPacket);
 	tNetPacket.r_stringZ		(m_start_dialog);
 }
 
@@ -2127,6 +2127,10 @@ void CSE_ALifeHumanStalker::FillProps		(LPCSTR pref, PropItemVec& values)
 }
 #endif // #ifndef XRGAME_EXPORTS
 
+BOOL CSE_ALifeHumanStalker::Net_Relevant()
+{
+	return g_Alive();
+}
 //////////////////////////////////////////////////////////////////////////
 // CSE_ALifeOnlineOfflineGroup
 //////////////////////////////////////////////////////////////////////////

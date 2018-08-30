@@ -977,3 +977,8 @@ Fvector CEntityAlive::get_last_local_point_on_mesh	( Fvector const& last_point, 
 	XFORM().transform_tiny				( result, Fvector(result) );
 	return								result;
 }
+
+void CEntityAlive::OnEvent(NET_Packet& P, u16 type)
+{
+	inherited::OnEvent(P, type);
+}

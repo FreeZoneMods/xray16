@@ -17,6 +17,8 @@
 #include "message_filter.h"
 #include "../xrphysics/iphworld.h"
 
+#include "ai/stalker/ai_stalker.h"
+
 extern LPCSTR map_ver_string;
 LPSTR remove_version_option(LPCSTR opt_str, LPSTR new_opt_str, u32 new_opt_str_size)
 {
@@ -269,6 +271,30 @@ void CLevel::ClientReceive()
 				NODEFAULT;
 			}
 			break;
+		case M_STALKER_ANM:
+		{
+				u16 ID = P->r_u16();
+				MotionID m_id;
+				MotionID m_id1;
+				MotionID m_id2;
+
+				P->r(&m_id, sizeof(&m_id));
+				P->r(&m_id1, sizeof(&m_id1));
+				P->r(&m_id2, sizeof(&m_id2));
+
+				if (!m_id.valid()) break;
+				if (!m_id1.valid()) break;
+				if (!m_id2.valid()) break;
+
+				if (OnClient() && game_configured) {
+					CAI_Stalker* Stalker = smart_cast<CAI_Stalker*>(Objects.net_Find(ID));
+					if (0 == Stalker)		break;
+					IKinematicsAnimated	*KA = smart_cast<IKinematicsAnimated*>(Stalker->Visual());
+					KA->PlayCycle(m_id);
+					KA->PlayCycle(m_id1);
+					KA->PlayCycle(m_id2);
+				}
+		}break;
 		case M_CHAT:
 			{
 				/*if (!game_configured)

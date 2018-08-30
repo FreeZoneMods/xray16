@@ -157,6 +157,8 @@ void CStalkerAnimationPair::play			(IKinematicsAnimated *skeleton_animated, Play
 	if (m_step_dependence)
 		m_object->CStepManager::on_animation_start(animation(),blend());
 
+	m_object->OnAnimationChange();
+
 #ifdef DEBUG
 	if (psAI_Flags.is(aiAnimation)) {
 		CMotionDef			*motion = skeleton_animated->LL_GetMotionDef(animation());
@@ -278,6 +280,8 @@ void CStalkerAnimationPair::on_animation_end	()
 	Callbacks::const_iterator	e = callbacks.end();
 	for ( ; i != e; ++i)
 		(*i)					();
+
+	m_object->OnAnimationChange();
 }
 
 void CStalkerAnimationPair::target_matrix			(Fvector const &position, Fvector const &direction)
