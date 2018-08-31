@@ -1,0 +1,10 @@
+[map_usage]
+ver=1.000000
+teamdeathmatch
+;
+[level_map]
+bound_rect = -142.383152,-170.394288,133.194304,-32.605530
+texture = map\map_selo
+;
+;
+[sub_level_map]

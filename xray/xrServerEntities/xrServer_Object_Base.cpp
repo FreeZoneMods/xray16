@@ -265,6 +265,8 @@ enum EGameTypes
 	GAME_CAPTURETHEARTEFACT				= 8,
 	//-----m4d_RP
 	GAME_ROLEPLAY						= 9,
+	//------m4d_Defence
+	GAME_DEFENCE						= 10,
 
 	//identifiers in range [100...254] are registered for script game type
 	GAME_DUMMY							= 255	// temporary game type
@@ -423,6 +425,7 @@ Flags16&	CSE_Abstract::flags			()
 }
 
 //----m4d_RP
+//------m4d_Defence
 xr_token game_types[]=
 {
 	{ "any_game",				eGameIDNoGame				},
@@ -432,8 +435,7 @@ xr_token game_types[]=
 	{ "artefacthunt",			eGameIDArtefactHunt			},
 	{ "capture_the_artefact",	eGameIDCaptureTheArtefact	},
 	{ "roleplay",				eGameIDRolePlay				},
-	//eGameIDDominationZone
-	//eGameIDTeamDominationZone
+	{ "defence",				eGameIDDefence				},
 	{ 0,				0				}
 };
 

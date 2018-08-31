@@ -75,16 +75,12 @@ game_cl_RolePlay::game_cl_RolePlay()
 }
 void game_cl_RolePlay::Init()
 {
-	//	pInventoryMenu	= xr_new<CUIInventoryWnd>();
-	//	pPdaMenu = xr_new<CUIPdaWnd>();
-	//	pMapDesc = xr_new<CUIMapDesc>();
-
 	//----m4d_pda
 	if (!g_dedicated_server)
 	{
 		pPdaMenu = new CUIPdaWnd();
 	}
-	//-----------------------------------------------------------
+	//----------------------------------------------
 	LoadTeamData(GetTeamMenu(1));
 	LoadTeamData(GetTeamMenu(2));
 	//-------------------------------------------m4d
@@ -118,8 +114,6 @@ game_cl_RolePlay::~game_cl_RolePlay()
 
 	//------m4d_pda
 	xr_delete(pPdaMenu);
-
-	//	xr_delete(pInventoryMenu);
 }
 
 void game_cl_RolePlay::net_import_state(NET_Packet& P)
@@ -607,7 +601,7 @@ char* game_cl_RolePlay::getTeamSection(int Team)
 		case 7: return "roleplay_team7";
 		case 8: return "roleplay_team8";
 		case 9: return "roleplay_team9";
-	default: return NULL;
+		default: return NULL;
 	};
 };
 
@@ -1077,6 +1071,7 @@ bool game_cl_RolePlay::OnKeyboardPress(int key)
 
 bool game_cl_RolePlay::IsEnemy(game_PlayerState* ps) //---------m4d_?  то враг
 {
+	//if (local_player->team == 1 && ps->team == 6) return true
 	if (!local_player) return false;
 	return local_player->team != ps->team;
 };
@@ -1307,19 +1302,19 @@ void game_cl_RolePlay::OnSwitchPhase(u32 old_phase, u32 new_phase)
 	inherited::OnSwitchPhase(old_phase, new_phase);
 	switch (new_phase)
 	{
-	case GAME_PHASE_TEAM1_SCORES:
-	{
-		if (Level().CurrentViewEntity())
-			PlaySndMessage(ID_TEAM1_WIN);
-	}break;
-	case GAME_PHASE_TEAM2_SCORES:
-	{
-		if (Level().CurrentViewEntity())
-			PlaySndMessage(ID_TEAM2_WIN);
-	}break;
-	default:
-	{
-	}break;
+		case GAME_PHASE_TEAM1_SCORES:
+		{
+			if (Level().CurrentViewEntity())
+				PlaySndMessage(ID_TEAM1_WIN);
+		}break;
+		case GAME_PHASE_TEAM2_SCORES:
+		{
+			if (Level().CurrentViewEntity())
+				PlaySndMessage(ID_TEAM2_WIN);
+		}break;
+		default:
+		{
+		}break;
 	};
 }
 

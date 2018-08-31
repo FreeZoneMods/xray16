@@ -164,6 +164,9 @@ EGameIDs CUIMapList::GetCurGameType()
 		text = combo_ms->GetText();
 		if (0 == xr_strcmp(text, CStringTable().translate(get_token_name(g_GameModes,eGameIDDeathmatch))) )
 			return	eGameIDDeathmatch;
+		//----m4d_Defence
+		else if (0 == xr_strcmp(text, CStringTable().translate(get_token_name(g_GameModes, eGameIDDefence))))
+			return	eGameIDDefence;
 		else if (0 == xr_strcmp(text, CStringTable().translate(get_token_name(g_GameModes,eGameIDTeamDeathmatch))) )
 			return	eGameIDTeamDeathmatch;
 		//-----m4d_RP
@@ -181,6 +184,9 @@ EGameIDs CUIMapList::GetCurGameType()
 		text = spin_ms->GetTokenText();
 		if (0 == xr_strcmp(text, get_token_name(g_GameModes,eGameIDDeathmatch)) )
 			return	eGameIDDeathmatch;
+		//----m4d_Defence
+		else if (0 == xr_strcmp(text, get_token_name(g_GameModes, eGameIDDefence)))
+			return	eGameIDDefence;
 		else if (0 == xr_strcmp(text, get_token_name(g_GameModes,eGameIDTeamDeathmatch)) )
 			return	eGameIDTeamDeathmatch;
 		//----m4d_RP

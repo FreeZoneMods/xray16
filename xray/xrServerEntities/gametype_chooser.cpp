@@ -12,6 +12,8 @@ enum ERPGameType
 	rpgtGameTeamDeathmatch,
 	//----m4d_RP
 	rpgtGameRolePlay,
+	//---m4d_Defence
+	rpgtGameDefence,
 	rpgtGameArtefactHunt,
 	rpgtGameCaptureTheArtefact,
 	rpgtGameCount,
@@ -24,6 +26,8 @@ xr_token rpoint_game_type[]=
 	{ "TeamDeathmatch",		rpgtGameTeamDeathmatch		},
 	//----m4d_RP
 	{ "RolePlay",			rpgtGameRolePlay			},
+	//---m4d_Defence (RPоинты)
+	{ "Defence",			rpgtGameDefence				},
 	{ "ArtefactHunt",		rpgtGameArtefactHunt		},
 	{ "CaptureTheArtefact",	rpgtGameCaptureTheArtefact	},
 	{ 0,					0	}

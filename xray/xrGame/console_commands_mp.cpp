@@ -15,6 +15,8 @@
 #include "game_sv_artefacthunt.h"
 //---m4d_RP
 #include "game_sv_roleplay.h"
+//---m4d_Defence
+#include "game_sv_defence.h"
 #include "game_sv_capture_the_artefact.h"
 #include "date_time.h"
 #include "game_cl_base_weapon_usage_statistic.h"
@@ -1511,9 +1513,20 @@ public:
 		if (!OnServer())		return;
 
 		game_sv_Deathmatch* gameDM = smart_cast<game_sv_Deathmatch *>(Level().Server->game);
-		if (!gameDM) return;
-
-		gameDM->StartAnomalies( atol(args) );
+		//---m4d_Defence
+		game_sv_Defence* gameDF = smart_cast<game_sv_Defence *>(Level().Server->game);
+		if (gameDM)
+		{
+			gameDM->StartAnomalies(atol(args));
+		}
+		else if (gameDF)
+		{
+			gameDF->StartAnomalies(atol(args));
+		}
+		else
+		{
+			return;
+		}
 	};
 
 	virtual void	Info	(TInfo& I)	{xr_strcpy(I,"Activating pointed Anomaly set"); }

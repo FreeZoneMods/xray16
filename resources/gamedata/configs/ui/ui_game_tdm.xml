@@ -1,9 +1,9 @@
 <w>
-	<team1_icon x="315" y="0" width="140" height="32" stretch="1"><!--
+	<team1_icon x="280" y="0" width="175" height="32"><!--
 		<texture>ui_inGame2_Mp_HUD_left_panel</texture>
         <text align="c" vert_align="c" font="graffiti32" r="0" g="255" b="0">ui_st_team1_name</text>-->
 	</team1_icon>
-	<team2_icon x="546" y="0" width="140" height="32" stretch="1"><!--
+	<team2_icon x="569" y="0" width="175" height="32"><!--
 		<texture>ui_inGame2_Mp_HUD_right_panel</texture>
         <text x="16" align="c" vert_align="c" font="graffiti32" r="0" g="0" b="255">ui_st_team2_name</text>-->
 	</team2_icon>
@@ -36,10 +36,10 @@
         <text align="c" vert_align="c" font="graffiti32" r="0" g="95" b="0">ui_st_team9_name</text>-->
 	</team9_icon>	
 
-	<team1_score x="467" y="0" width="67" height="41">
+	<team1_score x="470" y="0" width="84" height="41">
 		<text align="l" vert_align="c" font="graffiti32" r="0" g="255" b="0"/>
 	</team1_score>
-	<team2_score x="467" y="0" width="67" height="41">
+	<team2_score x="470" y="0" width="84" height="41">
 		<text align="r" vert_align="c" font="graffiti32" r="0" g="0" b="255"/>
 	</team2_score>
 	<team3_score x="510" y="0" width="67" height="41">

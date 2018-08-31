@@ -19,6 +19,8 @@ xr_token g_GameModes	[] = {
 	{ "st_capture_the_artefact",	eGameIDCaptureTheArtefact	},
 	//_m4d_RP
 	{ "st_roleplay",				eGameIDRolePlay				},
+	//----m4d_Defence
+	{ "st_defence",					eGameIDDefence				},
 	{ 0,							0							}
 };
 

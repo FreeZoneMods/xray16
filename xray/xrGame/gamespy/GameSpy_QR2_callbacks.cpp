@@ -287,15 +287,15 @@ int __cdecl callback_count(qr2_key_type keytype, void *userdata)
 		{
 			if (!pServer->game) return 0;
 			switch (pServer->game->Type()) {
-				case eGameIDDominationZone:
 				case eGameIDDeathmatch:
+					//----m4d_Defence
+				case eGameIDDefence:
 					return 1;
 				case eGameIDTeamDeathmatch:
 					//---m4d_RP (тут возможно надо 9)
 				case eGameIDRolePlay:
 				case eGameIDArtefactHunt:
 				case eGameIDCaptureTheArtefact:
-				case eGameIDTeamDominationZone:
 					return 2;
 				default : 
 					R_ASSERT(0);

@@ -88,6 +88,8 @@ void CUIStatsPlayerList::Init(CUIXml& xml_doc, LPCSTR path)
 		if (!m_bSpectator || m_bStatus_mode)
             InitTeamHeader(xml_doc, path);
 	case eGameIDDeathmatch:
+		//----m4d_Defence
+	case eGameIDDefence:
 		InitHeader(xml_doc, path);
 	default:
 		break;

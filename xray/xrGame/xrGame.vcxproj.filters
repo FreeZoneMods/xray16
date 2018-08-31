@@ -2503,6 +2503,12 @@
     <Filter Include="UI\Multiplayer\team_skin_info\SkinSelector">
       <UniqueIdentifier>{aaae86a6-6c05-41e9-b8a2-69efb78bf4e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Server\Games\client\defence">
+      <UniqueIdentifier>{c34accd4-129c-4a5f-a772-6f54eb301c26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Server\Games\server\defence">
+      <UniqueIdentifier>{599c4bf4-dd95-4888-afd2-ba1e8ab977a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mt_config.h">
@@ -7407,6 +7413,12 @@
     <ClInclude Include="ui\UISkinSelector.h">
       <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
     </ClInclude>
+    <ClInclude Include="game_cl_defence.h">
+      <Filter>Core\Server\Games\client\defence</Filter>
+    </ClInclude>
+    <ClInclude Include="game_sv_defence.h">
+      <Filter>Core\Server\Games\server\defence</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -11071,6 +11083,12 @@
     </ClCompile>
     <ClCompile Include="ui\UISkinSelector.cpp">
       <Filter>UI\Multiplayer\team_skin_info\SkinSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="game_cl_defence.cpp">
+      <Filter>Core\Server\Games\client\defence</Filter>
+    </ClCompile>
+    <ClCompile Include="game_sv_defence.cpp">
+      <Filter>Core\Server\Games\server\defence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

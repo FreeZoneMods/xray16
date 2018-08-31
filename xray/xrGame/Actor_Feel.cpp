@@ -261,7 +261,8 @@ void	CActor::Check_for_AutoPickUp()
 		if (APU_Box.Pick(pIItem->object().Position(), pIItem->object().Position()))
 		{
 			//---m4d_RP
-			if (GameID() == eGameIDDeathmatch || GameID() == eGameIDTeamDeathmatch || GameID() == eGameIDRolePlay)
+			//---m4d_Defence
+			if (GameID() == eGameIDDeathmatch || GameID() == eGameIDTeamDeathmatch || GameID() == eGameIDRolePlay || GameID() == eGameIDDefence)
 			{
 				if (pIItem->BaseSlot() == INV_SLOT_2 || pIItem->BaseSlot() == INV_SLOT_3 )
 				{
