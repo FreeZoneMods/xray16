@@ -18,6 +18,9 @@
 #include "../xrphysics/iphworld.h"
 
 #include "ai/stalker/ai_stalker.h"
+#include "ai/stalker/ai_stalker_space.h"
+#include "ai/monsters/basemonster/base_monster.h"
+#include "sound_player.h"
 
 extern LPCSTR map_ver_string;
 LPSTR remove_version_option(LPCSTR opt_str, LPSTR new_opt_str, u32 new_opt_str_size)
@@ -273,27 +276,75 @@ void CLevel::ClientReceive()
 			break;
 		case M_STALKER_ANM:
 		{
-				u16 ID = P->r_u16();
-				MotionID m_id;
-				MotionID m_id1;
-				MotionID m_id2;
+			u16 ID = P->r_u16();
+			MotionID m_id;
+			MotionID m_id1;
+			MotionID m_id2;
 
-				P->r(&m_id, sizeof(&m_id));
-				P->r(&m_id1, sizeof(&m_id1));
-				P->r(&m_id2, sizeof(&m_id2));
+			P->r(&m_id, sizeof(&m_id));
+			P->r(&m_id1, sizeof(&m_id1));
+			P->r(&m_id2, sizeof(&m_id2));
 
-				if (!m_id.valid()) break;
-				if (!m_id1.valid()) break;
-				if (!m_id2.valid()) break;
+			if (!m_id.valid()) break;
+			if (!m_id1.valid()) break;
+			if (!m_id2.valid()) break;
 
-				if (OnClient() && game_configured) {
-					CAI_Stalker* Stalker = smart_cast<CAI_Stalker*>(Objects.net_Find(ID));
-					if (0 == Stalker)		break;
-					IKinematicsAnimated	*KA = smart_cast<IKinematicsAnimated*>(Stalker->Visual());
-					KA->PlayCycle(m_id);
-					KA->PlayCycle(m_id1);
-					KA->PlayCycle(m_id2);
+			if (OnClient() && g_pGameLevel) {
+				CAI_Stalker* Stalker = smart_cast<CAI_Stalker*>(Objects.net_Find(ID));
+				if (0 == Stalker)		break;
+				IKinematicsAnimated	*KA = smart_cast<IKinematicsAnimated*>(Stalker->Visual());
+				KA->PlayCycle(m_id);
+				KA->PlayCycle(m_id1);
+				KA->PlayCycle(m_id2);
+			}
+		}break;
+		case M_STALKER_SND:
+		{
+			u16 ID = P->r_u16();
+			u8 Snd_ID = P->r_u8();
+			u8 flags = P->r_u8();
+
+			if (OnClient() && g_pGameLevel) {
+				CAI_Stalker* Stalker = smart_cast<CAI_Stalker*>(Objects.net_Find(ID));
+				if (0 == Stalker)		break;
+
+				if (flags == 0)
+				Stalker->sound().play(Snd_ID);
+				else {
+					switch (Snd_ID)
+					{
+					case 3: Stalker->sound().play(Snd_ID, 60000, 10000); break;
+					case 8: Stalker->sound().play(Snd_ID, 0, 0, 6000, 4000); break;
+					case 17: Stalker->sound().play(Snd_ID, 3000, 2000); break;
+					case 18: Stalker->sound().play(Snd_ID, 3000, 2000); break;
+					case 20: Stalker->sound().play(Snd_ID,  1500,  1000); break; //this one doens't work as needed
+					case 21: Stalker->sound().play(Snd_ID, 3000, 3000, 10000, 10000); break;
+
+					default: NODEFAULT;
+						break;
+					}
+					
 				}
+			}
+	
+		}break;
+		case M_MONSTER_ANM:
+		{
+			u16 ID = P->r_u16();
+			MotionID m_id;
+
+			P->r(&m_id, sizeof(&m_id));
+
+			if (!m_id.valid()) break;
+
+			if (OnClient() && g_pGameLevel) {
+				CBaseMonster* Monster = smart_cast<CBaseMonster*>(Objects.net_Find(ID));
+				if (0 == Monster)		break;
+				IKinematicsAnimated	*KA = smart_cast<IKinematicsAnimated*>(Monster->Visual());
+				for (u16 i = 0; i < MAX_PARTS; ++i) {
+					KA->PlayCycle(i, m_id);
+				}
+			}
 		}break;
 		case M_CHAT:
 			{

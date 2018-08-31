@@ -112,7 +112,7 @@ void CAI_Stalker::reinit			()
 	animation().reinit				();
 //	movement().reinit				();
 
-	//загрузка спецевической звуковой схемы для сталкера согласно m_SpecificCharacter
+	//загрузка спецефической звуковой схемы для сталкера согласно m_SpecificCharacter
 	LPCSTR                            sound_pack = pSettings->r_string(cNameSect(), "sound_pack");
 	sound().sound_prefix(sound_pack);
 
@@ -191,6 +191,7 @@ void CAI_Stalker::reinit			()
 		string16						temp;
 		for (int i=0, n=_GetItemCount(weights); i<n; ++i)
 			m_critical_wound_weights.push_back((float)atof(_GetItem(weights,i,temp)));
+
 	}
 
 	m_update_rotation_on_frame						= false;
@@ -705,7 +706,7 @@ BOOL CAI_Stalker::net_SaveRelevant	()
 void CAI_Stalker::net_Export		(NET_Packet& P)
 {
 	R_ASSERT						(Local());
-
+	
 	// export last known packet
 	R_ASSERT						(!NET.empty());
 	net_update& N					= NET.back();
@@ -781,16 +782,9 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 
 	inventory().SetActiveSlot(wpn);
 
-//	movement().m_head.current.yaw = N.o_torso.yaw;
-//	movement().m_head.current.pitch = N.o_torso.pitch;
-//	movement().m_head.target.yaw = N.o_torso.yaw;
-//	movement().m_head.target.pitch = N.o_torso.pitch;
-
 	SPHNetState state;
 	state.position = N.p_pos;
 	PHGetSyncItem(0)->set_State(state);
-
-	make_Interpolation();
 
 	setVisible						(TRUE);
 	setEnabled						(TRUE);
@@ -839,9 +833,6 @@ void CAI_Stalker::destroy_anim_mov_ctrl	()
 	
 	if (getDestroy())
 		return;
-
-	if (Level().IsClient())
-		return;
 	
 	movement().m_head.current.yaw	= movement().m_body.current.yaw;
 	movement().m_head.current.pitch	= movement().m_body.current.pitch;
@@ -887,6 +878,7 @@ void CAI_Stalker::UpdateCL()
 					(eMovementTypeRun == movement().movement_type())
 				) {
 				sound().play	(eStalkerSoundRunningInDanger);
+				OnSoundChange(eStalkerSoundRunningInDanger, 0); //Sending sound to client
 			}
 			else {
 //				sound().play	(eStalkerSoundWalkingInDanger);
@@ -1406,20 +1398,32 @@ BOOL CAI_Stalker::net_Relevant()
 
 void CAI_Stalker::OnAnimationChange() {
 	if (Level().IsServer()) {
-		NET_Packet MovePacket;
+		NET_Packet AnmPacket;
 		MotionID mid = animation().torso().animation();
 		MotionID mid1 = animation().head().animation();
 		MotionID mid2 = animation().legs().animation();
 		
 		if (mid.valid() && mid1.valid() && mid2.valid()) {
-			MovePacket.w_begin(M_STALKER_ANM);
-			MovePacket.w_u16(ID());
-			MovePacket.w(&mid, sizeof(&mid));
-			MovePacket.w(&mid1, sizeof(&mid1));
-			MovePacket.w(&mid2, sizeof(&mid2));
-			Msg("Sending anim");
+			AnmPacket.w_begin(M_STALKER_ANM);
+			AnmPacket.w_u16(ID());
+			AnmPacket.w(&mid, sizeof(&mid));
+			AnmPacket.w(&mid1, sizeof(&mid1));
+			AnmPacket.w(&mid2, sizeof(&mid2));
 
-			Level().Server->SendBroadcast(BroadcastCID, MovePacket);
+			Level().Server->SendBroadcast(BroadcastCID, AnmPacket);
 		}
 	}
+}
+
+void CAI_Stalker::OnSoundChange(u8 snd_id, u8 flags) {
+	if (Level().IsServer()) {
+		NET_Packet SndPacket;
+
+		SndPacket.w_begin(M_STALKER_SND);
+		SndPacket.w_u16(ID());
+		SndPacket.w_u8(snd_id);
+		SndPacket.w_u8(flags);
+
+		Level().Server->SendBroadcast(BroadcastCID, SndPacket);
+		}
 }

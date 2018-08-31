@@ -393,7 +393,7 @@ public:
 	void					set_action			(EAction action);
 	void					set_state_sound		(u32 type, bool once = false);
 
-	EMotionAnim				Choose_Animation(u32);
+	void				Choose_Animation();
 
 IC	void					fall_asleep			(){m_bSleep = true;}
 IC	void					wake_up				(){m_bSleep = false;}

@@ -180,6 +180,7 @@ public:
 	virtual void						reload								(LPCSTR	section );				
 	virtual void						LoadSounds							(LPCSTR section );
 	virtual	void						OnAnimationChange					();
+	virtual	void						OnSoundChange						(u8 snd_id, u8 flags);
 	virtual BOOL						net_Spawn							(CSE_Abstract* DC);
 	virtual void						net_Export							(NET_Packet& P);
 	virtual void						net_Import							(NET_Packet& P);

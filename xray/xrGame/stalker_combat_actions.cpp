@@ -460,8 +460,10 @@ void CStalkerActionTakeCover::initialize		()
 	if (object().memory().enemy().selected()->human_being()) {
 		if (object().agent_manager().member().can_cry_noninfo_phrase())
 			if (object().Position().distance_to_sqr(object().memory().enemy().selected()->Position()) < _sqr(10.f))
-				if (object().memory().visual().visible_now(object().memory().enemy().selected()) && object().agent_manager().member().group_behaviour())
-					object().sound().play		(eStalkerSoundBackup,0,0,6000,4000);
+				if (object().memory().visual().visible_now(object().memory().enemy().selected()) && object().agent_manager().member().group_behaviour()) {
+					object().sound().play(eStalkerSoundBackup, 0, 0, 6000, 4000);
+					object().OnSoundChange(eStalkerSoundBackup,1);
+				}
 	}
 #endif
 }
@@ -704,6 +706,7 @@ void CStalkerActionHoldPosition::execute		()
 	if (object().agent_manager().member().cover_detouring() && fire_make_sense()) {
 //		object().sound().play		(eStalkerSoundDetour,3000,3000,10000,10000);
 		object().sound().play		(eStalkerSoundNeedBackup,3000,3000,10000,10000);
+		object().OnSoundChange		(eStalkerSoundNeedBackup,1);
 		fire						();
 	}
 	else {
@@ -758,8 +761,8 @@ void CStalkerActionDetourEnemy::initialize		()
 
 //#ifndef SILENT_COMBAT
 	if (object().memory().enemy().selected()->human_being() && object().agent_manager().member().group_behaviour())
-//		object().sound().play			(eStalkerSoundNeedBackup);
 		object().sound().play			(eStalkerSoundDetour);
+		object().OnSoundChange			(eStalkerSoundDetour,0); //Sending sound to client
 //#endif
 }
 
@@ -1132,6 +1135,7 @@ void CStalkerActionCriticalHit::initialize					()
 
 	object().sight().setup					(CSightAction(SightManager::eSightTypeCurrentDirection,true,true));
 	object().sound().play					(eStalkerSoundInjuring);
+	object().OnSoundChange					(eStalkerSoundInjuring,0); //Sending sound to client
 }
 
 void CStalkerActionCriticalHit::finalize					()
@@ -1167,6 +1171,7 @@ void CStalkerCombatActionThrowGrenade::initialize			()
 	object().movement().set_movement_type	(eMovementTypeStand);
 	object().movement().set_body_state		(eBodyStateStand);
 	object().sound().play					(eStalkerSoundThrowGrenade);
+	object().OnSoundChange					(eStalkerSoundThrowGrenade,0); //Sending sound to client
 	m_storage->set_property					(eWorldPropertyStartedToThrowGrenade, true);
 }
 

@@ -162,8 +162,10 @@ void CStalkerCombatPlanner::initialize			()
 		if (m_object->memory().enemy().selected()->human_being())
 			if (object().agent_manager().member().can_cry_noninfo_phrase())
 				if (object().agent_manager().member().members().size() > 1)
-					if (!CScriptActionPlanner::m_storage.property(eWorldPropertyUseSuddenness))
-						object().sound().play	(eStalkerSoundAlarm);
+					if (!CScriptActionPlanner::m_storage.property(eWorldPropertyUseSuddenness)) {
+						object().sound().play(eStalkerSoundAlarm);
+						object().OnSoundChange(eStalkerSoundAlarm,0); //Sending sound to client
+					}
 	}
 
 	object().agent_manager().member().register_in_combat	(m_object);

@@ -262,10 +262,11 @@ void CAI_Stalker::Hit(SHit* pHDS)
 
 		const CEntityAlive	*entity_alive = smart_cast<const CEntityAlive*>(HDS.initiator());
 		if (entity_alive && !wounded()) {
-			if (is_relation_enemy(entity_alive))
-				sound().play		(eStalkerSoundInjuring);
-//			else
-//				sound().play		(eStalkerSoundInjuringByFriend);
+			if (is_relation_enemy(entity_alive)) {
+				sound().play(eStalkerSoundInjuring);
+				OnSoundChange(eStalkerSoundInjuring, 0); //Sending sound to client
+			}
+
 		}
 
 		int							weapon_type = -1;
@@ -1192,6 +1193,7 @@ void CAI_Stalker::on_critical_wound_initiator	(const CAI_Stalker *critically_wou
 		return;
 
 	sound().play					(eStalkerSoundEnemyCriticallyWounded);
+	OnSoundChange					(eStalkerSoundEnemyCriticallyWounded, 0); //Sending sound to client
 }
 
 void CAI_Stalker::on_enemy_wounded_or_killed	(const CAI_Stalker *wounded_or_killed)
@@ -1203,6 +1205,7 @@ void CAI_Stalker::on_enemy_wounded_or_killed	(const CAI_Stalker *wounded_or_kill
 		return;
 
 	sound().play					(eStalkerSoundEnemyKilledOrWounded);
+	OnSoundChange					(eStalkerSoundEnemyKilledOrWounded, 0); //Sending sound to client
 }
 
 bool CAI_Stalker::can_kill_member							()

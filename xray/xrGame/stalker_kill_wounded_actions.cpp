@@ -230,6 +230,7 @@ void CStalkerActionPrepareWounded::initialize				()
 	object().movement().set_body_state			(eBodyStateStand);
 	object().movement().set_movement_type		(eMovementTypeStand);
 	object().sound().play						(eStalkerSoundKillWounded);
+	object().OnSoundChange						(eStalkerSoundKillWounded,0); //Sending sound to client
 	object().CObjectHandler::set_goal			(eObjectActionAimReady1,weapon_to_kill(&object()),MIN_QUEUE,MAX_QUEUE,MIN_INTERVAL,MAX_INTERVAL);
 }
 

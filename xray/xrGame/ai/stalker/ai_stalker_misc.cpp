@@ -128,12 +128,15 @@ void CAI_Stalker::react_on_grenades		()
 		);
 */
 		if (initiator) {
-			if (is_relation_enemy(initiator))
-				sound().play		(StalkerSpace::eStalkerSoundGrenadeAlarm);
+			if (is_relation_enemy(initiator)) {
+				sound().play(StalkerSpace::eStalkerSoundGrenadeAlarm);
+				OnSoundChange(StalkerSpace::eStalkerSoundGrenadeAlarm,0); //Sending sound to client
+			}
 			else
 				if (missile->Position().distance_to(Position()) < FRIENDLY_GRENADE_ALARM_DIST) {
 					u32 const time	= missile->destroy_time() >= Device.dwTimeGlobal ? u32(missile->destroy_time() - Device.dwTimeGlobal) : 0;
 					sound().play	( StalkerSpace::eStalkerSoundFriendlyGrenadeAlarm, time + 1500, time + 1000 );
+					OnSoundChange	( StalkerSpace::eStalkerSoundFriendlyGrenadeAlarm, 1);
 				}
 		}
 	}
@@ -151,10 +154,14 @@ void CAI_Stalker::react_on_member_death	()
 		return;
 
 	if (agent_manager().member().group_behaviour()) {
-		if (!reaction.m_member->g_Alive())
-			sound().play		( StalkerSpace::eStalkerSoundTolls, 3000, 2000 );
-		else
-			sound().play		( StalkerSpace::eStalkerSoundWounded, 3000, 2000 );
+		if (!reaction.m_member->g_Alive()) {
+			sound().play(StalkerSpace::eStalkerSoundTolls, 3000, 2000);
+			OnSoundChange(StalkerSpace::eStalkerSoundTolls, 1);
+		}
+		else {
+			sound().play(StalkerSpace::eStalkerSoundWounded, 3000, 2000);
+			OnSoundChange(StalkerSpace::eStalkerSoundWounded, 1);
+		}
 	}
 
 	reaction.clear				();
