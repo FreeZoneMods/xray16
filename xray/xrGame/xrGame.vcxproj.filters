@@ -2509,6 +2509,9 @@
     <Filter Include="Core\Server\Games\server\defence">
       <UniqueIdentifier>{599c4bf4-dd95-4888-afd2-ba1e8ab977a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\GameTypes\Defence">
+      <UniqueIdentifier>{613d0fef-37c3-480f-af35-f67e11fdcdef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mt_config.h">
@@ -7419,6 +7422,9 @@
     <ClInclude Include="game_sv_defence.h">
       <Filter>Core\Server\Games\server\defence</Filter>
     </ClInclude>
+    <ClInclude Include="UIGameDF.h">
+      <Filter>UI\GameTypes\Defence</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -11089,6 +11095,9 @@
     </ClCompile>
     <ClCompile Include="game_sv_defence.cpp">
       <Filter>Core\Server\Games\server\defence</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGameDF.cpp">
+      <Filter>UI\GameTypes\Defence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

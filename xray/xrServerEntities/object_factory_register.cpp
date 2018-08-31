@@ -179,7 +179,9 @@
 #	include "UIGameAHunt.h"
 #	include "UIGameCTA.h"
 //---m4d_RP
+//---m4d_Defence
 #	include "UIGameRP.h"
+#	include "UIGameDF.h"
 #	include	"climableobject.h"
 #	include "space_restrictor.h"
 #	include "smart_zone.h"
@@ -241,6 +243,8 @@ void CObjectFactory::register_classes	()
 	add<CUIGameTDM>												(CLSID_GAME_UI_TEAMDEATHMATCH	,"game_ui_team_deathmatch");
 	//---m4d_RP
 	add<CUIGameRP>												(CLSID_GAME_UI_ROLEPLAY			, "game_ui_roleplay");
+	//---m4d_Defence
+	add<CUIGameDF>												(CLSID_GAME_UI_DEFENCE			, "game_ui_defence");
 	add<CUIGameAHunt>											(CLSID_GAME_UI_ARTEFACTHUNT		,"game_ui_artefact_hunt");
 	add<CUIGameCTA>												(CLSID_GAME_UI_CAPTURETHEARTEFACT	,"game_ui_capture_the_artefact");
 

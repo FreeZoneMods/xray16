@@ -1652,6 +1652,7 @@
     <ClInclude Include="UIGameAHunt.h" />
     <ClInclude Include="UIGameCTA.h" />
     <ClInclude Include="UIGameCustom.h" />
+    <ClInclude Include="UIGameDF.h" />
     <ClInclude Include="UIGameDM.h" />
     <ClInclude Include="UIGameMP.h" />
     <ClInclude Include="UIGameRP.h" />
@@ -4857,6 +4858,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
+    <ClCompile Include="UIGameDF.cpp" />
     <ClCompile Include="UIGameDM.cpp" />
     <ClCompile Include="UIGameMP.cpp" />
     <ClCompile Include="UIGameRP.cpp" />

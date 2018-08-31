@@ -231,6 +231,8 @@
 #define CLSID_GAME_UI_TEAMDEATHMATCH	MK_CLSID('U','I','_','T','D','M',' ',' ')
 //------m4d_RP
 #define CLSID_GAME_UI_ROLEPLAY			MK_CLSID('U','I','_','R','P',' ',' ',' ')
+//------m4d_Defence
+#define CLSID_GAME_UI_DEFENCE			MK_CLSID('U','I','_','D','F',' ',' ',' ')
 #define CLSID_GAME_UI_ARTEFACTHUNT		MK_CLSID('U','I','_','A','H','U','N','T')
 #define CLSID_GAME_UI_CAPTURETHEARTEFACT	MK_CLSID('U','I','_','C','T','A',' ',' ')
 

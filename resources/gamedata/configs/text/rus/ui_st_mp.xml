@@ -636,6 +636,9 @@
 	<string id="ui_st_team">
 		<text>Группировка</text>
 	</string>
+	<string id="ui_st_team0_name">
+		<text>Сталкер</text>
+	</string>
 	<string id="ui_st_team1_name">
 		<text>Свобода</text>
 	</string>

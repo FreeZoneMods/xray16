@@ -4,6 +4,8 @@
 #include "map_manager.h"
 #include "map_location.h"
 #include "actor.h"
+#include "UIGameDF.h"
+#include "clsid_game.h"
 
 #define	TEAM0_MENU		"defence_team"
 
@@ -12,6 +14,37 @@ game_cl_Defence::game_cl_Defence()
 	m_bShowPlayersNames = false;
 	m_bFriendlyIndicators = false;
 	m_bFriendlyNames = false;
+}
+
+void game_cl_Defence::SetGameUI(CUIGameCustom* uigame)
+{
+	inherited::SetGameUI(uigame);
+	m_game_ui = smart_cast<CUIGameDF*>(uigame);
+	R_ASSERT(m_game_ui);
+};
+
+void game_cl_Defence::OnConnected()
+{
+	inherited::OnConnected();
+	if (m_game_ui)
+	{
+		VERIFY(!g_dedicated_server);
+		m_game_ui = smart_cast<CUIGameDF*>	(CurrentGameUI());
+		m_game_ui->SetClGame(this);
+	}
+}
+
+CUIGameCustom* game_cl_Defence::createGameUI()
+{
+	if (g_dedicated_server)
+		return NULL;
+
+	CLASS_ID clsid = CLSID_GAME_UI_DEFENCE;
+	m_game_ui = smart_cast<CUIGameDF*> (NEW_INSTANCE(clsid));
+	R_ASSERT(m_game_ui);
+	m_game_ui->Load();
+	m_game_ui->SetClGame(this);
+	return m_game_ui;
 }
 
 bool game_cl_Defence::IsEnemy(game_PlayerState* ps)
