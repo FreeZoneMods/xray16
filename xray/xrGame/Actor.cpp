@@ -1035,7 +1035,7 @@ void CActor::UpdateCL	()
 			HUD().SetFirstBulletCrosshairDisp(pWeapon->GetFirstBulletDisp());
 #endif
 			
-			BOOL B = ! ((mstate_real & mcLookout) && !IsGameTypeSingle());
+			BOOL B = ! ((mstate_real & mcLookout) && IsGameTypeSingle());
 
 			psHUD_Flags.set( HUD_WEAPON_RT, B );
 
@@ -1324,7 +1324,7 @@ void CActor::shedule_Update	(u32 DT)
 	collide::rq_result& RQ				= HUD().GetCurrentRayQuery();
 	
 
-	if(!input_external_handler_installed() && RQ.O && RQ.O->getVisible() &&  RQ.range<2.0f) 
+	if(!input_external_handler_installed() && RQ.O && RQ.O->getVisible() &&  RQ.range<2.7f) 
 	{
 		m_pObjectWeLookingAt			= smart_cast<CGameObject*>(RQ.O);
 		
@@ -1335,8 +1335,7 @@ void CActor::shedule_Update	(u32 DT)
 		m_pVehicleWeLookingAt			= smart_cast<CHolderCustom*>(game_object);
 		CEntityAlive* pEntityAlive		= smart_cast<CEntityAlive*>(game_object);
 		
-		if ( GameID() == eGameIDSingle )
-		{
+
 			if (m_pUsableObject && m_pUsableObject->tip_text())
 			{
 				m_sDefaultObjAction = CStringTable().translate( m_pUsableObject->tip_text() );
@@ -1381,7 +1380,7 @@ void CActor::shedule_Update	(u32 DT)
 					m_sDefaultObjAction = NULL;
 				}
 			}
-		}
+		
 	}
 	else 
 	{
@@ -1460,7 +1459,7 @@ extern	BOOL	g_ShowAnimationInfo		;
 void CActor::OnHUDDraw	(CCustomHUD*)
 {
 	R_ASSERT						(IsFocused());
-	if(! ( (mstate_real & mcLookout) && !IsGameTypeSingle() ) )
+	if(! ( (mstate_real & mcLookout) && IsGameTypeSingle() ) )
 		g_player_hud->render_hud		();
 
 
