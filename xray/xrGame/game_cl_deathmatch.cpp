@@ -692,14 +692,14 @@ void	game_cl_Deathmatch::SetScore				()
 	}
 };
 
-bool	game_cl_Deathmatch::OnKeyboardPress			(int key)
+bool game_cl_Deathmatch::OnKeyboardPress(int key)
 {
 	if(inherited::OnKeyboardPress(key))	return true;
 
 	if (Level().IsDemoPlay() && (key != kSCORES) && (key != kCROUCH))
 		return false;
 
-	if (kSCORES == key && Phase() == GAME_PHASE_INPROGRESS)
+	if (kSCORES == key && Phase() == GAME_PHASE_INPROGRESS  && GameID() != eGameIDRolePlay) //---m4d score_panels убраны из РП
 	{
 		if(m_game_ui)
 				m_game_ui->ShowFragList(true);

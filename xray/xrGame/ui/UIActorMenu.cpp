@@ -867,8 +867,8 @@ void CUIActorMenu::UpdateActorMP()
 	xr_sprintf( buf, "%d RU", money );
 	m_ActorMoney->SetText( buf );
 
-	//m4d_icons (иконка игрока вместо дефолтной)
-	m_ActorCharacterInfo->InitCharacterMP(Game().local_player->getName(), Game().local_player->getIcon(), Game().local_player->team);
+	//m4d_icons (иконка игрока вместо дефолтной в РП, а также вывод группировки)
+	m_ActorCharacterInfo->InitCharacterMP(Game().local_player->getName(), GameID() == eGameIDRolePlay ? Game().local_player->getIcon() : "ui_npc_u_nebo_1", Game().local_player->team);
 
 }
 

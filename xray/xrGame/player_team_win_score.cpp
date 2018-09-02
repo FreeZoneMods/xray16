@@ -6,6 +6,8 @@
 
 //---m4d_RP
 #include "game_cl_roleplay.h"
+//---m4d_Defence
+#include "game_cl_defence.h"
 
 namespace award_system
 {
@@ -88,6 +90,16 @@ void player_team_win_score::save_round_scores()
 			if (tmp_local_player->team > 0)
 			{
 				m_player_team = static_cast<u8>(tmp_game->ModifyTeam(tmp_local_player->team));
+			}
+		}break;
+		//---m4d_Defence
+	case eGameIDDefence:
+		{
+			game_cl_Defence* tmp_game = smart_cast<game_cl_Defence*>(Level().game);
+			if (!xr_strcmp(tmp_local_player->getName(), tmp_game->WinnerName))
+			{
+				m_win_score = tmp_local_player->m_iRivalKills;
+				return;
 			}
 		}break;
 	case eGameIDDeathmatch:

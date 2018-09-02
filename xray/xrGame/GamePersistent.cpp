@@ -205,15 +205,13 @@ LPCSTR GameTypeToString(EGameIDs gt, bool bShort)
 	case eGameIDCaptureTheArtefact:
 		return (bShort)?"cta":"capturetheartefact";
 		break;
-	case eGameIDDominationZone:
-		return (bShort)?"dz":"dominationzone";
-		break;
-	case eGameIDTeamDominationZone:
-		return (bShort)?"tdz":"teamdominationzone";
-		break;
 		//----m4d_RP
 	case eGameIDRolePlay:
 		return (bShort) ? "rp" : "roleplay";
+		break;
+		//---m4d_Defence
+	case eGameIDDefence:
+		return (bShort) ? "df" : "defence";
 		break;
 	default :
 		return		"---";
@@ -237,17 +235,15 @@ EGameIDs ParseStringToGameType(LPCSTR str)
 					if (!xr_strcmp(str, "capturetheartefact") || !xr_strcmp(str, "cta"))
 						return eGameIDCaptureTheArtefact;
 					else
-						if (!xr_strcmp(str, "dominationzone"))
-							return eGameIDDominationZone;
+						//----m4d_RP
+						if (!xr_strcmp(str, "roleplay") || !xr_strcmp(str, "rp"))
+							return eGameIDRolePlay;
 						else
-							if (!xr_strcmp(str, "teamdominationzone"))
-								return eGameIDTeamDominationZone;
+							//---m4d_Defence
+							if (!xr_strcmp(str, "defence") || !xr_strcmp(str, "df"))
+								return eGameIDDefence;
 							else
-								//----m4d_RP
-								if (!xr_strcmp(str, "roleplay") || !xr_strcmp(str, "rp"))
-									return eGameIDRolePlay;
-								else
-									return eGameIDNoGame; //EGameIDs
+								return eGameIDNoGame; //EGameIDs
 }
 
 void CGamePersistent::UpdateGameType			()

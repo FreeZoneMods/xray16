@@ -256,6 +256,11 @@ CLASS_ID game_GameState::getCLASS_ID(LPCSTR game_type_name, bool isServer)
 			return			(isServer)?TEXT2CLSID("SV_DM"):TEXT2CLSID("CL_DM");
 			break;
 
+			//----m4d_Defence
+		case eGameIDDefence:
+			return			(isServer) ? TEXT2CLSID("SV_DF") : TEXT2CLSID("CL_DF");
+			break;
+
 		case eGameIDTeamDeathmatch:
 			return			(isServer)?TEXT2CLSID("SV_TDM"):TEXT2CLSID("CL_TDM");
 			break;

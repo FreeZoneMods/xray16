@@ -74,6 +74,8 @@ void WeaponUsageStatistic::SaveData()
 		case eGameIDCaptureTheArtefact:		xr_sprintf(GameType, "cta"); break;
 			//---m4d_RP
 		case eGameIDRolePlay:				xr_sprintf(GameType, "rp"); break;
+			//------m4d_Defence
+		case eGameIDDefence:				xr_sprintf(GameType, "df"); break;
 		default:
 			return;
 			break;

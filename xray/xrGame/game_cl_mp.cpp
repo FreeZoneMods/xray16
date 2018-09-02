@@ -540,18 +540,23 @@ void game_cl_mp::OnChatMessage(NET_Packet* P)
 
 ///#ifdef DEBUG
 	CStringTable st;
-	//----m4d_RP
+	//----m4d_RP 
 	switch (team)
 	{
-		case 0: Msg("%s: %s : %s",		*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
-		case 1: Msg("- %s: %s : %s",	*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
-		case 2: Msg("@ %s: %s : %s",	*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 0: Msg("SPEC %s: %s : %s",			*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 1: Msg("GREEN %s: %s : %s",		*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 2: Msg("BLUE %s: %s : %s",			*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 3: Msg("YELLOW %s: %s : %s",		*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 4: Msg("BLACK %s: %s : %s",		*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 5: Msg("LIGHTBLUE %s: %s : %s",	*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 6: Msg("RED %s: %s : %s",			*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 7: Msg("BROWN %s: %s : %s",		*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 8: Msg("LUNAR %s: %s : %s",		*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+		case 9: Msg("DARKGREEN %s: %s : %s",	*st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str()); break;
+
 		default:
 		{
-			if (team > 2)
-			{
-				Msg("@ %s: %s : %s", *st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str());
-			}
+			Msg("@ %s: %s : %s", *st.translate("mp_chat"), PlayerName.c_str(), ChatMsg.c_str());
 		}
 		break;
 	}

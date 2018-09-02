@@ -210,6 +210,8 @@
 #define CLSID_SV_GAME_TEAMDEATHMATCH	MK_CLSID('S','V','_','T','D','M',' ',' ')
 //------m4d_RP
 #define CLSID_SV_GAME_ROLEPLAY			MK_CLSID('S','V','_','R','P',' ',' ',' ')
+//------m4d_Defence
+#define CLSID_SV_GAME_DEFENCE			MK_CLSID('S','V','_','D','F',' ',' ',' ')
 #define CLSID_SV_GAME_ARTEFACTHUNT		MK_CLSID('S','V','_','A','H','U','N','T')
 #define CLSID_SV_GAME_CAPTURETHEARTEFACT	MK_CLSID('S','V','_','C','T','A',' ',' ')
 //#define CLSID_GAME_CS				MK_CLSID('S','V','_','C','S',' ',' ',' ')
@@ -218,6 +220,8 @@
 #define CLSID_CL_GAME_TEAMDEATHMATCH	MK_CLSID('C','L','_','T','D','M',' ',' ')
 //------m4d_RP
 #define CLSID_CL_GAME_ROLEPLAY			MK_CLSID('C','L','_','R','P',' ',' ',' ')
+//------m4d_Defence
+#define CLSID_CL_GAME_DEFENCE			MK_CLSID('C','L','_','D','F',' ',' ',' ')
 #define CLSID_CL_GAME_ARTEFACTHUNT		MK_CLSID('C','L','_','A','H','U','N','T')
 #define CLSID_CL_GAME_CAPTURETHEARTEFACT	MK_CLSID('C','L','_','C','T','A',' ',' ')
 
@@ -227,6 +231,8 @@
 #define CLSID_GAME_UI_TEAMDEATHMATCH	MK_CLSID('U','I','_','T','D','M',' ',' ')
 //------m4d_RP
 #define CLSID_GAME_UI_ROLEPLAY			MK_CLSID('U','I','_','R','P',' ',' ',' ')
+//------m4d_Defence
+#define CLSID_GAME_UI_DEFENCE			MK_CLSID('U','I','_','D','F',' ',' ',' ')
 #define CLSID_GAME_UI_ARTEFACTHUNT		MK_CLSID('U','I','_','A','H','U','N','T')
 #define CLSID_GAME_UI_CAPTURETHEARTEFACT	MK_CLSID('U','I','_','C','T','A',' ',' ')
 

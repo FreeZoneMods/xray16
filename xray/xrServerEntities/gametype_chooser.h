@@ -12,10 +12,10 @@ enum EGameIDs
         eGameIDTeamDeathmatch                           = u32(1) << 2,
         eGameIDArtefactHunt                             = u32(1) << 3,
         eGameIDCaptureTheArtefact                       = u32(1) << 4,
-        eGameIDDominationZone                           = u32(1) << 5,
-        eGameIDTeamDominationZone                       = u32(1) << 6,
+		//---m4d_Defence
+		eGameIDDefence									= u32(1) << 5,
 		//----m4d_RP
-		eGameIDRolePlay									= u32(1) << 7,
+		eGameIDRolePlay									= u32(1) << 6,
 };
 
 class PropValue;

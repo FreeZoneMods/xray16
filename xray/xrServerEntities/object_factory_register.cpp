@@ -159,7 +159,9 @@
 #	include "game_sv_deathmatch.h"
 #	include "game_sv_teamdeathmatch.h"
 //---m4d_RP
+//---m4d_Defence
 #	include "game_sv_roleplay.h"
+#	include "game_sv_defence.h"
 #	include "game_sv_ArtefactHunt.h"
 #	include "game_sv_capture_the_artefact.h"
 
@@ -167,7 +169,9 @@
 #	include "game_cl_deathmatch.h"
 #	include "game_cl_teamdeathmatch.h"
 //---m4d_RP
+//---m4d_Defence
 #	include "game_cl_roleplay.h"
+#	include "game_cl_defence.h"
 #	include "game_cl_ArtefactHunt.h"
 #	include	"game_cl_capture_the_artefact.h"
 
@@ -175,7 +179,9 @@
 #	include "UIGameAHunt.h"
 #	include "UIGameCTA.h"
 //---m4d_RP
+//---m4d_Defence
 #	include "UIGameRP.h"
+#	include "UIGameDF.h"
 #	include	"climableobject.h"
 #	include "space_restrictor.h"
 #	include "smart_zone.h"
@@ -211,6 +217,8 @@ void CObjectFactory::register_classes	()
 	add<game_sv_TeamDeathmatch>									(CLSID_SV_GAME_TEAMDEATHMATCH	,"game_sv_team_deathmatch");
 	//---m4d_RP
 	add<game_sv_RolePlay>										(CLSID_SV_GAME_ROLEPLAY			, "game_sv_roleplay");
+	//---m4d_Defence
+	add<game_sv_Defence>										(CLSID_SV_GAME_DEFENCE			, "game_sv_defence");
 	add<game_sv_ArtefactHunt>									(CLSID_SV_GAME_ARTEFACTHUNT		,"game_sv_artefact_hunt");
 	add<game_sv_CaptureTheArtefact>								(CLSID_SV_GAME_CAPTURETHEARTEFACT	,"game_sv_capture_the_artefact");
 #endif	//	BENCHMARK_BUILD
@@ -223,6 +231,8 @@ void CObjectFactory::register_classes	()
 	add<game_cl_TeamDeathmatch>									(CLSID_CL_GAME_TEAMDEATHMATCH	,"game_cl_team_deathmatch");
 	//---m4d_RP
 	add<game_cl_RolePlay>										(CLSID_CL_GAME_ROLEPLAY			, "game_cl_roleplay");
+	//---m4d_Defence
+	add<game_cl_Defence>										(CLSID_CL_GAME_DEFENCE			, "game_cl_defence");
 	add<game_cl_ArtefactHunt>									(CLSID_CL_GAME_ARTEFACTHUNT		,"game_cl_artefact_hunt");
 	add<game_cl_CaptureTheArtefact>								(CLSID_CL_GAME_CAPTURETHEARTEFACT	,"game_cl_capture_the_artefact");
 #endif	//	BENCHMARK_BUILD
@@ -233,6 +243,8 @@ void CObjectFactory::register_classes	()
 	add<CUIGameTDM>												(CLSID_GAME_UI_TEAMDEATHMATCH	,"game_ui_team_deathmatch");
 	//---m4d_RP
 	add<CUIGameRP>												(CLSID_GAME_UI_ROLEPLAY			, "game_ui_roleplay");
+	//---m4d_Defence
+	add<CUIGameDF>												(CLSID_GAME_UI_DEFENCE			, "game_ui_defence");
 	add<CUIGameAHunt>											(CLSID_GAME_UI_ARTEFACTHUNT		,"game_ui_artefact_hunt");
 	add<CUIGameCTA>												(CLSID_GAME_UI_CAPTURETHEARTEFACT	,"game_ui_capture_the_artefact");
 

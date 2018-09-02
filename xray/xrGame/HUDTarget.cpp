@@ -248,8 +248,21 @@ void CHUDTarget::Render()
 						int alpha_C = iFloor(255.f*(fuzzyShowInfo - 0.5f)*2.f);
 						u8 alpha_b = u8(alpha_C & 0x00ff);
 						F->SetColor(subst_alpha(C, alpha_b));
-						if(!E->cast_base_monster())
-						F->OutNext("%s", *strtbl.translate(others_inv_owner->Name()));
+						if (!E->cast_base_monster())
+						{
+							F->OutNext("%s", *strtbl.translate(others_inv_owner->Name()));
+							//----m4d (Определение группировки)
+							if (E->cast_stalker())
+							{
+								F->OutNext("%s", *strtbl.translate(others_inv_owner->CharacterInfo().Community().id()));
+							}
+							else if (E->cast_actor())
+							{
+								string32 community;	
+								xr_sprintf(community, "ui_st_team%d_name", E->id_Team);
+								F->OutNext("%s", *strtbl.translate(community));
+							}
+						}
 					}
 				}
 			};

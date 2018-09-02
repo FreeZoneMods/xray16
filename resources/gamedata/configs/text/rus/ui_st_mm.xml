@@ -936,4 +936,7 @@
 	<string id="st_roleplay">
 		<text>Ролевая Игра</text>
 	</string>	
+	<string id="st_defence">
+		<text>Оборона</text>
+	</string>
 </string_table>
