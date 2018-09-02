@@ -17,6 +17,15 @@ private:
 	float					prev_cam_inert_value;
 	static const float		cam_inert_value;
 
+	//variables for CharacterInfo
+	shared_str				CharacterName_;
+	u16						CharacterRank_;
+	shared_str				CharacterCommunity_;
+	u16						CharacterReputation_;
+	shared_str				CharacterIcon_;
+	u16						IsGotCharacterInfo;
+
+
 private:
 			void			fill_state			(actor_mp_state &state);
 			void			process_packet		(net_update		&N);
@@ -33,6 +42,7 @@ public:
 	shared_str const 		GetAnticheatSectionName	() const { return "mp_actor"; };
 	virtual void			On_SetEntity		();
 	virtual void			On_LostEntity		();
+
 protected:
 			void			use_booster				(NET_Packet &packet);
 };

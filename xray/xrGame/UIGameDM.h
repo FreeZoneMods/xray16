@@ -1,7 +1,8 @@
 #pragma once
 
 #include "UIGameMP.h"
-
+#include "ui/UIDialogWnd.h"
+#include "ui/UITalkWnd.h"
 
 class CUIDMPlayerList;
 class CUIDMStatisticWnd;
@@ -13,6 +14,9 @@ class UIVoteStatusWnd;
 class CUIMapDesc;
 class UITeamPanels;
 class CUITextWnd;
+class CInventoryBox;
+class CInventoryOwner;
+class CUITalkWnd;
 
 class CUIGameDM: public UIGameMP
 {
@@ -42,6 +46,10 @@ protected:
 	CUIRankIndicator*				m_pRankIndicator;
 	CUITextWnd*						m_pFragLimitIndicator;
 	UIVoteStatusWnd*				m_voteStatusWnd;
+
+public:
+	CUITalkWnd*						TalkMenu;
+
 public:
 									CUIGameDM				();
 	virtual 						~CUIGameDM				();
@@ -76,4 +84,9 @@ public:
 
 			void					ShowFragList					(bool bShow);
 			void					ShowPlayersList					(bool bShow);
+
+			void					StartTalk(bool disable_break);
+			void					StartCarBody(CInventoryOwner* pActorInv, CInventoryOwner* pOtherOwner);
+			void					StartCarBody(CInventoryOwner* pActorInv, CInventoryBox* pBox);
+			void					StartCarBodyOnClient(CInventoryOwner* pActorInv, CInventoryOwner* pOtherOwner, shared_str name, shared_str community, shared_str icon);
 };

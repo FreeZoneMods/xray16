@@ -714,7 +714,7 @@ void CAI_Stalker::net_Export		(NET_Packet& P)
 	P.w_float						(GetfHealth());
 
 	P.w_u32							(Level().timeServer());
-	P.w_u8							(inventory().GetActiveSlot());
+	P.w_u8							((u8)inventory().GetActiveSlot());
 	P.w_vec3						(Position());
 	P.w_float /*w_angle8*/						(N.o_model);
 	P.w_float /*w_angle8*/						(N.o_torso.yaw);
@@ -724,8 +724,6 @@ void CAI_Stalker::net_Export		(NET_Packet& P)
 	P.w_u8							(u8(g_Squad()));
 	P.w_u8							(u8(g_Group()));
 
-	inventory().GetActiveSlot();
-	float					f1 = 0;
 	GameGraph::_GRAPH_ID		l_game_vertex_id = ai_location().game_vertex_id();
 	P.w						(&l_game_vertex_id,			sizeof(l_game_vertex_id));
 	P.w						(&l_game_vertex_id,			sizeof(l_game_vertex_id));
@@ -748,7 +746,8 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	P.r_float			(health);
 	SetfHealth			(health);
 //	fEntityHealth = health;
-	flags = 0;
+	float rotation_yaw;
+	float rotation_pitch;
 
 	P.r_u32							(N.dwTimeStamp);
 	P.r_u8							(wpn);
@@ -756,7 +755,7 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	P.r_float /*r_angle8*/						(N.o_model);
 	P.r_float /*r_angle8*/						(N.o_torso.yaw);
 	P.r_float /*r_angle8*/						(N.o_torso.pitch);
-	P.r_float /*r_angle8*/						(N.o_torso.roll	);
+	P.r_float /*r_angle8*/						(N.o_torso.roll);
 	id_Team							= P.r_u8();
 	id_Squad						= P.r_u8();
 	id_Group						= P.r_u8();
@@ -770,8 +769,7 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 		NET.push_back				(N);
 		NET_WasInterpolating		= TRUE;
 	}
-	float rotation_yaw;
-	float rotation_pitch;
+
 	P.r_float						(rotation_yaw);
 	P.r_float						(rotation_pitch);
 
@@ -785,7 +783,7 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	SPHNetState state;
 	state.position = N.p_pos;
 	PHGetSyncItem(0)->set_State(state);
-
+	
 	setVisible						(TRUE);
 	setEnabled						(TRUE);
 }

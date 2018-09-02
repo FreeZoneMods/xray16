@@ -13,6 +13,7 @@
 #include "PHDestroyable.h"
 #include "Car.h"
 #include "UIGameSP.h"
+#include "UIGameDM.h"
 #include "inventory.h"
 #include "level.h"
 #include "game_cl_base.h"
@@ -393,7 +394,7 @@ void CActor::ActorUse()
 	
 	if ( m_pInvBoxWeLookingAt && m_pInvBoxWeLookingAt->nonscript_usable() )
 	{
-		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(CurrentGameUI());
+		CUIGameDM* pGameSP = smart_cast<CUIGameDM*>(CurrentGameUI());
 		if ( pGameSP ) //single
 		{
 			if ( !m_pInvBoxWeLookingAt->closed() )
@@ -413,7 +414,7 @@ void CActor::ActorUse()
 
 			VERIFY(pEntityAliveWeLookingAt);
 
-			if (IsGameTypeSingle())
+			if (!IsGameTypeSingle())
 			{			
 
 				if(pEntityAliveWeLookingAt->g_Alive())
@@ -422,15 +423,22 @@ void CActor::ActorUse()
 				}else
 				{
 					//только если находимся в режиме single
-					CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(CurrentGameUI());
+					CUIGameDM* pGameSP = smart_cast<CUIGameDM*>(CurrentGameUI());
 					if ( pGameSP )
 					{
 						if ( !m_pPersonWeLookingAt->deadbody_closed_status() )
 						{
 							if(pEntityAliveWeLookingAt->AlreadyDie() && 
 								pEntityAliveWeLookingAt->GetLevelDeathTime()+3000 < Device.dwTimeGlobal)
-								// 99.9% dead
+								if (Level().IsServer())
 								pGameSP->StartCarBody(this, m_pPersonWeLookingAt );
+								else
+								{
+									NET_Packet P;
+									CGameObject::u_EventGen(P, GE_DEADBODY_INFO, this->object_id());
+									P.w_u16(m_pPersonWeLookingAt->object_id());
+									CGameObject::u_EventSend(P);
+								}
 						}
 					}
 				}

@@ -43,7 +43,9 @@ bool move_item_check( PIItem itm, CInventoryOwner* from, CInventoryOwner* to, bo
 			return false;
 		}
 	}
+
 	move_item_from_to( from->object_id(), to->object_id(), itm->object_id() );
+
 	return true;
 }
 
@@ -146,6 +148,11 @@ bool CUIActorMenu::ToDeadBodyBag(CUICellItem* itm, bool b_use_cursor_pos)
 			return false;
 		}
 	}
+
+	//tmp hack
+	if (!IsGameTypeSingle()) 
+		return false;
+
 	PIItem quest_item					= (PIItem)itm->m_pData;
 	if(quest_item->IsQuestItem())
 		return false;

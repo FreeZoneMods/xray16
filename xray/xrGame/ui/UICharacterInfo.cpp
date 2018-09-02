@@ -145,16 +145,15 @@ void CUICharacterInfo::InitCharacterInfo(CUIXml* xml_doc, LPCSTR node_str)
 void CUICharacterInfo::InitCharacter(u16 id)
 {
 	m_ownerID					= id;
-
+	Msg("ID: %u%", id);
 	CSE_ALifeTraderAbstract*	T = ch_info_get_from_id(m_ownerID);
-
 	CCharacterInfo				chInfo;
 	chInfo.Init					(T);
 
-	if ( m_icons[eName]       ) {	m_icons[eName      ]->TextItemControl()->SetTextST( T->m_character_name.c_str()                      );	}
-	if ( m_icons[eRank]       ) {	m_icons[eRank      ]->TextItemControl()->SetTextST( GetRankAsText(chInfo.Rank().value())             );	}
-	if ( m_icons[eCommunity]  ) {	m_icons[eCommunity ]->TextItemControl()->SetTextST( chInfo.Community().id().c_str()                  );	}
-	if ( m_icons[eReputation] ) {	m_icons[eReputation]->TextItemControl()->SetTextST( GetReputationAsText(chInfo.Reputation().value()) );	}
+	if (m_icons[eName]) { m_icons[eName]->TextItemControl()->SetTextST(T->m_character_name.c_str()); }
+	if (m_icons[eRank]) { m_icons[eRank]->TextItemControl()->SetTextST(GetRankAsText(chInfo.Rank().value())); }
+	if (m_icons[eCommunity]) { m_icons[eCommunity]->TextItemControl()->SetTextST(chInfo.Community().id().c_str()); }
+	if (m_icons[eReputation]) { m_icons[eReputation]->TextItemControl()->SetTextST(GetReputationAsText(chInfo.Reputation().value())); }
 
 	// Bio
 	if (pUIBio && pUIBio->IsEnabled())
@@ -191,38 +190,38 @@ void CUICharacterInfo::InitCharacter(u16 id)
 
 	m_texture_name				= chInfo.IconName();
 	if ( m_icons[eIcon            ] ) { m_icons[eIcon            ]->InitTexture( m_texture_name.c_str()     ); }
-//	if ( m_icons[eRankIcon        ] ) { m_icons[eRankIcon        ]->InitTexture( chInfo.Rank().id().c_str() ); }
-	
-/*
-	if ( Actor()->ID() != m_ownerID && !ignore_community( comm_id ) )
-	{
-		if ( m_icons[eCommunityIcon   ] ) { m_icons[eCommunityIcon   ]->InitTexture( community1 ); }
-		if ( m_icons[eCommunityBigIcon] ) { m_icons[eCommunityBigIcon]->InitTexture( community2 ); }
-		return;
-	}
+}
 
-	shared_str our_comm, enemy;
-	if ( CUICharacterInfo::get_actor_community( &our_comm, &enemy ) )
+void CUICharacterInfo::InitCharacterOnClient(shared_str name, shared_str community, shared_str icon)
+{
+	shared_str const& comm_id  = community;
+	LPCSTR   community0 = comm_id.c_str();
+
+
+	if (m_icons[eName]) { m_icons[eName]->TextItemControl()->SetTextST(name.c_str()); }
+	if (m_icons[eRank]) { m_icons[eRank]->TextItemControl()->SetTextST("novice"); }
+	if (m_icons[eCommunity]) { m_icons[eCommunity]->TextItemControl()->SetTextST(community0); }
+	if (m_icons[eReputation]) { m_icons[eReputation]->TextItemControl()->SetTextST("good"); }
+
+	string64 community1;
+	xr_strcpy(community1, sizeof(community1), community0);
+	xr_strcat(community1, sizeof(community1), "_icon");
+
+	string64 community2;
+	xr_strcpy(community2, sizeof(community2), community0);
+	xr_strcat(community2, sizeof(community2), "_wide");
+
+	m_bForceUpdate = true;
+	for (int i = eIcon; i < eMaxCaption; ++i)
 	{
-		if ( xr_strcmp( our_comm, "actor" ) ) // !=
+		if (m_icons[i])
 		{
-			xr_strcpy( community1, sizeof(community1), our_comm.c_str() );
-			xr_strcat( community1, sizeof(community1), "_icon" );
-
-			xr_strcpy( community2, sizeof(community2), our_comm.c_str() );
-			xr_strcat( community2, sizeof(community2), "_wide" );
-
-			if ( m_icons[eCommunityIcon   ] ) { m_icons[eCommunityIcon   ]->InitTexture( community1 ); }
-			if ( m_icons[eCommunityBigIcon] ) { m_icons[eCommunityBigIcon]->InitTexture( community2 ); }
-			return;
+			m_icons[i]->Show(true);
 		}
 	}
 
-	if ( m_icons[eCommunityIcon   ]     ) { m_icons[eCommunityIcon]->Show( false ); }
-	if ( m_icons[eCommunityBigIcon]     ) { m_icons[eCommunityBigIcon]->Show( false ); }
-	if ( m_icons[eCommunityIconOver   ] ) { m_icons[eCommunityIconOver]->Show( false ); }
-	if ( m_icons[eCommunityBigIconOver] ) { m_icons[eCommunityBigIconOver]->Show( false ); }
-*/
+	m_texture_name = icon;
+	if (m_icons[eIcon]) { m_icons[eIcon]->InitTexture(m_texture_name.c_str()); }
 }
 
 void CUICharacterInfo::InitCharacterMP( LPCSTR player_name, LPCSTR player_icon, u8 player_team_ID)
@@ -290,13 +289,13 @@ void CUICharacterInfo::UpdateRelation()
 	}
 	else
 	{
-		m_icons[eRelationCaption]->Show(true);
-		m_icons[eRelation]->Show(true);
+		m_icons[eRelationCaption]->Show(false);
+		m_icons[eRelation]->Show(false);
 
-		CSE_ALifeTraderAbstract* T = ch_info_get_from_id	(m_ownerID);
-		CSE_ALifeTraderAbstract* TA = ch_info_get_from_id	(Actor()->ID());
+	//	CSE_ALifeTraderAbstract* T = ch_info_get_from_id	(m_ownerID);
+	//	CSE_ALifeTraderAbstract* TA = ch_info_get_from_id	(Actor()->ID());
 
-		SetRelation( RELATION_REGISTRY().GetRelationType( T, TA ), RELATION_REGISTRY().GetAttitude( T, TA ) );
+	//	SetRelation( RELATION_REGISTRY().GetRelationType( T, TA ), RELATION_REGISTRY().GetAttitude( T, TA ) );
 	}
 }
 

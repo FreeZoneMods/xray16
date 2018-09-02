@@ -1,6 +1,7 @@
 #include "pch_script.h"
 #include "actor.h"
 #include "UIGameSP.h"
+#include "UIGameDM.h"
 #include "PDA.h"
 #include "level.h"
 #include "string_table.h"
@@ -129,8 +130,7 @@ void CActor::RunTalkDialog(CInventoryOwner* talk_partner, bool disable_break)
 		if(CurrentGameUI()->TopInputReceiver())
 			CurrentGameUI()->TopInputReceiver()->HideDialog();
 
-//		smart_cast<CUIGameSP*>(CurrentGameUI())->StartTalk(disable_break);
-		smart_cast<CUIGameSP*>(CurrentGameUI())->StartTalk(talk_partner->bDisableBreakDialog);
+		smart_cast<CUIGameDM*>(CurrentGameUI())->StartTalk(talk_partner->bDisableBreakDialog);
 	}
 }
 

@@ -21,6 +21,7 @@
 #include "ai/stalker/ai_stalker_space.h"
 #include "ai/monsters/basemonster/base_monster.h"
 #include "sound_player.h"
+#include "UIGameCustom.h"
 
 extern LPCSTR map_ver_string;
 LPSTR remove_version_option(LPCSTR opt_str, LPSTR new_opt_str, u32 new_opt_str_size)
@@ -289,10 +290,11 @@ void CLevel::ClientReceive()
 			if (!m_id1.valid()) break;
 			if (!m_id2.valid()) break;
 
-			if (OnClient() && g_pGameLevel) {
+			if (OnClient() && CurrentGameUI()) {
 				CAI_Stalker* Stalker = smart_cast<CAI_Stalker*>(Objects.net_Find(ID));
 				if (0 == Stalker)		break;
 				IKinematicsAnimated	*KA = smart_cast<IKinematicsAnimated*>(Stalker->Visual());
+				if (!KA) break;
 				KA->PlayCycle(m_id);
 				KA->PlayCycle(m_id1);
 				KA->PlayCycle(m_id2);
@@ -337,10 +339,11 @@ void CLevel::ClientReceive()
 
 			if (!m_id.valid()) break;
 
-			if (OnClient() && g_pGameLevel) {
+			if (OnClient() && CurrentGameUI()) {
 				CBaseMonster* Monster = smart_cast<CBaseMonster*>(Objects.net_Find(ID));
 				if (0 == Monster)		break;
 				IKinematicsAnimated	*KA = smart_cast<IKinematicsAnimated*>(Monster->Visual());
+				if(!KA) break;
 				for (u16 i = 0; i < MAX_PARTS; ++i) {
 					KA->PlayCycle(i, m_id);
 				}

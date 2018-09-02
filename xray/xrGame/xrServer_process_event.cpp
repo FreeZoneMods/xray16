@@ -10,6 +10,9 @@
 #include "xrServer_Objects_ALife_Items.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 
+#include "ui/UICharacterInfo.h"
+#include "character_info.h"
+
 void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 {
 #	ifdef SLOW_VERIFY_ENTITIES
@@ -347,6 +350,33 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 		{
 			SendPlayersInfo(sender);
 		}break;
+	case GE_DEADBODY_INFO:
+	{
+		u16 id_body;
+		P.r_u16(id_body);
+
+		CSE_ALifeTraderAbstract* T;
+		if (ai().get_alife() && ai().get_game_graph())
+		{
+			T = smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(id_body));
+		}
+		else {
+			T = smart_cast<CSE_ALifeTraderAbstract*>(game->get_entity_from_eid(id_body));
+		}
+
+		CCharacterInfo chInfo;
+		chInfo.Init(T);
+
+		NET_Packet tmp_packet;
+		CGameObject::u_EventGen(tmp_packet, GE_DEADBODY_INFO, receiver->ID);
+		tmp_packet.w_stringZ	((T->m_character_name.c_str()));		//name
+		tmp_packet.w_stringZ	(chInfo.Community().id());				//community
+		tmp_packet.w_stringZ	(chInfo.IconName());					//icon
+
+		Msg("Player %u searching deadbody %u", receiver->ID, id_body);
+
+		SendTo(receiver->owner->ID, tmp_packet, net_flags(TRUE, TRUE));
+	}break;
 	default:
 		R_ASSERT2	(0,"Game Event not implemented!!!");
 		break;

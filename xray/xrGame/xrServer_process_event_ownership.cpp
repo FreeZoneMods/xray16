@@ -61,6 +61,7 @@ void xrServer::Process_event_ownership(NET_Packet& P, ClientID sender, u32 time,
 	}
 
 	CSE_ALifeCreatureAbstract* alife_entity = smart_cast<CSE_ALifeCreatureAbstract*>(e_parent);
+	CSE_ALifeHumanStalker* Stalker = smart_cast<CSE_ALifeHumanStalker*>(e_parent);
 	if (alife_entity && !alife_entity->g_Alive() && game->Type()!=eGameIDSingle)
 	{
 #ifdef MP_LOGGING
@@ -70,7 +71,7 @@ void xrServer::Process_event_ownership(NET_Packet& P, ClientID sender, u32 time,
 	};
 
 	// Game allows ownership of entity
-	if (game->OnTouch	(id_parent,id_entity, bForced))
+	if (game->OnTouch	(id_parent,id_entity, bForced) || Stalker)
 	{
 		// Perform migration if needed
 		if (c_parent != c_entity)		PerformMigration(e_entity,c_entity,c_parent);

@@ -66,10 +66,27 @@ void CUIActorMenu::SetPartner(CInventoryOwner* io)
 		if (m_pPartnerInvOwner->use_simplified_visual() ) 
 			m_PartnerCharacterInfo->ClearInfo();
 		else 
-			m_PartnerCharacterInfo->InitCharacter( m_pPartnerInvOwner->object_id() );
+			m_PartnerCharacterInfo->InitCharacter(m_pPartnerInvOwner->object_id());
 
 		SetInvBox( NULL );
 	}else
+		m_PartnerCharacterInfo->ClearInfo();
+}
+
+void CUIActorMenu::SetPartnerOnClient(CInventoryOwner* io, shared_str name, shared_str community, shared_str icon)
+{
+	R_ASSERT(!IsShown());
+	m_pPartnerInvOwner = io;
+	if (m_pPartnerInvOwner)
+	{
+		if (m_pPartnerInvOwner->use_simplified_visual())
+			m_PartnerCharacterInfo->ClearInfo();
+		else
+			m_PartnerCharacterInfo->InitCharacterOnClient(name, community, icon);
+
+		SetInvBox(NULL);
+	}
+	else
 		m_PartnerCharacterInfo->ClearInfo();
 }
 

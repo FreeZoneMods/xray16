@@ -67,6 +67,7 @@ public:
 	void				Init_IconInfoItem		(CUIXml& xml_doc, LPCSTR item_str, UIItemType type);
 
 	void				InitCharacter			(u16 id);
+	void				InitCharacterOnClient	(shared_str name, shared_str community, shared_str icon);
 	void				ClearInfo				();
 	void				InitCharacterMP			(LPCSTR player_name, LPCSTR player_icon, u8 player_team_ID);
 

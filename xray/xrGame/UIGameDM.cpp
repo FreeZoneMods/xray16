@@ -23,6 +23,8 @@
 #include "UITeamPanels.h"
 #include "object_broker.h"
 
+#include "ui/UITalkWnd.h"
+
 #define MSGS_OFFS 510
 
 #define TIME_MSG_COLOR			0xffff0000
@@ -248,4 +250,44 @@ void CUIGameDM::UpdateTeamPanels()
 {
 	m_pTeamPanels->NeedUpdatePanels();
 	m_pTeamPanels->NeedUpdatePlayers();
+}
+
+void CUIGameDM::StartCarBody(CInventoryOwner* pActorInv, CInventoryOwner* pOtherOwner) //Deadbody search
+{
+	if (TopInputReceiver())		return;
+
+	m_ActorMenu->SetActor(pActorInv);
+	m_ActorMenu->SetPartner(pOtherOwner);
+
+	m_ActorMenu->SetMenuMode(mmDeadBodySearch);
+	m_ActorMenu->ShowDialog(true);	
+}
+
+void CUIGameDM::StartCarBodyOnClient(CInventoryOwner* pActorInv, CInventoryOwner* pOtherOwner, shared_str name, shared_str community, shared_str icon) //Deadbody search on Client
+{
+	if (TopInputReceiver())		return;
+
+	m_ActorMenu->SetActor(pActorInv);
+	m_ActorMenu->SetPartnerOnClient(pOtherOwner, name, community, icon);
+
+	m_ActorMenu->SetMenuMode(mmDeadBodySearch);
+	m_ActorMenu->ShowDialog(true);
+}
+
+void CUIGameDM::StartCarBody(CInventoryOwner* pActorInv, CInventoryBox* pBox) //Deadbody search
+{
+	if (TopInputReceiver())		return;
+
+	m_ActorMenu->SetActor(pActorInv);
+	m_ActorMenu->SetInvBox(pBox);
+	VERIFY(pBox);
+
+	m_ActorMenu->SetMenuMode(mmDeadBodySearch);
+	m_ActorMenu->ShowDialog(true);
+}
+
+void CUIGameDM::StartTalk(bool disable_break)
+{
+	TalkMenu->b_disable_break = disable_break;
+	TalkMenu->ShowDialog(true);
 }

@@ -8,6 +8,8 @@
 #include "ui/UIActorMenu.h"
 #include "ui/UIDragDropReferenceList.h"
 #include "uigamecustom.h"
+#include "uigamedm.h"
+#include "ui/UICharacterInfo.h"
 #include "eatable_item.h"
 
 //if we are not current control entity we use this value
@@ -16,6 +18,12 @@ const float	CActorMP::cam_inert_value = 0.7f;
 CActorMP::CActorMP			()
 {
 	//m_i_am_dead				= false;
+	CharacterName_ = "";
+	CharacterRank_ = 0;
+	CharacterCommunity_ = "";
+	CharacterReputation_ = 0;
+	CharacterIcon_ = "";
+	IsGotCharacterInfo = 0;
 }
 
 void CActorMP::OnEvent		( NET_Packet &P, u16 type)
@@ -23,6 +31,28 @@ void CActorMP::OnEvent		( NET_Packet &P, u16 type)
 	if (type == GEG_PLAYER_USE_BOOSTER)
 	{
 		use_booster(P);
+		return;
+	}
+	CUIGameDM* UIGameDM = smart_cast<CUIGameDM*>(CurrentGameUI());
+
+	if (type == GE_DEADBODY_INFO)
+	{
+		P.r_stringZ(CharacterName_);
+		P.r_stringZ(CharacterCommunity_);
+		P.r_stringZ(CharacterIcon_);
+
+		if (m_pPersonWeLookingAt) {
+			CInventoryOwner* Actor = smart_cast<CInventoryOwner*>(this);
+			CInventoryOwner* pEntityAliveWeLookingAt = smart_cast<CInventoryOwner*>(m_pPersonWeLookingAt);
+
+			VERIFY(pEntityAliveWeLookingAt); //check if exist
+
+			if (!m_pPersonWeLookingAt->deadbody_closed_status()) {
+				Msg("Searching body, ID: %u", pEntityAliveWeLookingAt->object_id());
+				UIGameDM->StartCarBodyOnClient(Actor, pEntityAliveWeLookingAt, CharacterName_, CharacterCommunity_, CharacterIcon_);
+				return;
+			}
+		}
 		return;
 	}
 	inherited::OnEvent(P,type);
@@ -35,8 +65,6 @@ void CActorMP::Die			(CObject *killer)
 	conditions().SetHealth( 0.f );
 	inherited::Die			(killer);
 }
-
-
 
 void CActorMP::use_booster(NET_Packet &packet)
 {

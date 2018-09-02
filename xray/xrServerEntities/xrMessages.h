@@ -164,6 +164,8 @@ enum {
 	M_STALKER_SND,
 	M_MONSTER_ANM,
 
+	GE_DEADBODY_INFO,
+
 	GE_FORCEDWORD				= u32(-1)
 };
 
