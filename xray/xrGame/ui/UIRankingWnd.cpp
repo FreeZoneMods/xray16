@@ -213,7 +213,7 @@ void CUIRankingWnd::get_statistic()
 {
 	string128 buf;
 	//-----m4d_time
-	InventoryUtilities::GetTimePeriodAsString(buf, sizeof(buf), /*TimeGlobal(0)*/Game().StartTime()/*Level().GetStartGameTime()*/, Game().local_player->m_online_time/*Level().timeServer()*//*Level().GetGameTime()*/);
+	InventoryUtilities::GetTimePeriodAsString(buf, sizeof(buf), Game().StartTime()/*Level().GetStartGameTime()*/, Level().timeServer()/*Level().GetGameTime()*/);
 	m_stat_info[0]->SetTextColor(color_rgba(170,170,170,255));
 	m_stat_info[0]->SetText(buf);
 
