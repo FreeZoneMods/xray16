@@ -24,6 +24,7 @@
 #include "object_broker.h"
 
 #include "ui/UITalkWnd.h"
+#include "ui/UIDialogWnd.h"
 
 #define MSGS_OFFS 510
 
@@ -72,6 +73,7 @@ void	CUIGameDM::Init(int stage)
 		m_pRankIndicator->SetAutoDelete	(true);
 		m_pFragLimitIndicator			= xr_new<CUITextWnd>();
 		m_pFragLimitIndicator->SetAutoDelete(true);
+		TalkMenu						= xr_new<CUITalkWnd>();
 		
 		inherited::Init					(stage);
 		m_time_caption					= UIHelper::CreateTextWnd(*m_msgs_xml, "mp_timelimit", m_window);

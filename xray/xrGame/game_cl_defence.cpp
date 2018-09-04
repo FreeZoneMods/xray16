@@ -26,9 +26,8 @@ void game_cl_Defence::SetGameUI(CUIGameCustom* uigame)
 void game_cl_Defence::OnConnected()
 {
 	inherited::OnConnected();
-	if (m_game_ui)
+	if (m_game_ui && !g_dedicated_server)
 	{
-		VERIFY(!g_dedicated_server);
 		m_game_ui = smart_cast<CUIGameDF*>	(CurrentGameUI());
 		m_game_ui->SetClGame(this);
 	}

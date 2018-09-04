@@ -12,6 +12,7 @@
 
 #include "ui/UICharacterInfo.h"
 #include "character_info.h"
+#include "ai/stalker/ai_stalker.h"
 
 void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 {

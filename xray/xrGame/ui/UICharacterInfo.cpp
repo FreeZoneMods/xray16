@@ -146,7 +146,7 @@ void CUICharacterInfo::InitCharacter(u16 id)
 {
 	m_ownerID					= id;
 	Msg("ID: %u%", id);
-	CSE_ALifeTraderAbstract*	T = ch_info_get_from_id(m_ownerID);
+	CSE_ALifeTraderAbstract*	T = ch_info_get_from_id(id);
 	CCharacterInfo				chInfo;
 	chInfo.Init					(T);
 

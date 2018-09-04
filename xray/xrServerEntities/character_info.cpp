@@ -117,11 +117,22 @@ void CCharacterInfo::load_shared	(LPCSTR)
 #ifdef XRGAME_EXPORTS
 void CCharacterInfo::Init	(CSE_ALifeTraderAbstract* trader)
 {
-	SetCommunity				(trader->m_community_index);
-	SetRank						(trader->m_rank);
-	SetReputation				(trader->m_reputation);
-	Load						(trader->character_profile());
-	InitSpecificCharacter		(trader->specific_character());
+	CSE_ALifeCreatureActor* actor = smart_cast<CSE_ALifeCreatureActor*>(trader);
+	if (actor) {
+		SetCommunity(5);
+		SetRank(1);
+		SetReputation(1);
+		Load("actor");
+		InitSpecificCharacter("actor");
+	}
+	else {
+		SetCommunity(trader->m_community_index);
+		SetRank(trader->m_rank);
+		SetReputation(trader->m_reputation);
+		Load(trader->character_profile());
+		InitSpecificCharacter(trader->specific_character());
+	}
+
 }
 
 

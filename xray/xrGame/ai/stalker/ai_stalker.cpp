@@ -113,8 +113,7 @@ void CAI_Stalker::reinit			()
 //	movement().reinit				();
 
 	//загрузка спецефической звуковой схемы для сталкера согласно m_SpecificCharacter
-	LPCSTR                            sound_pack = pSettings->r_string(cNameSect(), "sound_pack");
-	sound().sound_prefix(sound_pack);
+	sound().sound_prefix(SpecificCharacter().sound_voice_prefix());
 
 #ifdef DEBUG_MEMORY_MANAGER
 	u32								start = 0;
@@ -739,7 +738,6 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	R_ASSERT						(Remote());
 	net_update						N;
 
-	u8 flags;
 	u8 wpn;
 
 	float health;

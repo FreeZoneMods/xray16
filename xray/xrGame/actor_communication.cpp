@@ -58,7 +58,7 @@ bool CActor::OnReceiveInfo(shared_str info_id) const
 	if(!CurrentGameUI())
 		return false;
 	//только если находимся в режиме single
-	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(CurrentGameUI());
+	CUIGameDM* pGameSP = smart_cast<CUIGameDM*>(CurrentGameUI());
 	if(!pGameSP) return false;
 
 	if(pGameSP->TalkMenu->IsShown())
@@ -79,7 +79,7 @@ void CActor::OnDisableInfo(shared_str info_id) const
 		return;
 
 	//только если находимся в режиме single
-	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(CurrentGameUI());
+	CUIGameDM* pGameSP = smart_cast<CUIGameDM*>(CurrentGameUI());
 	if(!pGameSP) return;
 
 	if(pGameSP->TalkMenu->IsShown())
@@ -89,7 +89,7 @@ void CActor::OnDisableInfo(shared_str info_id) const
 void  CActor::ReceivePhrase		(DIALOG_SHARED_PTR& phrase_dialog)
 {
 	//только если находимся в режиме single
-	CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(CurrentGameUI());
+	CUIGameDM* pGameSP = smart_cast<CUIGameDM*>(CurrentGameUI());
 	if(!pGameSP) return;
 
 	if(pGameSP->TalkMenu->IsShown())
@@ -116,6 +116,7 @@ void CActor::TryToTalk()
 {
 	if(!IsTalking())
 	{
+		Msg("Person ID: %u",m_pPersonWeLookingAt->object_id());
 		RunTalkDialog(m_pPersonWeLookingAt, false);
 	}
 }
@@ -125,6 +126,7 @@ void CActor::RunTalkDialog(CInventoryOwner* talk_partner, bool disable_break)
 	//предложить поговорить с нами
 	if(talk_partner->OfferTalk(this))
 	{	
+		Msg("RunTalkDialog ID: %u", talk_partner->object_id());
 		StartTalk(talk_partner);
 
 		if(CurrentGameUI()->TopInputReceiver())
@@ -142,15 +144,15 @@ void CActor::StartTalk (CInventoryOwner* talk_partner)
 		CCustomDetector* det			= smart_cast<CCustomDetector*>(det_active);
 		det->HideDetector				(true);
 	}
-
-
+	Msg("StartTalk ID: %u", talk_partner->object_id());
+	Msg("Actor ID: %u", Actor()->ID());
 	CGameObject* GO = smart_cast<CGameObject*>(talk_partner); VERIFY(GO);
 	CInventoryOwner::StartTalk(talk_partner);
 }
 
 void CActor::NewPdaContact		(CInventoryOwner* pInvOwner)
 {	
-	if(!IsGameTypeSingle()) return;
+	//if(!IsGameTypeSingle()) return;
 
 	bool b_alive = !!(smart_cast<CEntityAlive*>(pInvOwner))->g_Alive();
 	CurrentGameUI()->UIMainIngameWnd->AnimateContacts(b_alive);

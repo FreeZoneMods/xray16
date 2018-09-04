@@ -21,6 +21,7 @@ public:
 	virtual		int					Get_TeamKillLimit();
 	virtual		BOOL				Get_TeamKillPunishment();
 
+	virtual		BOOL				OnTouch(u16 eid_who, u16 eid_what, BOOL bForced = FALSE);
 
 	//virtual		void				OnPlayerHitPlayer(u16 id_hitter, u16 id_hitted, NET_Packet& P);
 	//virtual		void				OnPlayerHitPlayer_Case(game_PlayerState* ps_hitter, game_PlayerState* ps_hitted, SHit* pHitS);

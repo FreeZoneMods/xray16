@@ -50,8 +50,6 @@ void CActor::IR_OnKeyboardPress(int cmd)
 	{
 	case kWPN_FIRE:
 		{
-			
-
 			u16 slot = inventory().GetActiveSlot();
 			if(inventory().ActiveItem() && (slot==INV_SLOT_3 || slot==INV_SLOT_2) )
 				mstate_wishful &=~mcSprint;
@@ -412,9 +410,11 @@ void CActor::ActorUse()
 			CEntityAlive* pEntityAliveWeLookingAt = 
 				smart_cast<CEntityAlive*>(m_pPersonWeLookingAt);
 
+			CActor* actor = smart_cast<CActor*>(m_pPersonWeLookingAt);
+
 			VERIFY(pEntityAliveWeLookingAt);
 
-			if (!IsGameTypeSingle())
+			if (!IsGameTypeSingle() && !actor)
 			{			
 
 				if(pEntityAliveWeLookingAt->g_Alive())

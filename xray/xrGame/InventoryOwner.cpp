@@ -118,8 +118,8 @@ BOOL CInventoryOwner::net_Spawn		(CSE_Abstract* DC)
 	CGameObject			*pThis = smart_cast<CGameObject*>(this);
 	if(!pThis) return FALSE;
 	CSE_Abstract* E	= (CSE_Abstract*)(DC);
-
-	if ( IsGameTypeSingle() )
+	CSE_ALifeCreatureActor* actor = smart_cast<CSE_ALifeCreatureActor*>(E);
+	if (!actor)
 	{
 		CSE_ALifeTraderAbstract* pTrader = NULL;
 		if(E) pTrader = smart_cast<CSE_ALifeTraderAbstract*>(E);
@@ -276,6 +276,7 @@ void CInventoryOwner::StartTalk(CInventoryOwner* talk_partner, bool start_trade)
 
 }
 #include "UIGameSP.h"
+#include "UIGameDM.h"
 #include "ui\UITalkWnd.h"
 
 void CInventoryOwner::StopTalk()
@@ -283,7 +284,7 @@ void CInventoryOwner::StopTalk()
 	m_pTalkPartner			= NULL;
 	m_bTalking				= false;
 
-	CUIGameSP* ui_sp = smart_cast<CUIGameSP*>(CurrentGameUI());
+	CUIGameDM* ui_sp = smart_cast<CUIGameDM*>(CurrentGameUI());
 	if(ui_sp && ui_sp->TalkMenu->IsShown())
 		ui_sp->TalkMenu->Stop();
 }
@@ -302,7 +303,7 @@ void CInventoryOwner::StopTrading()
 {
 	m_bTrading = false;
 
-	CUIGameSP* ui_sp = smart_cast<CUIGameSP*>( CurrentGameUI() );
+	CUIGameDM* ui_sp = smart_cast<CUIGameDM*>( CurrentGameUI() );
 	if ( ui_sp )
 	{
 		ui_sp->HideActorMenu();

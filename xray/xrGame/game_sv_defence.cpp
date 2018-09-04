@@ -143,3 +143,8 @@ void game_sv_Defence::OnPlayerKillPlayer(game_PlayerState* ps_killer, game_Playe
 //{
 //	inherited::OnPlayerHitPlayer(id_hitter, id_hitted, P);
 //};
+
+BOOL game_sv_Defence::OnTouch(u16 eid_who, u16 eid_what, BOOL bForced)
+{
+	return inherited::OnTouch(eid_who, eid_what, bForced);
+}
