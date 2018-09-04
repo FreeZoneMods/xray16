@@ -202,8 +202,7 @@ void			CGameSpy_Browser::RefreshList_Full(bool Local, const char* FilterStr)
 
 	// do an update
 	SBError error = sbe_noerror;
-	if(!Local)
-	{	
+	
 		m_refresh_lock.Enter();
 		m_refresh_lock.Leave();
 		if (m_bAbleToConnectToMasterServer)
@@ -221,9 +220,7 @@ void			CGameSpy_Browser::RefreshList_Full(bool Local, const char* FilterStr)
 		{			
 			MainMenu()->SetErrorDialog(CMainMenu::ErrMasterServerConnectFailed);
 		}
-	}
-	else
-		error = xrGS_ServerBrowserLANUpdate(m_pGSBrowser, m_pServerList ? SBTrue : SBFalse);
+
 
 	if (error != sbe_noerror)
 	{

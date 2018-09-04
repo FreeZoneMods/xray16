@@ -277,8 +277,7 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector &vControlAccel, float &Ju
 		}//(mstate_real&mcAnyMove)
 	}//peOnGround || peAtWall
 
-	if(IsGameTypeSingle() && cam_eff_factor>EPS)
-	{
+
 	LPCSTR state_anm				= NULL;
 
 	if(mstate_real&mcSprint && !(mstate_old&mcSprint) )
@@ -322,7 +321,7 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector &vControlAccel, float &Ju
 				}
 			}
 		}
-	}
+
 	//transform local dir to world dir
 	Fmatrix				mOrient;
 	mOrient.rotateY		(-r_model_yaw);
@@ -536,7 +535,7 @@ bool CActor::CanAccelerate()
 
 bool CActor::CanRun()
 {
-	bool can_run		= !IsZoomAimingMode() && !(mstate_real&mcLookout);
+	bool can_run		= !IsZoomAimingMode();
 	return can_run;
 }
 

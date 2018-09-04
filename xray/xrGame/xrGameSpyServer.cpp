@@ -77,10 +77,10 @@ xrGameSpyServer::EConnect xrGameSpyServer::Connect(shared_str &session_name, Gam
 	MapName		= tMapName;// = (session_name);
 	
 
-	m_iReportToMasterServer = game->get_option_i		(*session_name,"public",0);
+	m_iReportToMasterServer = true;
 	m_iMaxPlayers	= game->get_option_i		(*session_name,"maxplayers",32);
 //	m_bCheckCDKey = game->get_option_i		(*session_name,"cdkey",0) != 0;
-	m_bCheckCDKey = game->get_option_i		(*session_name,"public",0) != 0;
+	m_bCheckCDKey = false;
 	//--------------------------------------------//
 	if (game->Type() != eGameIDSingle) 
 	{
@@ -172,9 +172,9 @@ u32				xrGameSpyServer::OnMessage(NET_Packet& P, ClientID sender)			// Non-Zero 
 			
 			if (!CL->m_bCDKeyAuth)
 			{
-#ifndef MASTER_GOLD
+
 				Msg("Server : Respond accepted, Authenticate client.");
-#endif // #ifndef MASTER_GOLD
+
 				m_GCDServer.AuthUser(int(CL->ID.value()), CL->m_cAddress.m_data.data, CL->m_pChallengeString, ResponseStr, this);
 				xr_strcpy(CL->m_guid,128,this->GCD_Server()->GetKeyHash(CL->ID.value()));
 			}

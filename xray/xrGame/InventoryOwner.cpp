@@ -372,7 +372,7 @@ void CInventoryOwner::spawn_supplies		()
 	if (use_bolts())
 		Level().spawn_item					("bolt",game_object->Position(),game_object->ai_location().level_vertex_id(),game_object->ID());
 
-	if (!ai().get_alife() && IsGameTypeSingle() ) 
+	if (!ai().get_alife()) 
 	{
 		CSE_Abstract						*abstract = Level().spawn_item("device_pda",game_object->Position(),game_object->ai_location().level_vertex_id(),game_object->ID(),true);
 		CSE_ALifeItemPDA					*pda = smart_cast<CSE_ALifeItemPDA*>(abstract);

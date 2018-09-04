@@ -350,8 +350,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp )
 		}
 		*/
 
-		if ( !IsGameTypeSingle() )
-		{
+
 			CGameTask* ml_task = Level().GameTaskManager().HasGameTask( this, true );
 			if ( ml_task )
 			{
@@ -370,7 +369,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp )
 					m_complex_spot->show_static_border( border_show );
 				}
 			}
-		}
+
 
 		//update spot position
 		Fvector2 position	= GetPosition();
@@ -394,15 +393,14 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp )
 			map->AttachChild	(sp);
 		}
 
-		if ( !IsGameTypeSingle() )
-		{
+
 			CMapSpot* s = GetSpotBorder( sp );
 			if ( s )
 			{
 				s->SetWndPos( sp->GetWndPos() );
 				map->AttachChild( s );
 			}
-		}
+
 
 
 		bool b_pointer =( GetSpotPointer(sp) && map->NeedShowPointer(wnd_rect));
@@ -526,8 +524,7 @@ void CMapLocation::UpdateSpotPointer(CUICustomMap* map, CMapSpotPointer* sp )
 		Fvector ttt;
 		ttt.set		(tt.x, 0.0f, tt.y);
 
-		if (!IsGameTypeSingle())
-		{
+
 			float dist_to_target = Level().CurrentEntity()->Position().distance_to(ttt);
 			CGameTask*	task = Level().GameTaskManager().HasGameTask(this, true);
 			if ( task )
@@ -549,7 +546,7 @@ void CMapLocation::UpdateSpotPointer(CUICustomMap* map, CMapSpotPointer* sp )
 				a=100;
 
 			sp->SetTextureColor( subst_alpha(clr,a));
-		}
+
 	}
 }
 

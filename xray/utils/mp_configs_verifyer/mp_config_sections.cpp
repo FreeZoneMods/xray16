@@ -39,7 +39,9 @@ static char* important_sections[] =
 	"roleplay_team6",
 	"roleplay_team7",
 	"roleplay_team8",
-	"roleplay_team9"
+	"roleplay_team9",
+	//----m4d_Defence
+	"defence_team"
 };
 
 mp_config_sections::mp_config_sections() :
