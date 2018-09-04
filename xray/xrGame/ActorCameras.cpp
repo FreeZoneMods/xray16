@@ -25,8 +25,6 @@
 #include "IKLimbsController.h"
 #include "GamePersistent.h"
 
-ENGINE_API extern float psHUD_FOV;
-ENGINE_API extern float psHUD_FOV_def;
 
 void CActor::cam_Set(EActorCameras style)
 {
@@ -83,7 +81,7 @@ void CActor::camUpdateLadder(float dt)
 		float &cam_pitch = cameras[eacFirstEye]->pitch;
 		const float ldown_pitch = cameras[eacFirstEye]->lim_pitch.y;
 		float delta = angle_difference_signed(ldown_pitch, cam_pitch);
-		if (delta>0.f)
+		if (delta > 0.f)
 			cam_pitch += delta * std::min(dt*10.f, 1.f);
 	}
 }
@@ -122,7 +120,20 @@ ICF void calc_gl_point(Fvector& pt, const Fmatrix& xform, float radius, float an
 	calc_point(pt, radius, VIEWPORT_NEAR / 2, angle);
 	xform.transform_tiny(pt);
 }
+ICF BOOL test_point(const Fvector	&pt, xrXRC& xrc, const Fmatrix33& mat, const Fvector& ext)
+{
 
+	CDB::RESULT* it = xrc.r_begin();
+	CDB::RESULT* end = xrc.r_end();
+	for (; it != end; it++) {
+		CDB::RESULT&	O = *it;
+		if (GMLib.GetMaterialByIdx(O.material)->Flags.is(SGameMtl::flPassable))
+			continue;
+		//if (CDB::TestBBoxTri(mat, pt, ext, O.verts, false))
+		//	return		TRUE;
+	}
+	return FALSE;
+}
 
 
 IC bool test_point(const Fvector	&pt, const Fmatrix33& mat, const Fvector& ext, CActor* actor)
@@ -246,7 +257,7 @@ void	CActor::cam_Lookout(const Fmatrix &xform, float camera_height)
 					da *= r_torso.roll / _abs(r_torso.roll);
 
 				float angle = 0.f;
-				for (; _abs(angle)<_abs(alpha); angle += da)
+				for (; _abs(angle) < _abs(alpha); angle += da)
 				{
 					Fvector				pt;
 					calc_gl_point(pt, xform, radius, angle);
@@ -320,11 +331,11 @@ void CActor::cam_Update(float dt, float fFOV)
 	float flCurrentPlayerY = xform.c.y;
 
 	// Smooth out stair step ups
-	if ((character_physics_support()->movement()->Environment() == CPHMovementControl::peOnGround) && (flCurrentPlayerY - fPrevCamPos>0)) {
+	if ((character_physics_support()->movement()->Environment() == CPHMovementControl::peOnGround) && (flCurrentPlayerY - fPrevCamPos > 0)) {
 		fPrevCamPos += dt * 1.5f;
 		if (fPrevCamPos > flCurrentPlayerY)
 			fPrevCamPos = flCurrentPlayerY;
-		if (flCurrentPlayerY - fPrevCamPos>0.2f)
+		if (flCurrentPlayerY - fPrevCamPos > 0.2f)
 			fPrevCamPos = flCurrentPlayerY - 0.2f;
 		point.y += fPrevCamPos - flCurrentPlayerY;
 	}
@@ -404,18 +415,13 @@ extern	BOOL g_bDrawBulletHit;
 
 void CActor::OnRender()
 {
-#ifdef DEBUG
 	if (inventory().ActiveItem())
 		inventory().ActiveItem()->OnRender();
-#endif
+
 	if (!bDebug)				return;
 
 	if ((dbg_net_Draw_Flags.is_any(dbg_draw_actor_phys)))
 		character_physics_support()->movement()->dbg_Draw();
-
-
-
-	OnRender_Network();
 
 	inherited::OnRender();
 }
