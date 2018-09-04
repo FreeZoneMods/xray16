@@ -826,42 +826,8 @@ void game_sv_GameState::OnEvent (NET_Packet &tNetPacket, u16 type, u32 time, Cli
 
 bool game_sv_GameState::CheckNewPlayer(xrClientData* CL)
 {
-	xrGameSpyServer*		gs_server = smart_cast<xrGameSpyServer*>(m_server);
-	R_ASSERT				(gs_server);
-	
-	char const *			error_msg = NULL;
-	ClientID				tmp_client_id(CL->ID);
-	
-	if (gs_server->IsPublicServer())
-	{
-		if (!CL->ps->m_account.is_online())
-		{
-			error_msg = "mp_please_login";
-		} else
-		{
-			if (FindPlayerName(CL->ps->getName(), CL))
-			{
-				error_msg = "mp_already_logged_in";
-			}
-		}
-	} else
-	{
-		if (CL->ps->m_account.is_online())
-		{
-			error_msg = "mp_use_offline_mode";
-		} else
-		{
-			CheckPlayerName(CL);
-		}
-	}
 
-	if (error_msg)
-	{
-		m_server->SendProfileCreationError(CL, error_msg);
-		if (CL != m_server->GetServerClient()) //CL can be NULL
-			CleanDelayedEventFor(tmp_client_id);
-		return false;
-	}
+	
 	return true;
 }
 
