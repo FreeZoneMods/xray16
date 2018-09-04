@@ -407,9 +407,7 @@ u32 xrServer::OnDelayedMessage	(NET_Packet& P, ClientID sender)			// Non-Zero me
 				SetLogCB			(console_log_cb);
 				_tmp_log.clear		();
 				LPSTR		result_command;
-				string64	tmp_number_str;
-				xr_sprintf(tmp_number_str, " raid:%u", CL->ID.value());
-				STRCONCAT(result_command, buff, tmp_number_str);
+				STRCONCAT(result_command, buff);
 				Console->Execute	(result_command);
 				SetLogCB			(NULL);
 
