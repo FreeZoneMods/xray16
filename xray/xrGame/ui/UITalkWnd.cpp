@@ -64,11 +64,16 @@ void CUITalkWnd::InitTalkDialog()
 	m_pOthersDialogManager = smart_cast<CPhraseDialogManager*>(m_pOthersInvOwner);
 
 	//имена собеседников
-	Msg("Actor ID_: %u", m_pOurInvOwner->object_id());
-	UITalkDialogWnd->UICharacterInfoRight.InitCharacter		(m_pOthersInvOwner->object_id());
-	Msg("Speaker ID: %u", m_pOthersInvOwner->object_id());
-	UITalkDialogWnd->UICharacterInfoLeft.InitCharacter		(m_pOurInvOwner->object_id());
-
+	if (Level().IsServer()) {
+		UITalkDialogWnd->UICharacterInfoRight.InitCharacter(m_pOthersInvOwner->object_id());
+		UITalkDialogWnd->UICharacterInfoLeft.InitCharacter(m_pOurInvOwner->object_id());
+	}
+	else {
+		NET_Packet P;
+		CGameObject::u_EventGen(P, GE_DIALOG_INFO, m_pOurInvOwner->object_id());
+		P.w_u16(m_pOthersInvOwner->object_id());
+		CGameObject::u_EventSend(P);
+	}
 //.	UITalkDialogWnd->UIDialogFrame.UITitleText.SetText		(m_pOthersInvOwner->Name());
 //.	UITalkDialogWnd->UIOurPhrasesFrame.UITitleText.SetText	(m_pOurInvOwner->Name());
 	
@@ -82,6 +87,26 @@ void CUITalkWnd::InitTalkDialog()
 	UITalkDialogWnd->mechanic_mode			= m_pOthersInvOwner->SpecificCharacter().upgrade_mechanic();
 	UITalkDialogWnd->SetOsoznanieMode		(m_pOthersInvOwner->NeedOsoznanieMode());
 	UITalkDialogWnd->Show					();
+	UITalkDialogWnd->UpdateButtonsLayout(b_disable_break, m_pOthersInvOwner->IsTradeEnabled());
+}
+
+void CUITalkWnd::InitTalkDialogOnClient(shared_str name1, shared_str community1, shared_str icon1, shared_str name2, shared_str community2, shared_str icon2)
+{
+	m_pActor = Actor();
+	if (m_pActor && !m_pActor->IsTalking()) return;
+
+	UITalkDialogWnd->UICharacterInfoLeft.InitCharacterOnClient(name1, community1, icon1);
+	UITalkDialogWnd->UICharacterInfoRight.InitCharacterOnClient(name2, community2, icon2);
+
+	//очистить лог сообщений
+	UITalkDialogWnd->ClearAll();
+
+	InitOthersStartDialog();
+	NeedUpdateQuestions();
+	Update();
+
+	UITalkDialogWnd->mechanic_mode = m_pOthersInvOwner->SpecificCharacter().upgrade_mechanic();
+	UITalkDialogWnd->Show();
 	UITalkDialogWnd->UpdateButtonsLayout(b_disable_break, m_pOthersInvOwner->IsTradeEnabled());
 }
 

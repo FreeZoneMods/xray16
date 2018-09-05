@@ -126,6 +126,7 @@ void CCharacterInfo::Init	(CSE_ALifeTraderAbstract* trader)
 		InitSpecificCharacter("actor");
 	}
 	else {
+		Msg("Trader ID: %u", trader->object_id());
 		SetCommunity(trader->m_community_index);
 		SetRank(trader->m_rank);
 		SetReputation(trader->m_reputation);

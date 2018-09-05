@@ -378,6 +378,38 @@ void xrServer::Process_event	(NET_Packet& P, ClientID sender)
 
 		SendTo(receiver->owner->ID, tmp_packet, net_flags(TRUE, TRUE));
 	}break;
+	case GE_DIALOG_INFO:
+	{
+		u16 id_partner;
+		P.r_u16(id_partner);
+
+		CSE_ALifeTraderAbstract* T_our;
+		CSE_ALifeTraderAbstract* T_their;
+
+		T_our	=	smart_cast<CSE_ALifeTraderAbstract*>(game->get_entity_from_eid(receiver->ID));
+		T_their =	smart_cast<CSE_ALifeTraderAbstract*>(game->get_entity_from_eid(id_partner));
+
+		CCharacterInfo chInfo_our;
+		chInfo_our.Init(T_our);
+
+		CCharacterInfo chInfo_their;
+		chInfo_their.Init(T_their);
+
+		NET_Packet tmp_packet;
+		CGameObject::u_EventGen(tmp_packet, GE_DIALOG_INFO, receiver->ID);
+
+		tmp_packet.w_stringZ((T_our->m_character_name.c_str()));		//name
+		tmp_packet.w_stringZ(chInfo_our.Community().id());				//community
+		tmp_packet.w_stringZ(chInfo_our.IconName());					//icon
+
+		tmp_packet.w_stringZ((T_their->m_character_name.c_str()));		//name
+		tmp_packet.w_stringZ(chInfo_their.Community().id());			//community
+		tmp_packet.w_stringZ(chInfo_their.IconName());					//icon
+
+		Msg("Player %u trying to talk with %u", receiver->ID, id_partner);
+
+		SendTo(receiver->owner->ID, tmp_packet, net_flags(TRUE, TRUE));
+	}break;
 	default:
 		R_ASSERT2	(0,"Game Event not implemented!!!");
 		break;

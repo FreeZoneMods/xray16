@@ -26,12 +26,8 @@ using namespace InventoryUtilities;
 
 CSE_ALifeTraderAbstract* ch_info_get_from_id (u16 id)
 {
-	if( ai().get_alife() && ai().get_game_graph() )
-	{
-		return	smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(id));
-	}else{
-		return	smart_cast<CSE_ALifeTraderAbstract*>(Level().Server->game->get_entity_from_eid(id));
-	}
+	return	smart_cast<CSE_ALifeTraderAbstract*>(Level().Server->game->get_entity_from_eid(id));
+	//need to make another method
 }
 
 CUICharacterInfo::CUICharacterInfo()

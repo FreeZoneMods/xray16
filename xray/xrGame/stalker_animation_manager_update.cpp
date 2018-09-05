@@ -72,7 +72,6 @@ IC	void CStalkerAnimationManager::play_script_impl			()
 				object().destroy_anim_mov_ctrl	( );
 		}
 	}
-
 	script().play			(
 		m_skeleton_animated,
 		script_play_callback,
@@ -166,7 +165,6 @@ bool CStalkerAnimationManager::play_global					()
 	}
 
 	play_global_impl		(global_animation, animation_movement_controller);
-
 	return					(true);
 }
 
@@ -187,7 +185,6 @@ void CStalkerAnimationManager::play_legs					()
 	float					speed = 0.f;
 	bool					first_time = !legs().animation();
 	bool					result = legs().animation(assign_legs_animation());
-	
 	if (!first_time && !result && legs().blend()) {
 		float				amount = legs().blend()->blendAmount;
 		m_previous_speed	= (m_target_speed - m_previous_speed)*amount + m_previous_speed;

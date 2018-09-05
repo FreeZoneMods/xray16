@@ -277,8 +277,9 @@ void CGrenade::UpdateCL()
 {
 	inherited::UpdateCL			();
 	CExplosive::UpdateCL		();
-
 	if(!IsGameTypeSingle())	make_Interpolation();
+	if (m_pPhysicsShell && Level().IsClient())
+		m_pPhysicsShell->SetIgnoreAnimated();
 }
 
 

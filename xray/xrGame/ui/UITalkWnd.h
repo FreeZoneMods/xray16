@@ -55,6 +55,7 @@ public:
 	void				SwitchToTrade			();
 	void				SwitchToUpgrade			();
 	void				AddIconedMessage		(LPCSTR caption, LPCSTR text, LPCSTR texture_name, LPCSTR templ_name);
+	void				InitTalkDialogOnClient	(shared_str name1, shared_str community1, shared_str icon1, shared_str name2, shared_str community2, shared_str icon2);
 
 protected:
 	//диалог

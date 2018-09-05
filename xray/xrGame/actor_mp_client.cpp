@@ -55,6 +55,39 @@ void CActorMP::OnEvent		( NET_Packet &P, u16 type)
 		}
 		return;
 	}
+
+	if (type == GE_DIALOG_INFO)
+	{
+		shared_str OurName;
+		shared_str OurCommunity;
+		shared_str OurIcon;		
+		
+		shared_str TheirName;
+		shared_str TheirCommunity;
+		shared_str TheirIcon;
+
+		P.r_stringZ(OurName);
+		P.r_stringZ(OurCommunity);
+		P.r_stringZ(OurIcon);
+
+		P.r_stringZ(TheirName);
+		P.r_stringZ(TheirCommunity);
+		P.r_stringZ(TheirIcon);
+
+		if (m_pPersonWeLookingAt) {
+			CInventoryOwner* pEntityAliveWeLookingAt = smart_cast<CInventoryOwner*>(m_pPersonWeLookingAt);
+
+			VERIFY(pEntityAliveWeLookingAt); //check if exist
+
+			if (m_pPersonWeLookingAt->is_alive()) {
+				Msg("Talking, ID: %u", pEntityAliveWeLookingAt->object_id());
+				UIGameDM->TalkMenu->InitTalkDialogOnClient(OurName, OurCommunity, OurIcon, TheirName, TheirCommunity, TheirIcon);
+				return;
+			}
+		}
+		return;
+	}
+
 	inherited::OnEvent(P,type);
 }
 
