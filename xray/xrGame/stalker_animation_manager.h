@@ -194,6 +194,8 @@ public:
 			void					play_fx					(float power_factor, int fx_index);
 			void 					play_delayed_callbacks	();
 
+			void					send_script_anm_OnClient	(MotionID motion);
+
 public:
 			void					add_script_animation	(LPCSTR animation, bool hand_usage = false, bool use_movement_controller = false);
 			void					add_script_animation	(LPCSTR animation, bool hand_usage, Fvector position, Fvector rotation, bool local_animation);

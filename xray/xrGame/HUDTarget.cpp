@@ -21,6 +21,7 @@
 #include "inventory.h"
 
 #include <ai/monsters/poltergeist/poltergeist.h>
+#include <actor.h>
 
 
 u32 C_ON_ENEMY		D3DCOLOR_RGBA(0xff,0,0,0x80);
@@ -179,12 +180,12 @@ void CHUDTarget::Render()
 			//---m4d (когда наводим прицел на что угодно)
 			CInventoryOwner* our_inv_owner = smart_cast<CInventoryOwner*>(pCurEnt);
 			CInventoryOwner* others_inv_owner = smart_cast<CInventoryOwner*>(E);
+			CActor* actor = smart_cast<CActor*>(others_inv_owner);
 			CStringTable	strtbl;
 			if (E && E->g_Alive() && !E->cast_base_monster())
 			{
 
-
-				if (our_inv_owner && others_inv_owner) {
+				if (our_inv_owner && others_inv_owner && !actor) {
 
 					switch (RELATION_REGISTRY().GetRelationType(others_inv_owner, our_inv_owner))
 					{
@@ -223,11 +224,12 @@ void CHUDTarget::Render()
 			{
 				if (pCurEnt)
 				{
-					if (GameID() == eGameIDDeathmatch)			C = C_ON_ENEMY;
-					else
+					if (GameID() == eGameIDDeathmatch && actor || E->cast_base_monster())
+						C = C_ON_ENEMY;
+					else 
 					{
-						if (E->g_Team() != pCurEnt->g_Team())	C = C_ON_ENEMY;
-						else									C = C_ON_FRIEND;
+						if (E->g_Team() != pCurEnt->g_Team() && actor)	C = C_ON_ENEMY;
+						if (E->g_Team() == pCurEnt->g_Team() && actor)	C = C_ON_FRIEND;
 					};
 					if (PP.RQ.range >= recon_mindist() && PP.RQ.range <= recon_maxdist())
 					{

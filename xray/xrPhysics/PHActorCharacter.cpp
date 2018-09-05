@@ -371,7 +371,7 @@ void CPHActorCharacter::ChooseRestrictionType	(ERestrictionType my_type,float my
 if (my_type!=rtStalker||(ch->RestrictionType()!=rtStalker&&ch->RestrictionType()!=rtStalkerSmall))return;
 
 //Crashes when trying accept rtStalker or rtStalkerSmall
-float checkR=0.01f;//1.5f;//+m_restrictors[rtStalker]->m_restrictor_radius)/2.f;
+float checkR=m_restrictors[rtStalkerSmall]->m_restrictor_radius;//1.5f;//+m_restrictors[rtStalker]->m_restrictor_radius)/2.f;
 
 switch(ch->RestrictionType())
 {
@@ -379,7 +379,7 @@ case rtStalkerSmall:
 	if( ch->ObjectRadius() > checkR )
 	{
 		//if(my_depth>0.05f)
-		ch->SetNewRestrictionType(rtActor);
+		ch->SetNewRestrictionType(rtStalkerSmall);
 		Enable();
 		//else ch->SetRestrictionType(rtStalker);
 #ifdef DEBUG
@@ -395,7 +395,7 @@ case rtStalker:
 		if(debug_output().ph_dbg_draw_mask1().test(ph_m1_DbgActorRestriction))
 						Msg("restriction  change large ->  small");
 #endif
-		ch->SetRestrictionType(rtActor);
+		ch->SetRestrictionType(rtStalker);
 		Enable();
 	}
 	break;

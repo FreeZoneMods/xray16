@@ -84,7 +84,6 @@ void CBaseMonster::net_Import(NET_Packet& P)
 	SPHNetState state;
 	state.position = N.p_pos;
 	PHGetSyncItem(0)->set_State(state);
-	make_Interpolation();
 
 	setVisible				(TRUE);
 	setEnabled				(TRUE);

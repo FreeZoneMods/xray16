@@ -23,24 +23,15 @@ void CStalkerAnimationManager::script_play_callback(CBlend *blend)
 	CStalkerAnimationPair		&pair = animation_manager.script();
 	const SCRIPT_ANIMATIONS		&animations = animation_manager.script_animations();
 
-#if 0
-	Msg							(
-		"%6d Script callback [%s]",
-		Device.dwTimeGlobal,
-		animations.empty()
-		?
-		"unknown"
-		:
-		animation_manager.m_skeleton_animated->LL_MotionDefName_dbg(animations.front().animation())
-	);
-#endif
-
-	if	(
-			pair.animation() && 
-			!animations.empty() && 
-			(pair.animation() == animations.front().animation())
+	if (
+		pair.animation() &&
+		!animations.empty() &&
+		(pair.animation() == animations.front().animation())
 		)
+	{
 		animation_manager.pop_script_animation();
+		animation_manager.send_script_anm_OnClient(animations.front().animation()); //Sending animation to client
+	}
 
 	animation_manager.m_call_script_callback		= true;
 	animation_manager.m_start_new_script_animation	= true;
@@ -86,8 +77,20 @@ const CStalkerAnimationScript &CStalkerAnimationManager::assign_script_animation
 	VERIFY							(!script_animations().empty());
 
 	const CStalkerAnimationScript	&animation = script_animations().front();
-	if ( animation.use_movement_controller() || script().use_animation_movement_control(m_skeleton_animated, animation.animation()))
-		script().target_matrix		(object().XFORM());
-
+	if (animation.use_movement_controller() || script().use_animation_movement_control(m_skeleton_animated, animation.animation())) {
+		script().target_matrix(object().XFORM());
+	}
 	return							(script_animations().front());
+}
+
+void CStalkerAnimationManager::send_script_anm_OnClient(MotionID motion)
+{
+	MotionID anm = motion;
+	NET_Packet AnmPacket;
+
+	AnmPacket.w_begin(M_STALKER_ANM_S);
+	AnmPacket.w_u16(m_object->ID());
+	AnmPacket.w(&anm, sizeof(&anm));
+
+	Level().Server->SendBroadcast(BroadcastCID, AnmPacket);
 }

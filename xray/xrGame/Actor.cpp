@@ -1334,6 +1334,7 @@ void CActor::shedule_Update	(u32 DT)
 		m_pPersonWeLookingAt			= smart_cast<CInventoryOwner*>(game_object);
 		m_pVehicleWeLookingAt			= smart_cast<CHolderCustom*>(game_object);
 		CEntityAlive* pEntityAlive		= smart_cast<CEntityAlive*>(game_object);
+		CActor*		  actor				= smart_cast<CActor*>(m_pPersonWeLookingAt);
 		
 
 			if (m_pUsableObject && m_pUsableObject->tip_text())
@@ -1342,11 +1343,11 @@ void CActor::shedule_Update	(u32 DT)
 			}
 			else
 			{
-				if (m_pPersonWeLookingAt && pEntityAlive->g_Alive() && m_pPersonWeLookingAt->IsTalkEnabled())
+				if (m_pPersonWeLookingAt && pEntityAlive->g_Alive() && !actor && m_pPersonWeLookingAt->IsTalkEnabled())
 				{
 					m_sDefaultObjAction = m_sCharacterUseAction;
 				}
-				else if ( pEntityAlive && !pEntityAlive->g_Alive() )
+				else if ( pEntityAlive && !pEntityAlive->g_Alive() && !actor )
 				{
 					if ( m_pPersonWeLookingAt && m_pPersonWeLookingAt->deadbody_closed_status() )
 					{

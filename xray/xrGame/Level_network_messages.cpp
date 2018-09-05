@@ -18,6 +18,7 @@
 #include "../xrphysics/iphworld.h"
 
 #include "ai/stalker/ai_stalker.h"
+#include "stalker_animation_manager.h"
 #include "ai/stalker/ai_stalker_space.h"
 #include "ai/monsters/basemonster/base_monster.h"
 #include "sound_player.h"
@@ -300,6 +301,22 @@ void CLevel::ClientReceive()
 				KA->PlayCycle(m_id2);
 			}
 		}break;
+		case M_STALKER_ANM_S:
+		{
+			u16 ID = P->r_u16();
+			MotionID m_id;
+
+			P->r(&m_id, sizeof(&m_id));
+
+			if (!m_id.valid()) break;
+
+			if (OnClient() && CurrentGameUI()) {
+				CAI_Stalker* Stalker = smart_cast<CAI_Stalker*>(Objects.net_Find(ID));
+				if (0 == Stalker)		break;
+				IKinematicsAnimated	*KA = smart_cast<IKinematicsAnimated*>(Stalker->Visual());
+				KA->PlayCycle(m_id);
+			}
+		}break;
 		case M_STALKER_SND:
 		{
 			u16 ID = P->r_u16();
@@ -345,7 +362,7 @@ void CLevel::ClientReceive()
 				IKinematicsAnimated	*KA = smart_cast<IKinematicsAnimated*>(Monster->Visual());
 				if(!KA) break;
 				for (u16 i = 0; i < MAX_PARTS; ++i) {
-					KA->PlayCycle(i, m_id);
+					KA->PlayCycle(i, m_id, TRUE);
 				}
 			}
 		}break;

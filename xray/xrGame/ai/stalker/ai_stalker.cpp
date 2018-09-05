@@ -62,6 +62,7 @@
 #include "smart_cover_animation_planner.h"
 #include "smart_cover_planner_target_selector.h"
 
+
 #ifdef DEBUG
 #	include "../../alife_simulator.h"
 #	include "../../alife_object_registry.h"
@@ -718,7 +719,8 @@ void CAI_Stalker::net_Export		(NET_Packet& P)
 	P.w_float /*w_angle8*/						(N.o_model);
 	P.w_float /*w_angle8*/						(N.o_torso.yaw);
 	P.w_float /*w_angle8*/						(N.o_torso.pitch);
-	P.w_float /*w_angle8*/						(N.o_torso.roll);
+	P.w_float /*w_angle8*/						(movement().m_body.current.yaw);
+
 	P.w_u8							(u8(g_Team()));
 	P.w_u8							(u8(g_Squad()));
 	P.w_u8							(u8(g_Group()));
@@ -753,7 +755,7 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	P.r_float /*r_angle8*/						(N.o_model);
 	P.r_float /*r_angle8*/						(N.o_torso.yaw);
 	P.r_float /*r_angle8*/						(N.o_torso.pitch);
-	P.r_float /*r_angle8*/						(N.o_torso.roll);
+	P.r_float /*r_angle8*/						(movement().m_body.current.yaw);
 	id_Team							= P.r_u8();
 	id_Squad						= P.r_u8();
 	id_Group						= P.r_u8();
@@ -779,7 +781,7 @@ void CAI_Stalker::net_Import		(NET_Packet& P)
 	inventory().SetActiveSlot(wpn);
 
 	SPHNetState state;
-	state.position = N.p_pos;
+	state.position = Position();
 	PHGetSyncItem(0)->set_State(state);
 	
 	setVisible						(TRUE);
@@ -972,6 +974,7 @@ void CAI_Stalker::shedule_Update		( u32 DT )
 			Device.seqParallel.push_back(fastdelegate::FastDelegate0<>(this,&CCustomMonster::Exec_Visibility));
 		else {
 			START_PROFILE("stalker/schedule_update/vision")
+			if(Level().IsServer())
 			Exec_Visibility				();
 			STOP_PROFILE
 		}
@@ -1390,6 +1393,7 @@ bool CAI_Stalker::unlimited_ammo()
 BOOL CAI_Stalker::net_Relevant()
 {
 	return TRUE;
+
 }
 
 void CAI_Stalker::OnAnimationChange() {
