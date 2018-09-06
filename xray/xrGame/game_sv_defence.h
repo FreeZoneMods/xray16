@@ -22,8 +22,8 @@ public:
 	virtual		BOOL				Get_TeamKillPunishment();
 
 	
-	virtual		void				OnPlayerHitPlayer(u16 id_hitter, u16 id_hitted, NET_Packet& P);
-	virtual		void				OnPlayerHitPlayer_Case(game_PlayerState* ps_hitter, game_PlayerState* ps_hitted, SHit* pHitS);
+	//virtual		void				OnPlayerHitPlayer(u16 id_hitter, u16 id_hitted, NET_Packet& P);
+	//virtual		void				OnPlayerHitPlayer_Case(game_PlayerState* ps_hitter, game_PlayerState* ps_hitted, SHit* pHitS);
 
 	BOOL							OnTouchItem(CSE_ActorMP *actor, CSE_Abstract *item);
 	void							OnDetachItem(CSE_ActorMP *actor, CSE_Abstract *item);
