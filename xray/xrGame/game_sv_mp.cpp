@@ -2257,14 +2257,14 @@ void	game_sv_mp::OnPlayerChangeName		(NET_Packet& P, ClientID sender)
 	if (!ps) return;
 
 	xrGameSpyServer* sv = smart_cast<xrGameSpyServer*>( m_server );
-	if( sv && sv->IsPublicServer() )
+	if( !psActorFlags.test(AF_RENAME_MODE) )
 	{
 		Msg( "Player \"%s\" try to change name on \"%s\" at public server.", ps->getName(), NewName );
 
 		NET_Packet			P;
 		GenerateGameMessage (P);
 		P.w_u32				(GAME_EVENT_SERVER_STRING_MESSAGE);
-		P.w_stringZ			("Server is public. Can\'t change player name!");
+		P.w_stringZ			("Rename mode is disabled. Can\'t change player name!");
 		m_server->SendTo	( sender, P );
 		return;
 	}
