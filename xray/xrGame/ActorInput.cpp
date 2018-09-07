@@ -644,10 +644,14 @@ void CActor::NoClipFly(int cmd)
 	Fvector cur_pos;// = Position();
 	cur_pos.set(0,0,0);
 	float scale = 1.0f;
-	if(pInput->iGetAsyncKeyState(DIK_LSHIFT))
+	if (pInput->iGetAsyncKeyState(DIK_LSHIFT))
 		scale = 0.25f;
-	else if(pInput->iGetAsyncKeyState(DIK_LMENU))
-		scale = 4.0f;
+	else if (pInput->iGetAsyncKeyState(DIK_X))
+		scale = 8.0f;
+	else if (pInput->iGetAsyncKeyState(DIK_LMENU))
+		scale = 12.0f;//LALT
+	else if (pInput->iGetAsyncKeyState(DIK_TAB))
+		scale = 20.0f;
 
 	switch(cmd)
 	{
