@@ -851,9 +851,10 @@ void CActor::g_Physics			(Fvector& _accel, float jump, float dt)
 			SwitchOutBorder(new_border_state);
 		}
 
-		if(!psActorFlags.test(AF_NO_CLIP))
-			character_physics_support()->movement()->GetPosition		(Position());
-		else
+		//if (psActorFlags.test(AF_NO_CLIP) && m_pPhysicsShell)
+		//	m_pPhysicsShell->set_ApplyByGravity(false);
+		//else
+		//	m_pPhysicsShell->set_ApplyByGravity(true);
 		character_physics_support()->movement()->GetPosition		(Position());
 
 		character_physics_support()->movement()->bSleep				=false;
@@ -999,13 +1000,9 @@ void CActor::UpdateCL	()
 		}
 		if (pWeapon->IsZoomed() && pWeapon->IsScopeAttached())
 		{
-			float full_fire_disp = pWeapon->GetFireDispersion(true);
 
-			CEffectorZoomInertion* S = smart_cast<CEffectorZoomInertion*>	(Cameras().GetCamEffector(eCEZoom));
-			if (S)
-				S->SetParams(full_fire_disp);
+			SetZoomAimingMode		(true);
 
-			SetZoomAimingMode(true);
 
 			if (!bLook_cam_fp_zoom && g_Alive() && Level().CurrentViewEntity() == this && cam_active == eacLookAt && cam_Active()->m_look_cam_fp_zoom == true)
 			{
@@ -1035,7 +1032,7 @@ void CActor::UpdateCL	()
 			HUD().SetFirstBulletCrosshairDisp(pWeapon->GetFirstBulletDisp());
 #endif
 			
-			BOOL B = ! ((mstate_real & mcLookout) && IsGameTypeSingle());
+			BOOL B = ! (mstate_real & mcLookout);
 
 			psHUD_Flags.set( HUD_WEAPON_RT, B );
 
@@ -1093,6 +1090,14 @@ void CActor::UpdateCL	()
 		g_player_hud->update			(trans);
 
 	m_bPickupMode=false;
+
+	float cs_min = pSettings->r_float(cNameSect(), "ph_crash_speed_min");
+	float cs_max = pSettings->r_float(cNameSect(), "ph_crash_speed_max");
+
+	if (psActorFlags.test(AF_GODMODE || AF_NO_CLIP))
+		character_physics_support()->movement()->SetCrashSpeeds(80000, 90000);
+	else
+		character_physics_support()->movement()->SetCrashSpeeds(cs_min, cs_max);
 }
 
 float	NET_Jump = 0;
@@ -1323,8 +1328,8 @@ void CActor::shedule_Update	(u32 DT)
 	//что актер видит перед собой
 	collide::rq_result& RQ				= HUD().GetCurrentRayQuery();
 	
-
-	if(!input_external_handler_installed() && RQ.O && RQ.O->getVisible() &&  RQ.range<2.7f) 
+	float fAcquistionRange = cam_active == eacFirstEye ? 2.0f : 3.2f;
+	if(!input_external_handler_installed() && RQ.O && RQ.O->getVisible() && RQ.range < fAcquistionRange)
 	{
 		m_pObjectWeLookingAt			= smart_cast<CGameObject*>(RQ.O);
 		
@@ -1460,7 +1465,6 @@ extern	BOOL	g_ShowAnimationInfo		;
 void CActor::OnHUDDraw	(CCustomHUD*)
 {
 	R_ASSERT						(IsFocused());
-	if(! ( (mstate_real & mcLookout) && IsGameTypeSingle() ) )
 		g_player_hud->render_hud		();
 
 
@@ -1614,7 +1618,6 @@ void CActor::ForceTransform(const Fmatrix& m)
 	//		character_physics_support()->movement()->EnableCharacter();
 	//character_physics_support()->set_movement_position( m.c );
 	//character_physics_support()->movement()->SetVelocity( 0, 0, 0 );
-
 	character_physics_support()->ForceTransform( m );
 	const float block_damage_time_seconds = 2.f;
 	if(!IsGameTypeSingle())
