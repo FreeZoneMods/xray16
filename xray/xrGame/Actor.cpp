@@ -1032,7 +1032,7 @@ void CActor::UpdateCL	()
 			HUD().SetFirstBulletCrosshairDisp(pWeapon->GetFirstBulletDisp());
 #endif
 			
-			BOOL B = ! (mstate_real & mcLookout);
+			BOOL B = ! ((mstate_real & mcLookout)&& false);
 
 			psHUD_Flags.set( HUD_WEAPON_RT, B );
 
@@ -1465,6 +1465,7 @@ extern	BOOL	g_ShowAnimationInfo		;
 void CActor::OnHUDDraw	(CCustomHUD*)
 {
 	R_ASSERT						(IsFocused());
+	if (!((mstate_real & mcLookout) && false))
 		g_player_hud->render_hud		();
 
 
@@ -1640,7 +1641,7 @@ bool		CActor::use_bolts				() const
 	return CInventoryOwner::use_bolts();
 };
 
-int		g_iCorpseRemove = 1;
+int		g_iActorCorpseRemove = 1;
 
 bool  CActor::NeedToDestroyObject() const
 {
@@ -1651,8 +1652,8 @@ bool  CActor::NeedToDestroyObject() const
 	else 
 	{
 		if (g_Alive()) return false;
-		if (g_iCorpseRemove == -1) return false;
-		if (g_iCorpseRemove == 0 && m_bAllowDeathRemove) return true;
+		if (g_iActorCorpseRemove == -1) return false;
+		if (g_iActorCorpseRemove == 0 && m_bAllowDeathRemove) return true;
 		if(TimePassedAfterDeath()>m_dwBodyRemoveTime && m_bAllowDeathRemove)
 			return true;
 		else

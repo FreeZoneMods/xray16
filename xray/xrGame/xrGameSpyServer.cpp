@@ -78,7 +78,7 @@ xrGameSpyServer::EConnect xrGameSpyServer::Connect(shared_str &session_name, Gam
 	
 
 	m_iReportToMasterServer = true;
-	m_iMaxPlayers	= game->get_option_i		(*session_name,"maxplayers",32);
+	//m_iMaxPlayers	= game->get_option_i		(*session_name,"maxplayers",32);
 //	m_bCheckCDKey = game->get_option_i		(*session_name,"cdkey",0) != 0;
 	m_bCheckCDKey = false;
 	//--------------------------------------------//
@@ -126,11 +126,13 @@ void			xrGameSpyServer::Update				()
 	};
 }
 
+int		g_PlayersCount = 0;
+
 int				xrGameSpyServer::GetPlayersCount()
 {
 	int NumPlayers = net_players.ClientsCount();
-	if (!g_dedicated_server || NumPlayers < 1) return NumPlayers;
-	return NumPlayers - 1;
+	if (!g_dedicated_server || NumPlayers < 1) return NumPlayers + g_PlayersCount;
+	return NumPlayers - 1 + g_PlayersCount;
 };
 
 bool			xrGameSpyServer::NeedToCheckClient_GameSpy_CDKey	(IClient* CL)
@@ -232,21 +234,23 @@ void xrGameSpyServer::Assign_ServerType( string512& res )
 	xr_strcpy( res, "# Server started without users list." );
 	Msg( res );
 }
-
+extern int m_MaxPlayers;
+extern string4096		host_name;
+extern string4096		game_version;
 void xrGameSpyServer::GetServerInfo( CServerInfo* si )
 {
 	string32 tmp, tmp2;
 
-	si->AddItem( "Server name", HostName.c_str(), RGB(128,128,255) );
+	si->AddItem( "Server name", host_name, RGB(128,128,255) );
 	si->AddItem( "Map", MapName.c_str(), RGB(255,0,128) );
 	
 	xr_strcpy( tmp, itoa( GetPlayersCount(), tmp2, 10 ) );
 	xr_strcat( tmp, " / ");
-	xr_strcat( tmp, itoa( m_iMaxPlayers, tmp2, 10 ) );
+	xr_strcat( tmp, itoa( m_MaxPlayers, tmp2, 10 ) );
 	si->AddItem( "Players", tmp, RGB(255,128,255) );
 
 	string256 res;
-	si->AddItem( "Game version", QR2()->GetGameVersion( res ), RGB(0,158,255) );
+	si->AddItem( "Game version", game_version, RGB(0,158,255) );
 	
 	xr_strcpy( res, "" );
 	if ( HasProtected() || (Password.size() > 0))

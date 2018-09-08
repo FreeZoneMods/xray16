@@ -1166,6 +1166,28 @@ const MonsterSpace::SBoneRotation &CAI_Stalker::head_orientation	() const
 	return		(movement().head_orientation());
 }
 
+int		g_iStalkerCorpseRemove = -1;
+
+bool  CAI_Stalker::NeedToDestroyObject() const
+{
+	if (g_Alive()) return false;
+	if (g_iStalkerCorpseRemove == -1) return false;
+	if (g_iStalkerCorpseRemove == 0) return true;
+	if (TimePassedAfterDeath() > m_dwBodyRemoveTime)
+		return true;
+	else
+		return false;
+
+}
+
+ALife::_TIME_ID	 CAI_Stalker::TimePassedAfterDeath()	const
+{
+	if (!g_Alive())
+		return Level().timeServer() - GetLevelDeathTime();
+	else
+		return 0;
+}
+
 void CAI_Stalker::net_Relcase				(CObject*	 O)
 {
 	inherited::net_Relcase				(O);

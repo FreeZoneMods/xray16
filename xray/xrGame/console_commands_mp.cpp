@@ -40,7 +40,9 @@ extern	u32		g_dwMaxCorpses;
 extern	float	g_fTimeFactor;
 extern	BOOL	g_b_COD_PickUpMode		;
 extern	int		g_iWeaponRemove			;
-extern	int		g_iCorpseRemove			;
+extern	int		g_iActorCorpseRemove			;
+extern	int		g_PlayersCount			;
+extern	int		g_iStalkerCorpseRemove			;
 extern	BOOL	g_bCollectStatisticData ;
 //extern	BOOL	g_bStatisticSaveAuto	;
 extern	BOOL	g_SV_Disable_Auth_Check	;
@@ -92,10 +94,11 @@ extern	int 	G_DELAYED_ROUND_TIME;
 extern	int		g_sv_Pending_Wait_Time;
 extern	u32		g_sv_Client_Reconnect_Time;
 		int		g_dwEventDelay			= 0	;
-
+extern string4096		game_version;
+extern string4096		host_name;
 extern	u32		g_sv_adm_menu_ban_time;
 extern	xr_token g_ban_times[];
-
+extern int m_MaxPlayers;
 extern	int		g_sv_adm_menu_ping_limit;
 extern	u32		g_sv_cta_dwInvincibleTime;
 //extern	u32		g_sv_cta_dwAnomalySetLengthTime;
@@ -2000,11 +2003,12 @@ void register_mp_console_commands()
 	CMD1(CCC_Net_SV_ClearStats,		"net_sv_clearstats" );
 
 	// Network
+
+	CMD4(CCC_Integer,	"net_cl_update_rate",	&psNET_ClientUpdate,1,		1000				);
 #ifdef DEBUG
-	CMD4(CCC_Integer,	"net_cl_update_rate",	&psNET_ClientUpdate,20,		100				);
 	CMD4(CCC_Integer,	"net_cl_pending_lim",	&psNET_ClientPending,0,		10				);
 #endif
-	CMD4(CCC_Integer,	"net_sv_update_rate",	&psNET_ServerUpdate,1,		100				);
+	CMD4(CCC_Integer,	"net_sv_update_rate",	&psNET_ServerUpdate,1,		1000				);
 	CMD4(CCC_Integer,	"net_sv_pending_lim",	&psNET_ServerPending,0,		10				);
 	CMD4(CCC_Integer,	"net_sv_gpmode",	    &psNET_GuaranteedPacketMode,0, 2)	;
 	CMD3(CCC_Mask,		"net_sv_log_data",		&psNET_Flags,		NETFLAG_LOG_SV_PACKETS	);
@@ -2066,6 +2070,8 @@ void register_mp_console_commands()
 	CMD1(CCC_PrevMap,		"sv_prevmap"				);
 	CMD1(CCC_AnomalySet,	"sv_nextanomalyset"			);
 
+
+
 	CMD1(CCC_Vote_Start,	"cl_votestart"				);
 	CMD1(CCC_Vote_Stop,		"sv_votestop"				);
 	CMD1(CCC_Vote_Yes,		"cl_voteyes"				);
@@ -2078,7 +2084,16 @@ void register_mp_console_commands()
 	CMD4(CCC_Integer,		"cl_cod_pickup_mode",	&g_b_COD_PickUpMode,	0, 1)	;
 
 	CMD4(CCC_Integer,		"sv_remove_weapon",		&g_iWeaponRemove, -1, 1);
-	CMD4(CCC_Integer,		"sv_remove_corpse",		&g_iCorpseRemove, -1, 1);
+	CMD4(CCC_Integer,		"sv_remove_actors_corpse",		&g_iActorCorpseRemove, -1, 1);
+
+	//new
+	CMD3(CCC_String,  "sv_game_version", game_version, 64);
+	CMD3(CCC_String,  "sv_host_name", host_name, 256);
+	CMD4(CCC_Integer, "sv_players_count", &g_PlayersCount, -100, 1000);
+	CMD4(CCC_Integer, "sv_players_slots", &m_MaxPlayers, 0, 1000);
+	CMD4(CCC_Integer, "sv_remove_stalker_corpse", &g_iStalkerCorpseRemove, -1, 1);
+	//new
+
 
 	CMD4(CCC_Integer,		"sv_statistic_collect", &g_bCollectStatisticData, 0, 1);
 	CMD1(CCC_SaveStatistic,	"sv_statistic_save");
@@ -2139,7 +2154,7 @@ void register_mp_console_commands()
 	CMD4(CCC_SV_Integer,	"sv_auto_team_swap"			,	(int*)&g_sv_tdm_bAutoTeamSwap		,	0,1);
 	CMD4(CCC_SV_Integer,	"sv_friendly_indicators"	,	(int*)&g_sv_tdm_bFriendlyIndicators	,	0,1);
 	CMD4(CCC_SV_Integer,	"sv_friendly_names"			,	(int*)&g_sv_tdm_bFriendlyNames		,	0,1);
-	CMD4(CCC_SV_Float,		"sv_friendlyfire"			,	&g_sv_tdm_fFriendlyFireModifier		,	0.0f,2.0f);
+	CMD4(CCC_SV_Float,		"sv_friendly_fire"			,	&g_sv_tdm_fFriendlyFireModifier		,	0.0f,2.0f);
 	CMD4(CCC_SV_Integer,	"sv_teamkill_limit"			,	&g_sv_tdm_iTeamKillLimit			,	0,100);
 	CMD4(CCC_SV_Integer,	"sv_teamkill_punish"		,	(int*)&g_sv_tdm_bTeamKillPunishment	,	0,1);
 

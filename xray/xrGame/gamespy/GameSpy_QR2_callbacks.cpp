@@ -12,6 +12,9 @@
 #define ADD_KEY_VAL(g, q, qf, o, gf)		{if (g) {q->qf(o, g->gf);} else q->BufferAdd(o, "");}
 #define ADD_KEY_VAL_INT(g, q, qf, o, gf)		{if (g) {q->qf(o, int(g->gf));} else q->BufferAdd(o, "");}
 extern u32 g_sv_dwMaxClientPing;
+int m_MaxPlayers = 0;
+string4096		host_name = "Stalker";
+string4096		game_version = "1.6.02";
 void __cdecl callback_serverkey(int keyid, qr2_buffer_t outbuf, void *userdata)
 {
 	if (!userdata) return;
@@ -27,15 +30,15 @@ void __cdecl callback_serverkey(int keyid, qr2_buffer_t outbuf, void *userdata)
 
 	LPCSTR time_str = InventoryUtilities::GetTimeAsString( Device.dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay ).c_str();
 
-	string4096		game_version;
+
 
 	switch (keyid)
 	{
-	case HOSTNAME_KEY:		pQR2->BufferAdd(outbuf, pServer->HostName.c_str()); break;
+	case HOSTNAME_KEY:		pQR2->BufferAdd(outbuf, host_name); break;
 	case MAPNAME_KEY:		pQR2->BufferAdd(outbuf, pServer->MapName.c_str()); break;
-	case GAMEVER_KEY:		pQR2->BufferAdd(outbuf, pQR2->GetGameVersion(game_version)); break;
+	case GAMEVER_KEY:		pQR2->BufferAdd(outbuf, game_version); break;
 	case NUMPLAYERS_KEY:	pQR2->BufferAdd_Int(outbuf, pServer->GetPlayersCount()); break;
-	case MAXPLAYERS_KEY:	pQR2->BufferAdd_Int(outbuf, pServer->m_iMaxPlayers); break;
+	case MAXPLAYERS_KEY:	pQR2->BufferAdd_Int(outbuf, m_MaxPlayers); break;
 	case SERVER_UP_TIME_KEY:pQR2->BufferAdd(outbuf, time_str); break;
 	case GAMETYPE_KEY:		ADD_KEY_VAL(pServer->game, pQR2, BufferAdd, outbuf, type_name()); break; //		pQR2->BufferAdd(outbuf, pServer->game->type_name()); break;
 	case GAMEMODE_KEY:		pQR2->BufferAdd(outbuf, "openplaying"); break;

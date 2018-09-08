@@ -258,6 +258,10 @@ public:
 	//InventoryOwner stuff
 	virtual bool						CanPutInSlot			(PIItem item, u32 slot)		{return(slot!=OUTFIT_SLOT)&&(slot!=PDA_SLOT);};
 
+
+	virtual bool						NeedToDestroyObject()  const;
+	virtual ALife::_TIME_ID				TimePassedAfterDeath() const;
+
 	//////////////////////////////////////////////////////////////////////////
 	// action/evaluators support functions
 	//////////////////////////////////////////////////////////////////////////
